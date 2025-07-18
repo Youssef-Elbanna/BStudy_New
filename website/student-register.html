@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل طالب جديد</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        body { background: #f8f9fc; }
+        .register-card { max-width: 600px; margin: 40px auto; }
+    </style>
+</head>
+<body>
+    <div class="container register-card">
+        <div class="card shadow">
+            <div class="card-header text-center bg-primary text-white">
+                <h3>تسجيل طالب جديد</h3>
+            </div>
+            <div class="card-body">
+                <form id="studentRegisterForm" autocomplete="off">
+                    <div class="mb-3">
+                        <label class="form-label">الاسم الكامل</label>
+                        <input type="text" class="form-control" id="full_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رقم الهاتف</label>
+                        <input type="text" class="form-control" id="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رقم الواتساب</label>
+                        <input type="text" class="form-control" id="whatsapp_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رقم ولي الأمر</label>
+                        <input type="text" class="form-control" id="parent_phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">تاريخ الميلاد</label>
+                        <input type="date" class="form-control" id="birthdate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">السنة الدراسية الحالية</label>
+                        <input type="number" class="form-control" id="current_study_year" min="1" max="6" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">التخصص</label>
+                        <input type="text" class="form-control" id="specialization" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">المدينة (ID)</label>
+                        <input type="number" class="form-control" id="city_id" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">كلمة المرور</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">تسجيل</button>
+                </form>
+                <div id="registerMsg" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.getElementById('studentRegisterForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const payload = {
+            full_name: form.full_name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            whatsapp_number: form.whatsapp_number.value,
+            parent_phone: form.parent_phone.value,
+            birthdate: form.birthdate.value,
+            current_study_year: parseInt(form.current_study_year.value),
+            specialization: form.specialization.value,
+            city_id: parseInt(form.city_id.value),
+            password: form.password.value
+        };
+        const msgDiv = document.getElementById('registerMsg');
+        msgDiv.innerHTML = '';
+        try {
+            const res = await fetch('http://localhost:3000/api/student/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (res.ok && data.student) {
+                msgDiv.innerHTML = '<div class="alert alert-success">تم تسجيل الطالب بنجاح!</div>';
+                form.reset();
+            } else {
+                msgDiv.innerHTML = '<div class="alert alert-danger">' + (data.message || 'حدث خطأ أثناء التسجيل') + '</div>';
+            }
+        } catch (err) {
+            msgDiv.innerHTML = '<div class="alert alert-danger">حدث خطأ في الاتصال بالخادم</div>';
+        }
+    });
+    </script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html> 

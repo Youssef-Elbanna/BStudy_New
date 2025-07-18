@@ -44,10 +44,10 @@
                 </div>
                 <div action="" method="" class="form-login">
                     <div class="elsana">
-                        <button class="elsana-button elsana-button-selected" onclick="selectElsana(this, 1)">1ث</button>
-                        <button class="elsana-button" onclick="selectElsana(this, 2)">2ث</button>
-                        <button class="elsana-button" onclick="selectElsana(this, 3)">3ث</button>
-                        <button class="elsana-button" onclick="selectElsana(this, 4)">1 كلية</button>
+                        <button class="elsana-button elsana-button-selected" onclick="selectElsana(this, 1)" value="1">1ث</button>
+                        <button class="elsana-button" onclick="selectElsana(this, 2)" value="2">2ث</button>
+                        <button class="elsana-button" onclick="selectElsana(this, 3)" value="3">3ث</button>
+                        <button class="elsana-button" onclick="selectElsana(this, 4)" value="4">1 كلية</button>
                     </div>
                     
                     <div class="taqasous" id="taqasous-2">
@@ -102,10 +102,10 @@
                         <option value="27">سوهاج</option>
                     </select>
                     <input type="date" id="dateInput" name="dateInput" placeholder="تاريخ الميلاد">
-                    <input type="text" name="phone" id="phone" placeholder="رقم هاتف الطالب" />
-                    <input type="text" name="phone" id="phone" placeholder="  رقم هاتف الطالب واتس اب" />
+                    <input type="text" name="phone" id="phone" placeholder="رقم هاتف الطالب">
+                    <input type="text" name="whatsapp_number" id="whatsapp_number" placeholder="رقم هاتف الطالب واتس اب">
                     <input type="text" name="phone-parent" id="phone-parent" placeholder="رقم الهاتف ولي الامر" />
-                    <button onclick="sendTwoSecScreen(2)" class="next">التالي</button>
+                    <button onclick="submitRegistration()" class="next">تسجيل</button>
                 </div>
                 <a href="login.html">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
             </div>

@@ -156,3 +156,51 @@ function message(message){
     document.getElementById("message").style.display = "block";
     setTimeout(function(){ document.getElementById("message").style.display = "none"; }, 5000);
 }
+
+function submitRegistration() {
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var password1 = document.getElementById("password1").value;
+    var phone = document.getElementById("phone").value;
+    var whatsapp_number = document.getElementById("whatsapp_number").value;
+    var parent_phone = document.getElementById("phone-parent").value;
+    var birthdate = document.getElementById("dateInput").value;
+    var city_id = document.getElementById("city").value;
+    var yearBtn = document.querySelector('.elsana-button.elsana-button-selected');
+    var current_study_year = yearBtn ? yearBtn.value : '';
+    var taqasousBtn = document.querySelector('.taqasous-button.taqasous-button-selected');
+    var specialization = taqasousBtn ? taqasousBtn.textContent : '';
+
+    var payload = {
+        full_name: username,
+        email: email,
+        phone: phone,
+        whatsapp_number: whatsapp_number,
+        parent_phone: parent_phone,
+        birthdate: birthdate,
+        current_study_year: current_study_year,
+        specialization: specialization,
+        city_id: parseInt(city_id),
+        password: password1
+    };
+
+    fetch('http://localhost:3000/api/student/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.student) {
+            message('تم تسجيل الطالب بنجاح!');
+            setTimeout(function() {
+                window.location.href = 'login.html';
+            }, 1500);
+        } else {
+            message(data.message || 'حدث خطأ أثناء التسجيل');
+        }
+    })
+    .catch(() => {
+        message('حدث خطأ في الاتصال بالخادم');
+    });
+}

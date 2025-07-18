@@ -154,6 +154,62 @@
                         <h3 class="text-dark mb-0" style="font-weight: bold;">احدث الكورسات</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#">&nbsp; مشاهدة الكل&nbsp;</a>
                     </div>
                 </div>
+                <div class="container-fluid" style="direction: rtl; margin-top: 40px;">
+                    <h3 class="text-dark mb-4" style="font-weight: bold;">أكواد الخصم (Promo Codes)</h3>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">إضافة كود خصم جديد</p>
+                        </div>
+                        <div class="card-body">
+                            <form id="promoForm" class="row g-3">
+                                <div class="col-md-3">
+                                    <label for="promoCode" class="form-label">الكود</label>
+                                    <input type="text" class="form-control" id="promoCode" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="discountType" class="form-label">نوع الخصم</label>
+                                    <select class="form-select" id="discountType" required>
+                                        <option value="percentage">نسبة مئوية</option>
+                                        <option value="fixed">قيمة ثابتة</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="discountValue" class="form-label">قيمة الخصم</label>
+                                    <input type="number" class="form-control" id="discountValue" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="expiresAt" class="form-label">تاريخ الانتهاء</label>
+                                    <input type="datetime-local" class="form-control" id="expiresAt" required>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success">إضافة كود</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">أكواد الخصم الحالية</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="promoTable">
+                                    <thead>
+                                        <tr>
+                                            <th>الكود</th>
+                                            <th>نوع الخصم</th>
+                                            <th>قيمة الخصم</th>
+                                            <th>تاريخ الانتهاء</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Promo codes will be rendered here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="container-fluid" style="direction: rtl;">
                     <div class="card shadow">
                         <div class="card-header py-3">
@@ -270,6 +326,7 @@
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/admin-dashboard.js"></script>
+    <script src="assets/js/promo-codes.js"></script>
 </body>
 
 </html>

@@ -109,42 +109,37 @@ class AdminDashboard {
 
     async loadRecentCourses() {
         try {
-            const response = await fetch(`${this.apiBase}/admin/courses`, {
-                headers: {
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            });
-
+            const response = await fetch('http://localhost:3000/api/public/courses');
             const data = await response.json();
-
-            if (data.success) {
-                this.updateCoursesTable(data.data);
+            if (Array.isArray(data)) {
+                this.updateCoursesTable(data);
+            } else {
+                this.updateCoursesTable([]);
             }
         } catch (error) {
             console.error('Error loading courses:', error);
+            this.updateCoursesTable([]);
         }
     }
 
     updateCoursesTable(courses) {
         const tbody = document.querySelector('#dataTable tbody');
         if (!tbody) return;
-
         tbody.innerHTML = '';
-
+        if (courses.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7">لا يوجد كورسات</td></tr>';
+            return;
+        }
         courses.forEach(course => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${course.title}</td>
-                <td>${course.lessonsCount}</td>
-                <td>${course.studentsCount}</td>
-                <td>${course.rating}</td>
-                <td>${new Date(course.createdAt).toLocaleDateString('ar-SA')}</td>
-                <td>$${course.price}</td>
-                <td>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="adminDashboard.editCourse('${course._id}')">
-                        تعديل
-                    </button>
-                </td>
+                <td>${course.course_name}</td>
+                <td>${course.description || ''}</td>
+                <td>${course.credits || ''}</td>
+                <td>${course.price || ''}</td>
+                <td>---</td>
+                <td>---</td>
+                <td><button class="btn btn-primary btn-sm">تعديل</button></td>
             `;
             tbody.appendChild(row);
         });

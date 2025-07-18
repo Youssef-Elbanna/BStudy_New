@@ -38,5 +38,37 @@
             </div> 
         </div>
     </section>
+    <script>
+    document.querySelector('.form-login').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const username = this.querySelector('input[name="username"]').value;
+        const password = this.querySelector('input[name="password"]').value;
+        const msg = document.getElementById('loginMsg') || (() => {
+            const m = document.createElement('div');
+            m.id = 'loginMsg';
+            m.style.margin = '10px 0';
+            this.parentNode.insertBefore(m, this.nextSibling);
+            return m;
+        })();
+        msg.innerHTML = '';
+        try {
+            const res = await fetch('http://localhost:3000/api/student/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: username, password })
+            });
+            const data = await res.json();
+            if (res.ok && data.token) {
+                localStorage.setItem('student_token', data.token);
+                msg.innerHTML = '<div class="alert alert-success">تم تسجيل الدخول بنجاح!</div>';
+                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+            } else {
+                msg.innerHTML = '<div class="alert alert-danger">' + (data.message || 'فشل تسجيل الدخول') + '</div>';
+            }
+        } catch (err) {
+            msg.innerHTML = '<div class="alert alert-danger">حدث خطأ في الاتصال بالخادم</div>';
+        }
+    });
+    </script>
 </body>
 </html>
