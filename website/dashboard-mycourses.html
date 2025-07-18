@@ -41,10 +41,7 @@
                         </div>
                         <button class="check">تحقق من الكود</button>
                     </div>
-                    <a class="notification" href="notification.html">
-                        <img src="../asseds/icons/ph_bell-bold.svg" />
-                        <h5>5</h5>
-                    </a>
+                    <!-- Notification removed -->
                 </div>
             </div>
         </nav>
@@ -61,21 +58,9 @@
                     <img src="../asseds/icons/lets-icons_video.svg" />
                     <h5>كورساتي</h5>
                 </a>
-                <!-- <a class="sidebar-item" href="./dashboard-qbank.html">
-                    <img src="../asseds/icons/mingcute_question-line.svg" />
-                    <h5>بنك الاسئلة</h5>
-                </a> -->
-                <a class="sidebar-item" href="./dashboard-allcourses.html">
-                    <img src="../asseds/icons/carbon_course.svg" />
-                    <h5>كل الكورسات</h5>
-                </a>
-                <!-- <a class="sidebar-item" href="./dashboard-reviews.html">
-                    <img src="../asseds/icons/mingcute_fast-rewind-line.svg" />
-                    <h5>المراجعات</h5>
-                </a> -->
             </div>
             <div class="bottom">
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="help.html">
                     <img src="../asseds/icons/bx_support.svg" />
                     <h5>مساعدة</h5>
                 </a>
@@ -87,7 +72,7 @@
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="#" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
@@ -100,10 +85,6 @@
            <div class="month-courses">
                 <div class="courses" id="my-courses-container">
                     <!-- My course cards will be loaded dynamically via JavaScript -->
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>جاري تحميل كورساتي...</p>
-                    </div>
                 </div>
            </div>
            <!-- Removed: <div class="month-courses">
@@ -122,6 +103,93 @@
         </div>
     </main>
     <script src="./javascript/dashboard.js"></script>         
-    <script src="./javascript/dashboard-allcourses.js"></script>         
+    <script>
+// Dynamic greeting and username based on token
+function updateHeaderUserInfo() {
+    const token = localStorage.getItem('student_token');
+    const welcomeElem = document.querySelector('.username .welcome');
+    const nameElem = document.querySelector('.username .name');
+    // Set greeting based on time
+    const hour = new Date().getHours();
+    let greeting = 'صباح الخير';
+    if (hour >= 12 && hour < 17) greeting = 'مساء الخير';
+    else if (hour >= 17) greeting = 'مساء الخير';
+    if (welcomeElem) welcomeElem.textContent = greeting;
+    if (!token) {
+        if (nameElem) nameElem.textContent = 'زائر';
+        return;
+    }
+    fetch('http://localhost:3000/api/student/profile/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data && data.username) {
+            if (nameElem) nameElem.textContent = data.username;
+        }
+    })
+    .catch(() => {
+        if (nameElem) nameElem.textContent = 'زائر';
+    });
+}
+document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
+
+function handleLogoutClick(e) {
+    e.preventDefault();
+    fetch('http://localhost:3000/api/student/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).finally(() => {
+        localStorage.removeItem('student_token');
+        window.location.href = 'login.html';
+    });
+}
+document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
+    const text = item.textContent.replace(/\s+/g, '').toLowerCase();
+    if (text.includes('خروج') || text.includes('logout')) {
+        item.addEventListener('click', handleLogoutClick);
+    }
+});
+</script>
+<script src="./javascript/dashboard-allcourses.js"></script>         
+<script>
+// Fetch and render only the student's courses
+async function fetchAndRenderMyCourses() {
+    const container = document.getElementById('my-courses-container');
+    if (!container) return;
+    container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>جاري تحميل كورساتي...</p></div>';
+    try {
+        const token = localStorage.getItem('student_token');
+        const response = await fetch('http://localhost:3000/api/student/mycourses', {
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        let courses = await response.json();
+        if (!Array.isArray(courses)) {
+            courses = [courses];
+        }
+        if (courses.length === 0) {
+            container.innerHTML = '<p>لا توجد كورسات لديك حاليا.</p>';
+            return;
+        }
+        container.innerHTML = courses.map(course => `
+            <div class="course-card">
+                <h2>${course.course_name}</h2>
+                <p>${course.description}</p>
+                <div class="course-meta">
+                    <span>عدد الساعات: ${course.credits}</span>
+                    <span>السعر: ${course.price} جنيه</span>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        container.innerHTML = '<p>حدث خطأ أثناء تحميل كورساتك.</p>';
+    }
+}
+document.addEventListener('DOMContentLoaded', fetchAndRenderMyCourses);
+</script>
 </body>
 </html>

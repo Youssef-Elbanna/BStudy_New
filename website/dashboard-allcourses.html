@@ -41,10 +41,7 @@
                         </div>
                         <button class="check">تحقق من الكود</button>
                     </div>
-                    <a class="notification" href="notification.html">
-                        <img src="../asseds/icons/ph_bell-bold.svg" />
-                        <h5>5</h5>
-                    </a>
+                    <!-- Notification removed -->
                 </div>
             </div>
         </nav>
@@ -61,21 +58,13 @@
                     <img src="../asseds/icons/lets-icons_video.svg" />
                     <h5>كورساتي</h5>
                 </a>
-                <!-- <a class="sidebar-item" href="./dashboard-qbank.html">
-                    <img src="../asseds/icons/mingcute_question-line.svg" />
-                    <h5>بنك الاسئلة</h5>
-                </a> -->
-                <a class="sidebar-item selected" href="./dashboard-allcourses.html">
+                <!-- <a class="sidebar-item selected" href="./dashboard-allcourses.html">
                     <img src="../asseds/icons/carbon_course.svg" />
                     <h5>كل الكورسات</h5>
-                </a>
-                <!-- <a class="sidebar-item" href="./dashboard-reviews.html">
-                    <img src="../asseds/icons/mingcute_fast-rewind-line.svg" />
-                    <h5>المراجعات</h5>
                 </a> -->
             </div>
             <div class="bottom">
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="help.html">
                     <img src="../asseds/icons/bx_support.svg" />
                     <h5>مساعدة</h5>
                 </a>
@@ -87,7 +76,7 @@
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="#" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
@@ -97,28 +86,64 @@
             <div class="header-dashboard">
                 <h1>كل الكورسات</h1>
             </div>
-           <div class="categories">
-                <button class="category selected" onclick="selectCategory(this)">كل المواد </button>
-                <button class="category" onclick="selectCategory(this)">اللغة العربية</button>
-                <button class="category" onclick="selectCategory(this)">مواد شرعية</button>
-                <button class="category" onclick="selectCategory(this)">كمياء</button>
-                <button class="category" onclick="selectCategory(this)">فيزياء</button>
-                <button class="category" onclick="selectCategory(this)">أحياء</button>
-                <button class="category" onclick="selectCategory(this)">جغرافيا</button>
-                <button class="category" onclick="selectCategory(this)">فرنساوي</button>
-                <button class="category" onclick="selectCategory(this)">إنجليزي</button>
-           </div>
-           <div class="courses" id="courses-container">
-                <!-- Course cards will be loaded dynamically via JavaScript -->
-                <div class="loading-spinner">
-                    <div class="spinner"></div>
-                    <p>جاري تحميل الكورسات...</p>
-                </div>
+            <div id="courses-container">
+                <!-- Courses will be loaded here dynamically -->
             </div>
-
         </div>
     </main>
     <script src="./javascript/dashboard.js"></script>         
+    <script>
+    function handleLogoutClick(e) {
+        e.preventDefault();
+        fetch('http://localhost:3000/api/student/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).finally(() => {
+            localStorage.removeItem('student_token');
+            window.location.href = 'login.html';
+        });
+    }
+    document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
+        const text = item.textContent.replace(/\s+/g, '').toLowerCase();
+        if (text.includes('خروج') || text.includes('logout')) {
+            item.addEventListener('click', handleLogoutClick);
+        }
+    });
+    // Fetch and render all courses dynamically
+    async function fetchAndRenderCourses() {
+        const container = document.getElementById('courses-container');
+        if (!container) return;
+        container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>جاري تحميل الكورسات...</p></div>';
+        try {
+            const response = await fetch('http://localhost:3000/api/public/courses');
+            if (!response.ok) throw new Error('Network response was not ok');
+            let courses = await response.json();
+            if (!Array.isArray(courses)) {
+                courses = [courses];
+            }
+            if (courses.length === 0) {
+                container.innerHTML = '<p>لا توجد كورسات متاحة حاليا.</p>';
+                return;
+            }
+            container.innerHTML = courses.map(course => `
+                <div class="course-card">
+                    <h2>${course.course_name}</h2>
+                    <p>${course.description}</p>
+                    <div class="course-meta">
+                        <span>عدد الساعات: ${course.credits}</span>
+                        <span>السعر: ${course.price} جنيه</span>
+                    </div>
+                </div>
+            `).join('');
+        } catch (error) {
+            container.innerHTML = '<p>حدث خطأ أثناء تحميل الكورسات.</p>';
+        }
+    }
+    document.addEventListener('DOMContentLoaded', fetchAndRenderCourses);
+    </script>
     <script src="./javascript/dashboard-allcourses.js"></script>         
 </body>
 </html>
