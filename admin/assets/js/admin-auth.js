@@ -2,9 +2,19 @@
 // ADMIN AUTHENTICATION JAVASCRIPT
 // ========================================
 
+// Utility function to get environment variables from window.ENV or fallback
+function getEnvVar(key, fallback = '') {
+    if (window.ENV && window.ENV[key]) {
+        return window.ENV[key];
+    }
+    return fallback;
+}
+
 class AdminAuth {
     constructor() {
-        this.apiBase = 'http://localhost:3000/api';
+        // Use API base URL and endpoint from environment variables
+        this.apiBase = getEnvVar('API_BASE_URL', 'http://localhost:3000/api');
+        this.loginEndpoint = getEnvVar('ADMIN_LOGIN_ENDPOINT', '/admin/auth/login');
         this.tokenKey = 'admin_token';
         this.userKey = 'admin_user';
         this.init();
@@ -22,6 +32,7 @@ class AdminAuth {
     }
 
     addEventListeners() {
+        // Attach submit event to login form
         const loginForm = document.querySelector('form');
         if (loginForm) {
             loginForm.addEventListener('submit', (e) => {
@@ -32,6 +43,7 @@ class AdminAuth {
     }
 
     async handleLogin() {
+        // Get email and password from form fields
         const email = document.getElementById('exampleInputEmail').value;
         const password = document.getElementById('exampleInputPassword').value;
 
@@ -41,7 +53,8 @@ class AdminAuth {
         }
 
         try {
-            const response = await fetch(`${this.apiBase}/admin/login`, {
+            // Send login request to API
+            const response = await fetch(`${this.apiBase}${this.loginEndpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -51,13 +64,14 @@ class AdminAuth {
 
             const data = await response.json();
 
-            if (data.success) {
-                // Store token and user data
-                localStorage.setItem(this.tokenKey, data.data.token);
-                localStorage.setItem(this.userKey, JSON.stringify(data.data.user));
-                
+            // Check for successful login (token in response)
+            if (data.token) {
+                // Store token (and optionally user data if available)
+                localStorage.setItem(this.tokenKey, data.token);
+                if (data.user) {
+                    localStorage.setItem(this.userKey, JSON.stringify(data.user));
+                }
                 this.showNotification('تم تسجيل الدخول بنجاح', 'success');
-                
                 // Redirect to dashboard
                 setTimeout(() => {
                     window.location.href = 'dashboard-admin.html';
@@ -119,6 +133,8 @@ class AdminAuth {
 }
 
 // Initialize admin auth when DOM is loaded
+// This ensures the login logic is ready as soon as the page loads
+
 document.addEventListener('DOMContentLoaded', () => {
     new AdminAuth();
 }); 

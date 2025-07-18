@@ -82,6 +82,146 @@ body {
     user-select: none; /* Prevents text selection for better mobile experience */
 }
 
+/* RTL/LTR Direction Support */
+body.rtl {
+    direction: rtl;
+    text-align: right;
+}
+
+body.ltr {
+    direction: ltr;
+    text-align: left;
+}
+
+/* RTL specific adjustments */
+body.rtl .container {
+    text-align: right;
+}
+
+body.ltr .container {
+    text-align: left;
+}
+
+/* RTL/LTR margin and padding adjustments */
+body.rtl .language-switcher {
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+body.ltr .language-switcher {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+/* RTL/LTR flex direction adjustments */
+body.rtl .header-info .container {
+    flex-direction: row;
+}
+
+body.ltr .header-info .container {
+    flex-direction: row-reverse;
+}
+
+/* RTL/LTR button and link alignments */
+body.rtl .buttons {
+    justify-content: flex-start;
+}
+
+body.ltr .buttons {
+    justify-content: flex-end;
+}
+
+/* RTL/LTR text alignment for content */
+body.rtl .header-content {
+    text-align: right;
+}
+
+body.ltr .header-content {
+    text-align: left;
+}
+
+/* RTL/LTR text alignment for paragraphs and descriptions */
+body.rtl p {
+    text-align: right;
+}
+
+body.ltr p {
+    text-align: left;
+}
+
+/* RTL/LTR text alignment for headings */
+body.rtl h1, body.rtl h2, body.rtl h3, body.rtl h4, body.rtl h5, body.rtl h6 {
+    text-align: right;
+}
+
+body.ltr h1, body.ltr h2, body.ltr h3, body.ltr h4, body.ltr h5, body.ltr h6 {
+    text-align: left;
+}
+
+/* RTL/LTR list style adjustments */
+body.rtl ul {
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+body.ltr ul {
+    padding-left: 20px;
+    padding-right: 0;
+}
+
+/* RTL/LTR form input alignments */
+body.rtl input, body.rtl textarea {
+    text-align: right;
+}
+
+body.ltr input, body.ltr textarea {
+    text-align: left;
+}
+
+/* RTL/LTR navigation adjustments */
+body.rtl nav {
+    flex-direction: row;
+}
+
+body.ltr nav {
+    flex-direction: row-reverse;
+}
+
+/* RTL/LTR sidebar adjustments */
+body.rtl .sidebar {
+    right: 0;
+    left: auto;
+}
+
+body.ltr .sidebar {
+    left: 0;
+    right: auto;
+}
+
+/* RTL/LTR content margin adjustments */
+body.rtl .content {
+    margin-right: 300px;
+    margin-left: 0;
+}
+
+body.ltr .content {
+    margin-left: 300px;
+    margin-right: 0;
+}
+
+/* Responsive adjustments for RTL/LTR */
+@media (max-width: 768px) {
+    body.rtl .content {
+        margin-right: 54px;
+        margin-left: 0;
+    }
+    
+    body.ltr .content {
+        margin-left: 54px;
+        margin-right: 0;
+    }
+}
+
 /* Remove default list styling */
 ul {
     list-style: none;
@@ -501,4 +641,11 @@ header nav h3 {
     .slide-up {
         animation: none;
     }
+}
+
+header .logo h3 {
+    color: var(--blue-3, #362083) !important;
+}
+footer .logo h3 {
+    color: #fff !important;
 }

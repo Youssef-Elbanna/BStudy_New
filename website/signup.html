@@ -11,7 +11,7 @@
     <div class="overlay"></div>
     <header>
         <nav>
-            <h3>منصتي</h3>
+            <h3>B-Study</h3>
             <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
         </nav>
     </header>
@@ -20,7 +20,7 @@
             <p id="message"></p>
             <h2>عمل حساب جديد</h2>
             <div class="content" id="screen1">
-                <a href="#" class="google-login">
+                <!-- <a href="#" class="google-login">
                     <h3>تسجيل الدخول باستخدام جوجل</h3>
                     <div class="icon">
                         <img src="../asseds/images/google-icon.svg" alt="">
@@ -28,12 +28,12 @@
                 </a>
                 <div class="line">
                     <span>او ادخل لحسابك باستخدام</span>
-                </div>
+                </div> -->
                 <div action="" method="" class="form-login">
-                    <input type="text" name="username" id="username" placeholder="اكتب اسمك هنا (مثال) : محمد هاني احمد" />
+                    <input type="text" name="username" id="username" placeholder="اكتب اسمك هنا (مثال) : يوسف محمد البنا" />
                     <input type="email" name="username" id="email" placeholder="اكتب ايميلك هنا: xxxx@gmail.com" />
-                    <input type="password" name="password" id="password1" placeholder="اكتب الباسورد هنا: xxxxxx" />
-                    <input type="password" name="password" id="password2" placeholder="اكتب الباسورد تاني هنا: xxxxxx" />
+                    <input type="password" name="password" id="password1" placeholder="اكتب الباسورد هنا" />
+                    <input type="password" name="password" id="password2" placeholder="اكتب الباسورد تاني هنا" />
                     <button onclick="sendTwoSecScreen(2)" class="next">التالي</button>
                 </div>
                 <a href="login.html">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
@@ -47,16 +47,18 @@
                         <button class="elsana-button elsana-button-selected" onclick="selectElsana(this, 1)">1ث</button>
                         <button class="elsana-button" onclick="selectElsana(this, 2)">2ث</button>
                         <button class="elsana-button" onclick="selectElsana(this, 3)">3ث</button>
+                        <button class="elsana-button" onclick="selectElsana(this, 4)">1 كلية</button>
                     </div>
+                    
                     <div class="taqasous" id="taqasous-2">
                         <button class="taqasous-button" value="2sei" onclick="selectTaqasous(this)">علمي</button>
                         <button class="taqasous-button" value="2art" onclick="selectTaqasous(this)">أدبي</button>
                     </div>
-                    <div class="taqasous" id="taqasous-3">
+                    <!-- <div class="taqasous" id="taqasous-3">
                         <button class="taqasous-button" value="3math" onclick="selectTaqasous(this)">علمي رياضة</button>
                         <button class="taqasous-button" value="3sin" onclick="selectTaqasous(this)">علمي علوم</button>
                         <button class="taqasous-button" value="3art" onclick="selectTaqasous(this)">أدبي</button>
-                    </div>
+                    </div> -->
                     <button onclick="sendTwoSecScreen(3)" class="next">التالي</button>
                 </div>
                 <a href="login.html">عندك حساب بالمنصة؟ <span>دوس هنا</span></a>
@@ -100,7 +102,8 @@
                         <option value="27">سوهاج</option>
                     </select>
                     <input type="date" id="dateInput" name="dateInput" placeholder="تاريخ الميلاد">
-                    <input type="text" name="phone" id="phone" placeholder="رقم الهاتف الطالب" />
+                    <input type="text" name="phone" id="phone" placeholder="رقم هاتف الطالب" />
+                    <input type="text" name="phone" id="phone" placeholder="  رقم هاتف الطالب واتس اب" />
                     <input type="text" name="phone-parent" id="phone-parent" placeholder="رقم الهاتف ولي الامر" />
                     <button onclick="sendTwoSecScreen(2)" class="next">التالي</button>
                 </div>

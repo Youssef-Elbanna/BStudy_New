@@ -1,0 +1,134 @@
+/* ========================================
+   LANGUAGE SWITCHER STYLES
+   ======================================== */
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.language-switcher .lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 2px solid var(--blue-3, #362083);
+    background: transparent;
+    color: var(--blue-3, #362083);
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 80px;
+    text-decoration: none;
+    font-family: 'Noto Sans Arabic', sans-serif;
+}
+
+.language-switcher .lang-btn:hover {
+    background: var(--blue-3, #362083);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(54, 32, 131, 0.3);
+}
+
+.language-switcher .lang-btn.active {
+    background: var(--blue-3, #362083);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(54, 32, 131, 0.4);
+}
+
+.language-switcher .lang-btn.active:hover {
+    background: var(--blue-3, #362083);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* RTL/LTR Direction Support */
+body.rtl .language-switcher {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+body.ltr .language-switcher {
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .language-switcher {
+        margin: 10px 0;
+        justify-content: center;
+    }
+    
+    .language-switcher .lang-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .language-switcher {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .language-switcher .lang-btn {
+        width: 100%;
+        min-width: 120px;
+    }
+}
+
+/* Animation for language switching */
+.language-switcher .lang-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.language-switcher .lang-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.language-switcher .lang-btn:hover::before {
+    left: 100%;
+}
+
+/* Focus styles for accessibility */
+.language-switcher .lang-btn:focus {
+    outline: 2px solid var(--sec-2, #F4CB3C);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .language-switcher .lang-btn {
+        border-width: 3px;
+    }
+    
+    .language-switcher .lang-btn.active {
+        border-color: #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .language-switcher .lang-btn {
+        transition: none;
+    }
+    
+    .language-switcher .lang-btn::before {
+        display: none;
+    }
+} 

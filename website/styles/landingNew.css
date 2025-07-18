@@ -518,7 +518,7 @@ footer .footer-info .logo {
     align-items: center;
 }
 footer .footer-info .logo h3 {
-    color: var(--blue-3, #2E6FF4);
+    color: #fff !important;
     font-size: 32px;
     font-weight: 600;
 }
@@ -594,4 +594,10 @@ footer .footer-download-app .buttons {
 }
 .footer-info-dev h3 a:hover {
     color: var(--sec-1, #E0B51D);
+}
+
+/* --- Ensure navbar logo is purple --- */
+header nav h3 {
+    color: var(--blue-3, #362083) !important;
+    opacity: 1 !important;
 }

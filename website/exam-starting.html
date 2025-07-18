@@ -21,7 +21,7 @@
                 </a>
             </div>
             <div class="logo">
-                <h3>منصتي</h3>
+                <h3>B-Study</h3>
                 <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
             </div>
         </nav>
@@ -46,7 +46,7 @@
                             <a href="#">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
-                                    <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
+                                    <h5>{{lessonDescription}}</h5>
                                 </div>
                                 <div class="round">
                                     <input type="checkbox" checked id="checkbox1" />
@@ -58,7 +58,7 @@
                             <a href="#" class="watch-now">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
-                                    <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
+                                    <h5>{{lessonDescription}}</h5>
                                 </div>
                                 <div class="round">
                                     <input type="checkbox" id="checkbox2" />
@@ -70,7 +70,7 @@
                             <a href="#">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
-                                    <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
+                                    <h5>{{lessonDescription}}</h5>
                                 </div>
                                 <div class="round">
                                     <input type="checkbox"  id="checkbox3" />
@@ -95,7 +95,7 @@
                             <a href="#">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
-                                    <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
+                                    <h5>{{lessonDescription}}</h5>
                                 </div>
                                 <div class="round">
                                     <input type="checkbox" id="checkbox4" />
@@ -107,7 +107,7 @@
                             <a href="#">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
-                                    <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
+                                    <h5>{{lessonDescription}}</h5>
                                 </div>
                                 <div class="round">
                                     <input type="checkbox" id="checkbox5" />
@@ -119,7 +119,7 @@
                             <a href="#">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
-                                    <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
+                                    <h5>{{lessonDescription}}</h5>
                                 </div>
                                 <div class="round">
                                     <input type="checkbox" id="checkbox6" />
@@ -135,23 +135,23 @@
         </div>
         <div class="content">
             <div class="exam-info">
-                <h1 class="name-exam">الامتحان علي الدرس</h1>
-                <h3 class="name-course">اللغة العربية</h3>
+                <h1 class="name-exam">{{examTitle}}</h1>
+                <h3 class="name-course">{{courseName}}</h3>
                 <div class="info-exam-cards">
                     <div class="info-exam-card">
-                        <h5>50 سؤال</h5>
+                        <h5>{{questionCount}}</h5>
                     </div>
                     <div class="info-exam-card">
-                        <h5>40 اختر</h5>
+                        <h5>{{mcqCount}}</h5>
                     </div>
                     <div class="info-exam-card">
-                        <h5>5 صح وخطأ</h5>
+                        <h5>{{tfCount}}</h5>
                     </div>
                     <div class="info-exam-card">
-                        <h5>5 مقالي</h5>
+                        <h5>{{essayCount}}</h5>
                     </div>
                     <div class="info-exam-card">
-                        <h5>120 دقيقة</h5>
+                        <h5>{{duration}}</h5>
                     </div>
                 </div>
                 <a href="exam-page.html" class="start-exam">أبدأ الامتحان الان</a>

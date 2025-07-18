@@ -311,10 +311,13 @@ function renderCourses(courses, containerSelector = '.courses') {
     if (courses.length === 0) {
         container.innerHTML = `
             <div class="no-courses">
-                <h3>لا توجد كورسات متاحة</h3>
-                <p>جاري العمل على إضافة كورسات جديدة</p>
+                <h3 data-i18n="no-courses-title">لا توجد كورسات متاحة</h3>
+                <p data-i18n="no-courses-desc">جاري العمل على إضافة كورسات جديدة</p>
             </div>
         `;
+        if (window.languageManager) {
+            window.languageManager.translatePage();
+        }
         return;
     }
     

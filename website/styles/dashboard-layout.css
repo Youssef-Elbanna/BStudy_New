@@ -410,5 +410,11 @@ main .content {
   .modal#modal2 .modal-content .buttons .buy {
     visibility: hidden;
   }
+header .logo h3 {
+    color: var(--blue-3, #362083) !important;
+}
+footer .logo h3 {
+    color: #fff !important;
+}
 
 
