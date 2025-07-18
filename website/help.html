@@ -40,10 +40,6 @@
                         </div>
                         <button class="check">تحقق من الكود</button>
                     </div>
-                    <a class="notification" href="notification.html">
-                        <img src="../asseds/icons/ph_bell-bold.svg" />
-                        <h5>5</h5>
-                    </a>
                 </div>
             </div>
         </nav>
@@ -60,21 +56,9 @@
                     <img src="../asseds/icons/lets-icons_video.svg" />
                     <h5>كورساتي</h5>
                 </a>
-                <!-- <a class="sidebar-item" href="./dashboard-qbank.html">
-                    <img src="../asseds/icons/mingcute_question-line.svg" />
-                    <h5>بنك الاسئلة</h5>
-                </a> -->
-                <a class="sidebar-item" href="./dashboard-allcourses.html">
-                    <img src="../asseds/icons/carbon_course.svg" />
-                    <h5>كل الكورسات</h5>
-                </a>
-                <!-- <a class="sidebar-item" href="./dashboard-reviews.html">
-                    <img src="../asseds/icons/mingcute_fast-rewind-line.svg" />
-                    <h5>المراجعات</h5>
-                </a> -->
             </div>
             <div class="bottom">
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="help.html">
                     <img src="../asseds/icons/bx_support.svg" />
                     <h5>مساعدة</h5>
                 </a>
@@ -86,7 +70,7 @@
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="#" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
@@ -149,5 +133,56 @@
     </main>
     <script src="./javascript/dashboard.js"></script>
     <script src="./javascript/settings.js"></script>
+    <script>
+// Dynamic greeting and username based on token
+function updateHeaderUserInfo() {
+    const token = localStorage.getItem('student_token');
+    const welcomeElem = document.querySelector('.username .welcome');
+    const nameElem = document.querySelector('.username .name');
+    // Set greeting based on time
+    const hour = new Date().getHours();
+    let greeting = 'صباح الخير';
+    if (hour >= 12 && hour < 17) greeting = 'مساء الخير';
+    else if (hour >= 17) greeting = 'مساء الخير';
+    if (welcomeElem) welcomeElem.textContent = greeting;
+    if (!token) {
+        if (nameElem) nameElem.textContent = 'زائر';
+        return;
+    }
+    fetch('http://localhost:3000/api/student/profile/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data && data.username) {
+            if (nameElem) nameElem.textContent = data.username;
+        }
+    })
+    .catch(() => {
+        if (nameElem) nameElem.textContent = 'زائر';
+    });
+}
+document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
+
+function handleLogoutClick(e) {
+    e.preventDefault();
+    fetch('http://localhost:3000/api/student/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).finally(() => {
+        localStorage.removeItem('student_token');
+        window.location.href = 'login.html';
+    });
+}
+document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
+    const text = item.textContent.replace(/\s+/g, '').toLowerCase();
+    if (text.includes('خروج') || text.includes('logout')) {
+        item.addEventListener('click', handleLogoutClick);
+    }
+});
+</script>
 </body>
 </html>
