@@ -1,0 +1,504 @@
+/* ========================================
+   B - STUDY MAIN STYLESHEET
+   ========================================
+   
+   This file contains the core styles for the B - Study platform.
+   It includes global styles, CSS variables, layout components,
+   and utility classes used across the entire application.
+   
+   Table of Contents:
+   1. Google Fonts Import
+   2. CSS Custom Properties (Variables)
+   3. Global Reset & Base Styles
+   4. Responsive Container System
+   5. Header Component Styles
+   6. Custom Scrollbar Styling
+   7. Animation Keyframes
+   8. Utility Classes
+   ======================================== */
+
+/* ========================================
+   1. GOOGLE FONTS IMPORT
+   ========================================
+   Importing Noto Sans Arabic font family for proper Arabic text rendering.
+   This font supports all Arabic characters and provides excellent readability.
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* ========================================
+   2. CSS CUSTOM PROPERTIES (VARIABLES)
+   ========================================
+   Centralized color scheme and design tokens for consistent theming.
+   These variables can be easily modified to change the entire color scheme.
+   ======================================== */
+:root {
+    /* Neutral Color Palette - Used for text, backgrounds, and borders */
+    --neutral-2: #13182B;    /* Dark text color */
+    --neutral-3: #262F44;    /* Secondary text color */
+    
+    /* Light neutral colors for backgrounds and subtle elements */
+    --neutral-7: #C6D0E0;    /* Light border color */
+    --neutral-8: #E0E6EE;    /* Light background color */
+    --neutral-9: #EEF4FA;    /* Very light background */
+    --neutral-10: #F6F8FC;   /* Lightest background */
+
+    /* Primary Brand Color - Updated to new brand color */
+    --blue-3: #362083;       /* Main brand color */
+
+    /* Secondary/Accent Colors */
+    --sec-1: #E0B51D;        /* Primary accent color */
+    --sec-2: #F4CB3C;        /* Secondary accent color */
+
+    /* Error/Alert Colors */
+    --Error-3: #E62836;      /* Error and warning colors */
+
+    /* Gradient Definitions */
+    --grid-blue: linear-gradient(282deg, #362083 0%, #362083 50%, #89BAF8 100%);
+}
+
+/* ========================================
+   3. GLOBAL RESET & BASE STYLES
+   ========================================
+   CSS reset to ensure consistent styling across different browsers.
+   ======================================== */
+
+/* Universal box-sizing reset for consistent element sizing */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Smooth scrolling behavior for better user experience */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Base body styles with Arabic font family */
+body {
+    font-family: 'Noto Sans Arabic', sans-serif;
+    user-select: none; /* Prevents text selection for better mobile experience */
+}
+
+/* Remove default list styling */
+ul {
+    list-style: none;
+}
+
+/* Remove default link underlines */
+a {
+    text-decoration: none;
+}
+
+/* ========================================
+   4. RESPONSIVE CONTAINER SYSTEM
+   ========================================
+   Bootstrap-style container system for responsive layouts.
+   Provides consistent max-widths and padding across different screen sizes.
+   ======================================== */
+
+/* Base container with horizontal padding */
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Small screens (tablets and up) */
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+/* Medium screens (desktops and up) */
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+/* Large screens (large desktops and up) */
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+/* ========================================
+   5. HEADER COMPONENT STYLES
+   ========================================
+   Styles for the main navigation header that appears on all pages.
+   ======================================== */
+
+/* Main header container */
+header {
+    background: var(--neutral-10, #F6F8FC); /* Light background */
+    width: 100%;
+    height: 70px; /* Fixed height for consistency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999; /* High z-index to stay above other content */
+}
+
+/* Navigation container within header */
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px; /* Space between logo and brand name */
+}
+
+/* Brand name styling */
+header nav h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--blue-3, #362083); /* Brand color */
+}
+
+/* ========================================
+   6. CUSTOM SCROLLBAR STYLING
+   ========================================
+   Custom scrollbar design for better visual integration with the design.
+   ======================================== */
+
+/* Webkit scrollbar styling (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: .7rem; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+    border-radius: .9rem; /* Rounded track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sec-2); /* Thumb color using accent color */
+    border-radius: 1rem; /* Rounded thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sec-1); /* Darker color on hover */
+}
+
+/* Firefox scrollbar styling (commented out for reference) */
+/* html {scrollbar-color: #9e4673 #3d4a59;} */
+
+/* ========================================
+   7. ANIMATION KEYFRAMES
+   ========================================
+   CSS animations for interactive elements and visual effects.
+   ======================================== */
+
+/* Wiggle animation for decorative elements */
+@keyframes wiggle {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    50% {
+        transform: translateY(5px);
+    }
+    75% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Apply wiggle animation to elements with this class */
+.element-to-wiggle {
+    animation: wiggle 5s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+}
+
+/* ========================================
+   8. UTILITY CLASSES
+   ========================================
+   Reusable component classes used across multiple pages.
+   ======================================== */
+
+/* Main label component - Used for section headers */
+.main-lable {
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 59px; /* Rounded pill shape */
+    background: var(--blue-3, #362083); /* Brand color background */
+    width: fit-content; /* Width adjusts to content */
+}
+
+/* Circular decorative element within main label */
+.main-lable .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Perfect circle */
+    background-color: var(--sec-2, #F4CB3C); /* Accent color */
+}
+
+/* Text styling within main label */
+.main-lable h3 {
+    color: #FFF; /* White text for contrast */
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0 15px;
+}
+
+/* ========================================
+   LOADING STATES AND ANIMATIONS
+   ======================================== */
+
+/* Loading spinner for course cards */
+.loading-courses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--blue-3); /* Changed to primary-color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-courses p {
+    color: var(--neutral-3); /* Changed to text-secondary */
+    font-size: 16px;
+    margin: 0;
+}
+
+/* No courses state */
+.no-courses {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--neutral-3); /* Changed to text-secondary */
+}
+
+.no-courses h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--blue-3); /* Changed to text-primary */
+}
+
+.no-courses p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* ========================================
+   NOTIFICATION SYSTEM
+   ======================================== */
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification-success {
+    border-left: 4px solid #28a745;
+}
+
+.notification-error {
+    border-left: 4px solid #dc3545;
+}
+
+.notification-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.notification-info {
+    border-left: 4px solid var(--blue-3); /* Changed to primary-color */
+}
+
+.notification span {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.close-notification {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--neutral-3); /* Changed to text-secondary */
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-notification:hover {
+    color: var(--blue-3); /* Changed to text-primary */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   COURSE CARD IMPROVEMENTS
+   ======================================== */
+
+.course {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.course:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course .img-course img {
+    transition: transform 0.3s ease;
+}
+
+.course:hover .img-course img {
+    transform: scale(1.05);
+}
+
+.course-price a {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.course-price a:hover {
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   RESPONSIVE IMPROVEMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+    .loading-courses {
+        padding: 40px 20px;
+    }
+    
+    .loading-spinner {
+        width: 30px;
+        height: 30px;
+        border-width: 3px;
+    }
+    
+    .notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* ========================================
+   ANIMATION UTILITIES
+   ======================================== */
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Focus styles for better accessibility */
+.course:focus,
+.course-price a:focus,
+.close-notification:focus {
+    outline: 2px solid var(--blue-3); /* Changed to primary-color */
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .course {
+        border: 2px solid var(--blue-3); /* Changed to text-primary */
+    }
+    
+    .notification {
+        border: 2px solid var(--blue-3); /* Changed to text-primary */
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .loading-spinner {
+        animation: none;
+    }
+    
+    .course,
+    .course .img-course img,
+    .course-price a {
+        transition: none;
+    }
+    
+    .notification {
+        animation: none;
+    }
+    
+    .fade-in,
+    .slide-up {
+        animation: none;
+    }
+}

@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <!-- Meta tags for proper document encoding and responsive design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page title - Updated to reflect the new branding -->
+    <title>B - Study</title>
+    
+    <!-- CSS Stylesheets -->
+    <!-- Main stylesheet containing global styles, variables, and layout -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <!-- Landing page specific styles -->
+    <link rel="stylesheet" href="./styles/landingNew.css">
+</head>
+
+<!-- Body with RTL (Right-to-Left) direction for Arabic text -->
+<body dir="rtl">
+    <!-- ========================================
+         HEADER SECTION
+         ======================================== -->
+    <header>
+        <nav>
+            <!-- Brand/Logo section -->
+            <h3>B - Study</h3>
+            <!-- Logo image with inline styles for immediate visual consistency -->
+            <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" alt="B - Study Logo" />
+        </nav>
+    </header>
+
+    <!-- ========================================
+         HERO SECTION
+         ======================================== -->
+    <div class="header">
+        <!-- Animated background overlay with wiggle effect -->
+        <div class="overlay element-to-wiggle"></div>
+        
+        <!-- Main hero content container -->
+        <div class="header-info">
+            <div class="container">
+                <!-- Left side: Call-to-action content -->
+                <div class="header-content">
+                    <!-- Main headline with highlighted word -->
+                    <h1>انت <span>مستعد</span> دلوقتي؟</h1>
+                    <!-- Sub-headline with highlighted word -->
+                    <h2>أبدأ رحلة <span>التعلم</span> يلا مسني ايه !</h2>
+                    <!-- Descriptive paragraph explaining the platform -->
+                    <p>B - Study هي منصة تعليمية تهدف الى تسهيل عملية التعليم عن بعد للطلاب والمعلمين </p>
+                    
+                    <!-- Call-to-action buttons -->
+                    <div class="buttons">
+                        <!-- Primary CTA: Create new account -->
+                        <a href="signup.html" class="signup">عمل حساب جديد</a>
+                        <!-- Secondary CTA: Login for existing users -->
+                        <a href="login.html" class="login">لدي حساب بالفعل</a>
+                    </div>
+                </div>
+                
+                <!-- Right side: Hero image -->
+                <div class="header-image">
+                    <img src="../asseds/images/online-learning-animate.svg" alt="Online Learning Illustration" />
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================
+             APP DOWNLOAD SECTION
+             ======================================== -->
+        <div class="download-app">
+            <!-- Background decorative element -->
+            <div class="background">
+                <img src="../asseds/images/backgroun-landing.svg" alt="Background Pattern" />
+            </div>
+            
+            <div class="container">
+                <!-- Left side: App illustration -->
+                <div class="download-app-img">
+                    <img src="../asseds/images/mobile-apps-animate.svg" alt="Mobile App Illustration" />
+                </div>
+                
+                <!-- Right side: Download content -->
+                <div class="download-app-content">
+                    <h1>حمل التطبيق دلوقتي</h1>
+                    
+                    <!-- App store download buttons -->
+                    <div class="buttons">
+                        <!-- Google Play Store -->
+                        <a href="#" class="download">
+                            <img src="../asseds/images/google play.svg" alt="Download on Google Play" />
+                        </a>
+                        <!-- Apple App Store -->
+                        <a href="#" class="download">
+                            <img src="../asseds/images/app store.svg" alt="Download on App Store" />
+                        </a>
+                        <!-- Huawei AppGallery -->
+                        <a href="#" class="download">
+                            <img src="../asseds/images/huawei-appgallery.svg" alt="Download on Huawei AppGallery" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         FEATURED COURSES SECTION
+         ======================================== -->
+    <section class="last-courses">
+        <div class="container">
+            <!-- Section header with decorative elements -->
+            <div class="main-lable">
+                <div class="circle"></div>
+                <h3>أحدث الكورسات</h3>
+            </div>
+            
+            <!-- Course filter tabs (Secondary school years) -->
+            <div class="elsana">
+                <button>1ث</button>
+                <button class="select-elsana">2ث</button>
+                <button>3ث</button>
+            </div>
+            
+            <!-- Course cards grid -->
+            <div class="courses">
+                <!-- Course cards will be dynamically loaded from database -->
+                <div class="loading-courses">
+                    <div class="loading-spinner"></div>
+                    <p>جاري تحميل الكورسات...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         ABOUT SECTION
+         ======================================== -->
+    <section class="section-info">
+        <div class="container">
+            <!-- First about section: Platform introduction -->
+            <div class="first">
+                <div class="content">
+                    <!-- Main headline with highlighted brand name -->
+                    <h2>استكشف عالم التعلم مع <span>B - Study التعليمية</span> 
+                        فتح أفقك التعليمي وتحقيق أهدافك معنا.
+                    </h2>
+                    <!-- Descriptive paragraph about the platform -->
+                    <p>مرحبًا بك في منصتنا التعليمية المبتكرة حيث يتلاقى التعلم الشيق بالتكنولوجيا الحديثة. نحن نؤمن بقوة التعليم في تغيير حيوات الأفراد، ونقدم لك فرصة فريدة لاكتساب المهارات والمعرفة بطريقة ملهمة ومحفزة.</p>
+                </div>
+                <!-- Supporting illustration -->
+                <div class="img">
+                    <img src="../asseds/images/learning-animate.svg" alt="Learning Illustration" />
+                </div>
+            </div>
+            
+            <!-- Second about section: Platform features -->
+            <div class="sec">
+                <!-- Supporting illustration -->
+                <div class="img">
+                    <img src="../asseds/images/media-player-animate.svg" alt="Media Player Illustration" />
+                </div>
+                <div class="content">
+                    <h2>مميزات المنصة</h2>
+                    <!-- Feature list with emojis for visual appeal -->
+                    <ul>
+                        <li>🎓 محتوى تعليمي متنوع: دورات مصممة بعناية تغطي مجموعة واسعة من المواد.</li>
+                        <li>🚀 تعلم تفاعلي: اختبر المحتوى من خلال أنشطة تعليمية مشوقة ومحاكاة واقعية.</li>
+                        <li>🔄 تقييم مستمر: تتبع تقدمك واحصل على تقييمات دورية لتعزيز تجربتك التعليمية.</li>
+                        <li>🌐 تواصل وشارك: انضم إلى مجتمعنا التعليمي وتفاعل مع متعلمين آخرين ومدرسين متميزين.</li>
+                        <li>🎉 دورات مجانية: استمتع بفرصة الوصول إلى محتوى مجاني لتجربة ملموسة لما نقدمه.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SIGNUP CTA SECTION
+         ======================================== -->
+    <section class="section-signup">
+        <div class="container">
+            <!-- Decorative illustration -->
+            <div class="image">
+                <img src="/asseds/images/social-ideas-animate.svg" alt="Social Ideas Illustration" />
+            </div>
+            <!-- Call-to-action text -->
+            <p>اكتشف عالم التعلم الجديد وابدأ رحلتك التعليمية اليوم.
+                سجل الآن للوصول إلى المحتوى الحصري والتفاعل مع مجتمعنا التعليمي المميز.</p>
+            <!-- Primary signup button -->
+            <a href="signup.html">سجل الآن</a>
+            <!-- Motivational headline -->
+            <h2>إيه اللي بتستنى؟ إبدأ معانا النهاردة وإبدأ رحلتك نحو التعلم والتألق!</h2>
+        </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER SECTION
+         ======================================== -->
+    <footer>
+        <div class="container">
+            <!-- Footer main content -->
+            <div class="footer-info">
+                <!-- Brand/Logo section -->
+                <div class="logo">
+                    <h3>B - Study</h3>
+                    <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" alt="B - Study Logo" />
+                </div>
+                <!-- Platform tagline -->
+                <h3>اتعلم بكل متعة وسهولة مع B - Study</h3>
+                <!-- Platform description -->
+                <p>أهلاً بيك في منصتنا التعليمية الجديدة، حيث التعلم بيبقى أحلى بتقنيات جديدة. احنا بنؤمن إن التعليم بيغير حياة الناس، وبنقدملك فرصة فريدة إنك تكتسب مهارات ومعرفة بشكل ملهم ومحفز.</p>
+                <!-- Social media links -->
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on Facebook">
+                        <img src="../asseds/icons/facebook.svg" alt="Facebook" />
+                    </a>
+                    <a href="#" aria-label="Contact us on WhatsApp">
+                        <img src="../asseds/icons/whatsapp.svg" alt="WhatsApp" />
+                    </a>
+                    <a href="#" aria-label="Subscribe to our YouTube channel">
+                        <img src="../asseds/icons/youtube.svg" alt="YouTube" />
+                    </a>
+                </div>
+            </div>
+            
+            <!-- App download section in footer -->
+            <div class="footer-download-app">
+                <h3>حمل التطبيق دلوقتي</h3>
+                <!-- App store download buttons -->
+                <div class="buttons">
+                    <a href="#" class="download" aria-label="Download on Google Play">
+                        <img src="../asseds/images/google play.svg" alt="Download on Google Play" />
+                    </a>
+                    <a href="#" class="download" aria-label="Download on App Store">
+                        <img src="../asseds/images/app store.svg" alt="Download on App Store" />
+                    </a>
+                    <a href="#" class="download" aria-label="Download on Huawei AppGallery">
+                        <img src="../asseds/images/huawei-appgallery.svg" alt="Download on Huawei AppGallery" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================
+         DEVELOPER CREDIT SECTION
+         ======================================== -->
+    <div class="footer-info-dev">
+        <h3>Developed By <a href="#">E3lanoTopia</a></h3>
+    </div>
+
+    <!-- ========================================
+         JAVASCRIPT FILES
+         ======================================== -->
+    <!-- Main dashboard functionality -->
+    <script src="./javascript/dashboard.js"></script>
+    <!-- Course data management and API integration -->
+    <script src="./javascript/courses.js"></script>
+</body>
+</html>
