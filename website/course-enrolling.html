@@ -42,7 +42,7 @@
                     <ul class="submenuItems">
 
                         <li>
-                            <a href="#">
+                            <a href="#" data-video-url="https://player.vdocipher.com/iframe/28d29bdee49446e6af16b44471aee603">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="watch-now">
+                            <a href="#" data-video-url="https://player.vdocipher.com/iframe/28d29bdee49446e6af16b44471aee603" class="watch-now">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
@@ -66,7 +66,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#" data-video-url="https://player.vdocipher.com/iframe/28d29bdee49446e6af16b44471aee603">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
@@ -91,7 +91,7 @@
                     <ul class="submenuItems">
 
                         <li>
-                            <a href="#">
+                            <a href="#" data-video-url="https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
@@ -103,7 +103,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#" data-video-url="https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
@@ -115,7 +115,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#" data-video-url="https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688">
                                 <div class="info">
                                     <img src="/asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
@@ -135,8 +135,7 @@
         <div class="content">
             
             <div class="video">
-                <iframe src="https://www.youtube.com/embed/MLpWrANjFbI?autoplay=1&mute=0" ></iframe>
-                <!-- <iframe src="https://iframe.mediadelivery.net/embed/146722/3a770f0f-a69d-4dbd-8b1f-d31669dc814f?autoplay=true&loop=false&muted=false&preload=true&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe> -->
+                <div id="vc-player" style="width:100%;min-height:360px;background:#000;"></div>
             </div>
             <div class="name-buttons">
                 <h3 class="name">تفسير الايات والمظاهر الجمال</h3>
@@ -160,6 +159,656 @@
                 <p>{{lessonDescription}}</p>
         </div>
     </main>
+    
+
+    
     <script src="./javascript/dashboard.js"></script>  
+    <script>
+
+
+// VideoCipher API configuration
+const VIDEO_CIPHER_API_SECRET = 'FahE4fLGwCLdvIeYIJ8gymkm2z2lWuV5uh0Drj7w8Kt6flgydhIGMze84xrIhh5n'; // Replace with your actual API secret
+const VIDEO_CIPHER_API_URL = 'https://dev.vdocipher.com/api/videos';
+
+// Get course ID from URL parameters
+function getCourseIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('courseId');
+    console.log('URL parameters:', window.location.search);
+    console.log('Extracted course ID:', courseId);
+    return courseId;
+}
+
+// Fetch course data by ID
+async function fetchCourseData(courseId) {
+    console.log('Fetching course data for ID:', courseId);
+    try {
+        const url = `http://127.0.0.1:3000/api/public/courses/${courseId}`;
+        console.log('API URL:', url);
+        
+        const response = await fetch(url);
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('API Error response:', errorText);
+            throw new Error(`Course not found: ${response.status} ${response.statusText}`);
+        }
+        
+        const course = await response.json();
+        console.log('Course data received:', course);
+        
+        // Videos are already included in the course object
+        if (course.Videos && Array.isArray(course.Videos)) {
+            console.log('Course Videos found in course object:', course.Videos);
+            course.videos = course.Videos; // Use the capitalized Videos field
+        } else if (course.videos && Array.isArray(course.videos)) {
+            console.log('Course videos found in course object:', course.videos);
+        } else {
+            console.log('No videos found in course object, setting empty array');
+            course.videos = [];
+        }
+        
+        console.log('Final course object with videos:', course);
+        
+        return course;
+    } catch (error) {
+        console.error('Error fetching course:', error);
+        return null;
+    }
+}
+
+// Update course content in the UI
+function updateCourseContent(course) {
+    if (!course) return;
+
+    // Update course title
+    const courseTitle = document.querySelector('.name');
+    if (courseTitle) {
+        courseTitle.textContent = course.course_name;
+    }
+
+    // Update course description
+    const courseDescription = document.querySelector('.description p');
+    if (courseDescription) {
+        courseDescription.textContent = course.description;
+    }
+
+    // Update sidebar with course lessons
+    updateCourseLessons(course.videos || []);
+}
+
+// Update course lessons in sidebar
+function updateCourseLessons(videos) {
+    const accordionMenu = document.querySelector('.accordion-menu');
+    if (!accordionMenu || !videos.length) return;
+
+    console.log('Updating course lessons with videos:', videos);
+
+    // Clear existing content
+    accordionMenu.innerHTML = '';
+
+    // Group videos by sections (you can modify this logic based on your data structure)
+    const sections = groupVideosIntoSections(videos);
+
+    sections.forEach((section, sectionIndex) => {
+        const sectionLi = document.createElement('li');
+        sectionLi.className = 'link';
+        
+        sectionLi.innerHTML = `
+            <div class="dropdown">
+                <h3>${section.title}</h3>
+                <img src="/asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
+            </div>
+            <ul class="submenuItems">
+                ${section.videos.map((video, videoIndex) => {
+                    // Use the correct video ID field
+                    const videoId = video.id || video.video_id || video._id;
+                    const videoUrl = video.url || video.video_url || `/api/public/videos/${videoId}/player`;
+                    
+                    console.log('Creating lesson for video:', video);
+                    console.log('Video ID:', videoId);
+                    console.log('Video URL:', videoUrl);
+                    
+                    return `
+                        <li>
+                            <a href="#" data-video-url="${videoUrl}" data-video-id="${videoId}" data-video-title="${video.title}" data-video-description="${video.description || ''}">
+                                <div class="info">
+                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <h5>${video.title}</h5>
+                                </div>
+                                <div class="round">
+                                    <input type="checkbox" id="checkbox${sectionIndex}${videoIndex}" />
+                                    <label for="checkbox${sectionIndex}${videoIndex}"></label>
+                                </div>
+                            </a>
+                        </li>
+                    `;
+                }).join('')}
+            </ul>
+        `;
+
+        accordionMenu.appendChild(sectionLi);
+    });
+
+    // Re-initialize accordion functionality
+    initializeAccordion();
+}
+
+// Group videos into sections (you can modify this based on your data structure)
+function groupVideosIntoSections(videos) {
+    // For now, we'll create one section with all videos
+    // You can modify this to group by actual sections if your data has section information
+    return [{
+        title: 'محتويات الكورس',
+        videos: videos
+    }];
+}
+
+// Initialize accordion functionality
+function initializeAccordion() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function() {
+            const parent = this.parentElement;
+            const submenu = parent.querySelector('.submenuItems');
+            const arrow = this.querySelector('.arrow');
+            
+            // Toggle active class
+            parent.classList.toggle('active');
+            
+            // Toggle submenu visibility
+            if (submenu) {
+                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+            }
+            
+            // Rotate arrow
+            if (arrow) {
+                arrow.style.transform = parent.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        });
+    });
+}
+
+// Example: window.vcEmbedLink = 'https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688';
+// In production, set window.vcEmbedLink from your backend or course data
+window.vcEmbedLink = window.vcEmbedLink || '';
+
+async function loadVideoCipherPlayer(embedLink) {
+    try {
+        // Extract video ID from embed link
+        const match = embedLink.match(/iframe\/([a-zA-Z0-9]+)/);
+        if (!match) {
+            console.error('Invalid VideoCipher embed link format');
+            return;
+        }
+        
+        const videoId = match[1];
+        console.log('Video ID:', videoId);
+
+        // Fetch OTP from VideoCipher API
+        const response = await fetch(`${VIDEO_CIPHER_API_URL}/${videoId}/otp`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Apisecret ${VIDEO_CIPHER_API_SECRET}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ttl: 300
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('VideoCipher API response:', data);
+
+        const { otp, playbackInfo } = data;
+
+        // Create and embed the iframe
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://player.vdocipher.com/v2/?otp=${otp}&playbackInfo=${playbackInfo}`;
+        iframe.style.border = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '360px';
+        iframe.allow = 'encrypted-media';
+        iframe.allowFullscreen = true;
+
+        // Clear existing content and add iframe
+        const playerContainer = document.getElementById('vc-player');
+        playerContainer.innerHTML = '';
+        playerContainer.appendChild(iframe);
+
+        console.log('VideoCipher player loaded successfully');
+
+    } catch (error) {
+        console.error('Error loading VideoCipher player:', error);
+        
+        // Show error message to user
+        const playerContainer = document.getElementById('vc-player');
+        playerContainer.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; height: 360px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;">
+                <div style="text-align: center; color: #6c757d;">
+                    <h4>خطأ في تحميل الفيديو</h4>
+                    <p>يرجى المحاولة مرة أخرى لاحقاً</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Function to load video by video ID using your API endpoint
+async function loadVideoById(videoId) {
+    try {
+        console.log('=== LOADING VIDEO BY ID ===');
+        console.log('Video ID:', videoId);
+        console.log('API URL:', `http://127.0.0.1:3000/api/public/videos/${videoId}/player`);
+
+        // Fetch video player data from your API
+        const response = await fetch(`http://127.0.0.1:3000/api/public/videos/${videoId}/player`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Video player data received:', data);
+
+        // Get the iframe container
+        const playerContainer = document.getElementById('vc-player');
+        if (!playerContainer) {
+            throw new Error('Video player container not found');
+        }
+
+        // Clear existing content
+        playerContainer.innerHTML = '';
+
+        if (data.iframe) {
+            // Insert the iframe HTML directly (your backend should return complete iframe)
+            console.log('=== IFRAME EMBEDDING DEBUG ===');
+            console.log('Raw iframe HTML from API:', data.iframe);
+            console.log('Iframe HTML length:', data.iframe.length);
+            console.log('Iframe contains <iframe>:', data.iframe.includes('<iframe'));
+            console.log('Iframe contains </iframe>:', data.iframe.includes('</iframe>'));
+            
+            // Insert the iframe
+            playerContainer.innerHTML = data.iframe;
+            console.log('Player container HTML after insertion:', playerContainer.innerHTML);
+            
+            // Verify iframe was inserted
+            const insertedIframe = playerContainer.querySelector('iframe');
+            if (insertedIframe) {
+                console.log('✅ Iframe successfully inserted into DOM');
+                console.log('Inserted iframe src:', insertedIframe.src);
+                console.log('Inserted iframe outerHTML:', insertedIframe.outerHTML);
+                
+                // Check if iframe is visible
+                console.log('Iframe dimensions:', {
+                    offsetWidth: insertedIframe.offsetWidth,
+                    offsetHeight: insertedIframe.offsetHeight,
+                    clientWidth: insertedIframe.clientWidth,
+                    clientHeight: insertedIframe.clientHeight,
+                    styleWidth: insertedIframe.style.width,
+                    styleHeight: insertedIframe.style.height
+                });
+                
+                // Check parent container
+                console.log('Player container dimensions:', {
+                    offsetWidth: playerContainer.offsetWidth,
+                    offsetHeight: playerContainer.offsetHeight,
+                    clientWidth: playerContainer.clientWidth,
+                    clientHeight: playerContainer.clientHeight,
+                    styleWidth: playerContainer.style.width,
+                    styleHeight: playerContainer.style.height
+                });
+            } else {
+                console.error('❌ Iframe not found in DOM after insertion');
+                console.log('Player container content:', playerContainer.innerHTML);
+            }
+            
+            // Update the iframe styles to match our container
+            const iframe = playerContainer.querySelector('iframe');
+            if (iframe) {
+                console.log('Iframe element found and styled');
+                console.log('Iframe outerHTML:', iframe.outerHTML);
+                console.log('Iframe src:', iframe.src);
+                console.log('Iframe width:', iframe.width);
+                console.log('Iframe height:', iframe.height);
+                console.log('Iframe style.width:', iframe.style.width);
+                console.log('Iframe style.height:', iframe.style.height);
+                
+                iframe.style.width = '100%';
+                iframe.style.height = '360px';
+                iframe.style.border = 'none';
+                iframe.style.borderRadius = '8px';
+                iframe.allow = 'encrypted-media; fullscreen';
+                iframe.allowFullscreen = true;
+                
+                console.log('Iframe styles updated');
+                console.log('Iframe final outerHTML:', iframe.outerHTML);
+                
+                // Add error handling for iframe load
+                iframe.onload = function() {
+                    console.log('Iframe loaded successfully');
+                    console.log('Iframe dimensions after load:', {
+                        offsetWidth: iframe.offsetWidth,
+                        offsetHeight: iframe.offsetHeight,
+                        clientWidth: iframe.clientWidth,
+                        clientHeight: iframe.clientHeight
+                    });
+                };
+                
+                iframe.onerror = function() {
+                    console.error('Iframe failed to load');
+                    showVideoError('فشل في تحميل الفيديو');
+                };
+            } else {
+                console.error('No iframe found in response HTML');
+                console.log('Player container HTML after insertion:', playerContainer.innerHTML);
+                showVideoError('خطأ في تنسيق الفيديو');
+            }
+            
+            console.log('Video iframe loaded successfully');
+        } else {
+            throw new Error('No iframe data in response');
+        }
+
+    } catch (error) {
+        console.error('Error loading video player:', error);
+        showVideoError('خطأ في تحميل الفيديو');
+    }
+}
+
+// Function to show video error message
+function showVideoError(message) {
+    const playerContainer = document.getElementById('vc-player');
+    if (playerContainer) {
+        playerContainer.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; height: 360px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;">
+                <div style="text-align: center; color: #6c757d;">
+                    <h4>${message}</h4>
+                    <p>يرجى المحاولة مرة أخرى لاحقاً</p>
+                    <button onclick="location.reload()" style="margin-top: 10px; padding: 8px 16px; background: #2E6FF4; color: white; border: none; border-radius: 4px; cursor: pointer;">إعادة المحاولة</button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Function to handle lesson clicks and load videos
+function handleLessonClick(videoUrl, videoTitle, videoDescription) {
+    if (!videoUrl) {
+        console.error('No video URL provided');
+        return;
+    }
+
+    console.log('Loading video:', videoUrl);
+    console.log('Video title:', videoTitle);
+    console.log('Video description:', videoDescription);
+
+    // Update lesson title and description
+    const lessonTitle = document.querySelector('.name');
+    if (lessonTitle) {
+        lessonTitle.textContent = videoTitle || 'درس جديد';
+        console.log('Updated lesson title to:', videoTitle);
+    }
+
+    const lessonDescription = document.querySelector('.description p');
+    if (lessonDescription) {
+        lessonDescription.textContent = videoDescription || 'لا يوجد وصف متاح لهذا الدرس';
+        console.log('Updated lesson description to:', videoDescription);
+    }
+
+    // Extract video ID from the URL
+    let videoId = null;
+    
+    console.log('=== VIDEO ID EXTRACTION DEBUG ===');
+    console.log('Original video URL:', videoUrl);
+    
+    // Check if it's a VideoCipher embed link (both videocipher.in and vdocipher.com)
+    const embedMatch = videoUrl.match(/iframe\/([a-zA-Z0-9-]+)/);
+    if (embedMatch) {
+        videoId = embedMatch[1];
+        console.log('✅ Extracted from embed link:', videoId);
+    } else if (videoUrl.includes('videocipher') || videoUrl.includes('vdocipher')) {
+        // Extract from VideoCipher URL
+        const urlMatch = videoUrl.match(/([a-zA-Z0-9-]{32,})/);
+        if (urlMatch) {
+            videoId = urlMatch[1];
+            console.log('✅ Extracted from VideoCipher URL:', videoId);
+        }
+    } else if (videoUrl.includes('api/public/videos/')) {
+        // Extract from your API URL
+        const apiMatch = videoUrl.match(/\/api\/public\/videos\/([a-zA-Z0-9-]+)/);
+        if (apiMatch) {
+            videoId = apiMatch[1];
+            console.log('✅ Extracted from API URL:', videoId);
+        }
+    } else {
+        // Try to extract any UUID-like pattern
+        const uuidMatch = videoUrl.match(/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/);
+        if (uuidMatch) {
+            videoId = uuidMatch[1];
+            console.log('✅ Extracted UUID pattern:', videoId);
+        }
+    }
+    
+    // If no video ID found, try to extract from the current hardcoded URLs
+    if (!videoId) {
+        // Extract from the current hardcoded video ID in the HTML
+        const hardcodedMatch = videoUrl.match(/1d53932d878c4a77bae29118a452a688/);
+        if (hardcodedMatch) {
+            videoId = '28d29bdee49446e6af16b44471aee603'; // Use the test video ID
+            console.log('✅ Using test video ID for hardcoded URL:', videoId);
+        }
+    }
+    
+    // Use the actual video ID from the database if available
+    if (!videoId) {
+        // Try to get video ID from the video data attributes (only if this is a DOM element)
+        if (this && this.getAttribute) {
+            const videoIdFromData = this.getAttribute('data-video-id');
+            if (videoIdFromData) {
+                videoId = videoIdFromData;
+                console.log('✅ Using video ID from data attribute:', videoId);
+            }
+        }
+    }
+    
+    console.log('Final extracted video ID:', videoId);
+    console.log('=== END VIDEO ID EXTRACTION DEBUG ===');
+
+    if (videoId) {
+        console.log('Extracted video ID:', videoId);
+        loadVideoById(videoId);
+    } else {
+        console.log('Could not extract video ID, trying as regular URL');
+        loadRegularVideo(videoUrl);
+    }
+}
+
+// Function to load regular video URLs (YouTube, Vimeo, etc.)
+function loadRegularVideo(videoUrl) {
+    const playerContainer = document.getElementById('vc-player');
+    if (!playerContainer) return;
+
+    // Clear existing content
+    playerContainer.innerHTML = '';
+
+    // Create iframe for regular video
+    const iframe = document.createElement('iframe');
+    iframe.src = videoUrl;
+    iframe.style.border = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '360px';
+    iframe.allow = 'encrypted-media; fullscreen';
+    iframe.allowFullscreen = true;
+
+    playerContainer.appendChild(iframe);
+    console.log('Regular video loaded successfully');
+}
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', async function() {
+    
+    // Get course ID from URL
+    const courseId = getCourseIdFromUrl();
+    
+    if (courseId) {
+        // Fetch and display course data
+        const course = await fetchCourseData(courseId);
+        if (course) {
+            console.log('=== COURSE DATA ANALYSIS ===');
+            console.log('Full course object:', course);
+            console.log('Course keys:', Object.keys(course));
+            console.log('Course.videos:', course.videos);
+            console.log('Course.videos type:', typeof course.videos);
+            console.log('Course.videos is array:', Array.isArray(course.videos));
+            console.log('Course.videos length:', course.videos ? course.videos.length : 'null');
+            console.log('Course.Videos:', course.Videos);
+            console.log('Course.Videos type:', typeof course.Videos);
+            console.log('Course.Videos is array:', Array.isArray(course.Videos));
+            console.log('Course.Videos length:', course.Videos ? course.Videos.length : 'null');
+            console.log('=== END COURSE DATA ANALYSIS ===');
+            
+            updateCourseContent(course);
+            
+            // Load first video if available
+            if (course.videos && course.videos.length > 0) {
+                const firstVideo = course.videos[0];
+                console.log('Loading first video:', firstVideo);
+                console.log('First video URL:', firstVideo.url);
+                console.log('First video title:', firstVideo.title);
+                console.log('First video ID:', firstVideo.id || firstVideo.video_id || firstVideo._id);
+                
+                // Pass the video ID directly to avoid the getAttribute error
+                const videoId = firstVideo.id || firstVideo.video_id || firstVideo._id;
+                if (videoId) {
+                    console.log('Loading video by ID directly:', videoId);
+                    loadVideoById(videoId);
+                    
+                    // Update lesson title and description
+                    const lessonTitle = document.querySelector('.name');
+                    if (lessonTitle) {
+                        lessonTitle.textContent = firstVideo.title || 'درس جديد';
+                    }
+                    
+                    const lessonDescription = document.querySelector('.description p');
+                    if (lessonDescription) {
+                        lessonDescription.textContent = firstVideo.description || 'لا يوجد وصف متاح لهذا الدرس';
+                    }
+                } else {
+                    handleLessonClick(firstVideo.url, firstVideo.title, firstVideo.description);
+                }
+            } else {
+                console.log('No videos found in course.videos:', course.videos);
+                
+                // Check for alternative field names
+                const possibleVideoFields = ['videos', 'Videos', 'lessons', 'lectures', 'content', 'video_lessons'];
+                let foundVideos = null;
+                
+                for (const field of possibleVideoFields) {
+                    if (course[field] && Array.isArray(course[field]) && course[field].length > 0) {
+                        console.log(`Found videos in field: ${field}`, course[field]);
+                        foundVideos = course[field];
+                        break;
+                    }
+                }
+                
+                if (foundVideos) {
+                    const firstVideo = foundVideos[0];
+                    console.log('Loading first video from alternative field:', firstVideo);
+                    console.log('First video URL:', firstVideo.url);
+                    console.log('First video title:', firstVideo.title);
+                    console.log('First video ID:', firstVideo.id || firstVideo.video_id || firstVideo._id);
+                    handleLessonClick(firstVideo.url, firstVideo.title, firstVideo.description);
+                } else {
+                    console.log('No videos found in any field');
+                    // Show message if no videos available
+                    const playerContainer = document.getElementById('vc-player');
+                    if (playerContainer) {
+                        playerContainer.innerHTML = `
+                            <div style="display: flex; align-items: center; justify-content: center; height: 360px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;">
+                                <div style="text-align: center; color: #6c757d;">
+                                    <h4>لا توجد فيديوهات متاحة</h4>
+                                    <p>لم يتم إضافة فيديوهات لهذا الكورس بعد</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            }
+        } else {
+            // Show error if course not found
+            document.querySelector('.content').innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 400px;">
+                    <div style="text-align: center; color: #6c757d;">
+                        <h4>الكورس غير موجود</h4>
+                        <p>يرجى العودة إلى صفحة الكورسات</p>
+                        <a href="dashboard-allcourses.html" style="color: #2E6FF4; text-decoration: none;">العودة للكورسات</a>
+                    </div>
+                </div>
+            `;
+        }
+    } else {
+        // Show message if no course ID provided
+        const playerContainer = document.getElementById('vc-player');
+        if (playerContainer) {
+            playerContainer.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 360px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;">
+                    <div style="text-align: center; color: #6c757d;">
+                        <h4>لم يتم تحديد الكورس</h4>
+                        <p>يرجى العودة إلى صفحة الكورسات واختيار كورس</p>
+                        <a href="dashboard-allcourses.html" style="color: #2E6FF4; text-decoration: none;">العودة للكورسات</a>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Add click handlers to lesson links (will be re-initialized after dynamic content)
+    setTimeout(() => {
+        const lessonLinks = document.querySelectorAll('.submenuItems a');
+        lessonLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get video data from data attributes
+                const videoUrl = this.getAttribute('data-video-url');
+                const videoTitle = this.getAttribute('data-video-title');
+                const videoDescription = this.getAttribute('data-video-description');
+                
+                if (videoUrl && videoUrl !== '#') {
+                    console.log('=== LESSON CLICK DEBUG ===');
+                    console.log('Clicked lesson URL:', videoUrl);
+                    console.log('Clicked lesson title:', videoTitle);
+                    console.log('Clicked lesson description:', videoDescription);
+                    
+                    handleLessonClick(videoUrl, videoTitle, videoDescription);
+                    
+                    // Update active lesson styling
+                    lessonLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+        
+
+    }, 100);
+});
+
+// Example usage:
+// To load a video programmatically:
+// loadVideoById('your-video-id-here');
+// 
+// To load from embed link:
+// loadVideoCipherPlayer('https://player.videocipher.in/iframe/your-video-id-here');
+
+
+</script>
 </body>
 </html>

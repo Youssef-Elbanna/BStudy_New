@@ -22,11 +22,15 @@
                         <img src="../asseds/images/avatar.jpg" />
                     </div>
                     <div class="username">
-                        <h5 class="welcome">Welcome</h5>
-                        <h5 class="name">username</h5>
+                        <h5 class="welcome">مساء الخير</h5>
+                        <h5 class="name"></h5>
+                        <div class="info">
+                            <h3 id="dashboard-username"></h3>
+                            <p id="dashboard-email"></p>
+                        </div>
                     </div>
                 </div>
-                <div class="user-info">
+                <!-- <div class="user-info">
                     <button class="wallet" onclick="showWallet()">
                         <img src="../asseds/icons/solar_wallet-linear.svg" />
                         <h5>120 جنيه</h5>
@@ -41,8 +45,12 @@
                         </div>
                         <button class="check">تحقق من الكود</button>
                     </div>
-                    <!-- Notification removed -->
-                </div>
+                    <a class="notification" href="notification.html">
+                        <img src="../asseds/icons/ph_bell-bold.svg" />
+                        <h5>5</h5>
+                    </a>
+                </div> -->
+                <!-- Removed notification.html integration -->
             </div>
         </nav>
         
@@ -58,25 +66,28 @@
                     <img src="../asseds/icons/lets-icons_video.svg" />
                     <h5>كورساتي</h5>
                 </a>
-            </div>
-            <div class="bottom">
+                <a class="sidebar-item" href="./dashboard-allcourses.html">
+                    <img src="../asseds/icons/carbon_course.svg" />
+                    <h5>كل الكورسات</h5>
+                </a>
                 <a class="sidebar-item" href="help.html">
                     <img src="../asseds/icons/bx_support.svg" />
                     <h5>مساعدة</h5>
                 </a>
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="privacy-policy.html">
                     <img src="../asseds/icons/iconoir_privacy-policy.svg" />
                     <h5>سياسة الخصوصية</h5>
                 </a>
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="settings.html">
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="#" id="logout-btn">
+                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
             </div>
+            <!-- Removed the bottom div -->
         </div>
         <div class="content">
             <div class="header-dashboard">
@@ -160,28 +171,38 @@ document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
 async function fetchAndRenderMyCourses() {
     const container = document.getElementById('my-courses-container');
     if (!container) return;
+    const token = localStorage.getItem('student_token');
+    if (!token) {
+        container.innerHTML = '<p>يجب تسجيل الدخول لعرض كورساتك.</p>';
+        return;
+    }
     container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>جاري تحميل كورساتي...</p></div>';
     try {
-        const token = localStorage.getItem('student_token');
-        const response = await fetch('http://localhost:3000/api/student/mycourses', {
+        const response = await fetch('http://localhost:3000/api/student/courses/mycourses', {
             headers: token ? { 'Authorization': 'Bearer ' + token } : {}
         });
         if (!response.ok) throw new Error('Network response was not ok');
-        let courses = await response.json();
+        let data = await response.json();
+        let courses = Array.isArray(data) ? data : data.courses;
         if (!Array.isArray(courses)) {
-            courses = [courses];
+            courses = [];
         }
         if (courses.length === 0) {
-            container.innerHTML = '<p>لا توجد كورسات لديك حاليا.</p>';
+            container.innerHTML = `<p>${data.message || 'لا توجد كورسات لديك حاليا.'}</p>`;
             return;
         }
         container.innerHTML = courses.map(course => `
-            <div class="course-card">
-                <h2>${course.course_name}</h2>
-                <p>${course.description}</p>
-                <div class="course-meta">
-                    <span>عدد الساعات: ${course.credits}</span>
-                    <span>السعر: ${course.price} جنيه</span>
+            <div class="course" onclick="window.location.href='course-enrolling.html?courseId=${course.course_id}'" style="cursor: pointer;">
+                <div class="course-info">
+                    <h3>${course.course_name}</h3>
+                    <p>${course.description}</p>
+                </div>
+                <div class="course-meta" style="display: flex; gap: 12px; margin-top: 10px;">
+                    <span style="background: #EEF4FA; border-radius: 8px; padding: 4px 12px; color: #2E6FF4; font-weight: 600;">عدد الساعات: ${course.credits}</span>
+                    <span style="background: #F4CB3C; border-radius: 8px; padding: 4px 12px; color: #fff; font-weight: 600;">السعر: ${course.price} جنيه</span>
+                </div>
+                <div style="margin-top: 8px;">
+                    <a href="course-enrolling.html?courseId=${course.course_id}" onclick="console.log('Buy button clicked for course:', '${course.course_id}'); event.stopPropagation();" style="background: linear-gradient(282deg, #1031D0 0%, #2E6FF4 50%, #89BAF8 100%); color: #fff; padding: 8px 24px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 1rem;">اشتري الآن</a>
                 </div>
             </div>
         `).join('');
@@ -189,6 +210,20 @@ async function fetchAndRenderMyCourses() {
         container.innerHTML = '<p>حدث خطأ أثناء تحميل كورساتك.</p>';
     }
 }
+
+// Function to redirect to course enrolling page with course ID
+function redirectToCourse(courseId) {
+    console.log('redirectToCourse called with ID:', courseId);
+    if (courseId) {
+        const url = `course-enrolling.html?courseId=${courseId}`;
+        console.log('Redirecting to:', url);
+        window.location.href = url;
+    } else {
+        console.log('No course ID, redirecting to course-enrolling.html');
+        window.location.href = 'course-enrolling.html';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', fetchAndRenderMyCourses);
 </script>
 </body>

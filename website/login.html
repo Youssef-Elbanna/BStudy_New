@@ -10,32 +10,26 @@
 <body dir="rtl">
     <div class="overlay"></div>
     <header>
-        <nav>
-            <h3>B-Study</h3>
-            <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
+        <nav style="display: flex; align-items: center; justify-content: center; gap: 12px; padding: 24px 0;">
+            <img style="width: 50px; height: 50px; box-shadow: 0 2px 8px rgba(46,111,244,0.10);" src="../asseds/images/logo.png" alt="B-Study Logo" />
+            <h3 style="font-size: 2rem; color: var(--blue-3, #362083); font-weight: 800; margin: 0;">B-Study</h3>
         </nav>
     </header>
     <section class="login-section">
-        <div class="login-container">
-            <h2>سجل الدخول الى حسابك</h2>
-            <div class="content">
-                <a href="#" class="google-login">
-                    <h3>تسجيل الدخول باستخدام جوجل</h3>
-                    <div class="icon">
-                        <img src="../asseds/images/google-icon.svg" alt="">
-                    </div>
-                </a>
-                <div class="line">
-                    <span>او ادخل لحسابك باستخدام</span>
-                </div>
-                <form action="" method="" class="form-login">
-                    <input type="text" name="username" placeholder=" اكتب ايميلك هنا او رقم التليفون" />
-                    <input type="password" name="password" placeholder="اكتب كلمة السر هنا" />
-                    <a href="#">نسيت كلمة السر؟ <span>دوس هنا</span></a>
-                    <input type="submit" value="تسجيل الدخول" />
-                </form>
-                <a href="signup.html">مش عامل حساب في المنصة؟ <span>دوس هنا</span></a>
-            </div> 
+        <div class="login-container" style="max-width: 400px; margin: 0 auto;">
+            <h2 style="font-size: 2rem; color: var(--neutral-3, #262F44); font-weight: 800; margin-bottom: 18px;">تسجيل الدخول</h2>
+            <p style="color: var(--neutral-5, #58647C); font-size: 1.1rem; margin-bottom: 32px;">ادخل بياناتك للمتابعة إلى حسابك</p>
+            <form action="" method="" class="form-login" style="display: flex; flex-direction: column; gap: 18px;">
+                <input type="text" name="username" placeholder="اكتب ايميلك هنا او رقم التليفون" style="font-size: 1rem;" />
+                <input type="password" name="password" placeholder="اكتب كلمة السر هنا" style="font-size: 1rem;" />
+                <a href="#" style="align-self: flex-end; color: var(--blue-3, #362083); font-size: 0.95rem; margin-bottom: 8px;">نسيت كلمة السر؟ <span style="text-decoration: underline;">دوس هنا</span></a>
+                <input type="submit" value="تسجيل الدخول" style="background: var(--grid-blue, linear-gradient(282deg, #1031D0 0%, #2E6FF4 50%, #89BAF8 100%)); color: #fff; font-weight: 700; font-size: 1.1rem; border-radius: 30px; padding: 16px 0; border: none; cursor: pointer; transition: 0.2s;" />
+            </form>
+            <div style="margin-top: 24px; text-align: center;">
+                <span style="color: var(--neutral-5, #58647C); font-size: 1rem;">مش عامل حساب في المنصة؟</span>
+                <a href="signup.html" style="color: var(--blue-3, #362083); font-weight: 700; margin-right: 6px; text-decoration: underline;">دوس هنا</a>
+            </div>
+            <div id="loginMsg"></div>
         </div>
     </section>
     <script>
@@ -43,13 +37,7 @@
         e.preventDefault();
         const username = this.querySelector('input[name="username"]').value;
         const password = this.querySelector('input[name="password"]').value;
-        const msg = document.getElementById('loginMsg') || (() => {
-            const m = document.createElement('div');
-            m.id = 'loginMsg';
-            m.style.margin = '10px 0';
-            this.parentNode.insertBefore(m, this.nextSibling);
-            return m;
-        })();
+        const msg = document.getElementById('loginMsg');
         msg.innerHTML = '';
         try {
             const res = await fetch('http://localhost:3000/api/student/login', {

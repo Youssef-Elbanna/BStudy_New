@@ -15,6 +15,17 @@
    6. Modal Management
    ======================================== */
 
+(function enforceLogin() {
+    const publicPages = ['login.html', 'signup.html'];
+    const isPublic = publicPages.some(page => window.location.pathname.endsWith(page));
+    if (!isPublic) {
+        const token = localStorage.getItem('student_token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+    }
+})();
+
 /* ========================================
    1. WALLET MANAGEMENT FUNCTIONS
    ========================================
@@ -75,16 +86,22 @@ function showNotification() {
     let notification = document.getElementById("notification-card-show");
     let audio = document.getElementById('notificationSound');
     
-    // Play notification sound
-    audio.play();
+    // Play notification sound if audio element exists
+    if (audio) {
+        audio.play().catch(error => {
+            console.log('Audio play failed:', error);
+        });
+    }
     
-    // Slide notification in from left
-    notification.style.left = "20px";
-    
-    // Auto-hide notification after 3 seconds
-    setTimeout(function () {
-        notification.style.left = "-300px";
-    }, 3000);
+    // Slide notification in from left if notification element exists
+    if (notification) {
+        notification.style.left = "20px";
+        
+        // Auto-hide notification after 3 seconds
+        setTimeout(function () {
+            notification.style.left = "-300px";
+        }, 3000);
+    }
 }
 
 // Show notification 1 second after page load
@@ -279,74 +296,179 @@ window.onclick = function(event) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://localhost:3000/api/public/courses')
-        .then(res => res.json())
-        .then(courses => {
-            const coursesContainer = document.querySelector('.courses');
-            if (!coursesContainer) return;
-            coursesContainer.innerHTML = '';
-            if (!Array.isArray(courses) || courses.length === 0) {
-                coursesContainer.innerHTML = '<p>لا توجد كورسات متاحة حاليا</p>';
-                return;
-            }
-            courses.forEach(course => {
-                const card = document.createElement('div');
-                card.className = 'course';
-                card.innerHTML = `
-                    <div class="img-course">
-                        <img src="/asseds/images/teacher.png" alt="Course Image" />
-                    </div>
-                    <div class="info">
-                        <div class="time">
-                            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none"><path d="M7.9998 1.70813C11.6818 1.70813 14.6665 4.6928 14.6665 8.3748C14.6665 12.0568 11.6818 15.0415 7.9998 15.0415C4.3178 15.0415 1.33313 12.0568 1.33313 8.3748C1.33313 4.6928 4.3178 1.70813 7.9998 1.70813ZM7.9998 3.04146C6.58531 3.04146 5.22875 3.60337 4.22856 4.60356C3.22837 5.60375 2.66646 6.96031 2.66646 8.3748C2.66646 9.78928 3.22837 11.1458 4.22856 12.146C5.22875 13.1462 6.58531 13.7081 7.9998 13.7081C9.41428 13.7081 10.7708 13.1462 11.771 12.146C12.7712 11.1458 13.3331 9.78928 13.3331 8.3748C13.3331 6.96031 12.7712 5.60375 11.771 4.60356C10.7708 3.60337 9.41428 3.04146 7.9998 3.04146ZM7.9998 4.3748C8.16308 4.37482 8.32069 4.43477 8.44271 4.54327C8.56473 4.65178 8.64269 4.8013 8.6618 4.96346L8.66646 5.04146V8.0988L10.4711 9.90346C10.5907 10.0234 10.6601 10.1844 10.6653 10.3537C10.6705 10.523 10.611 10.6879 10.499 10.815C10.3869 10.942 10.2308 11.0217 10.0621 11.0377C9.89353 11.0538 9.72512 11.0051 9.59113 10.9015L9.52846 10.8461L7.52846 8.84613C7.42485 8.74243 7.3583 8.60746 7.33913 8.46213L7.33313 8.3748V5.04146C7.33313 4.86465 7.40337 4.69508 7.52839 4.57006C7.65342 4.44503 7.82299 4.3748 7.9998 4.3748Z" fill="#EEF4FA"/></svg></div>
-                            <h5>${course.credits} ساعة</h5>
-                        </div>
-                        <div class="classes">
-                            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.80737 6.77901L5.49137 4.62034C5.36936 4.55928 5.23376 4.53045 5.09746 4.53657C4.96117 4.5427 4.8287 4.58358 4.71265 4.65533C4.59661 4.72708 4.50084 4.82732 4.43446 4.94651C4.36807 5.06571 4.33328 5.1999 4.33337 5.33634V9.41367C4.33328 9.55011 4.36807 9.6843 4.43446 9.8035C4.50084 9.92269 4.59661 10.0229 4.71265 10.0947C4.8287 10.1664 4.96117 10.2073 5.09746 10.2134C5.23376 10.2196 5.36936 10.1907 5.49137 10.1297L9.80737 7.97101C9.91796 7.91558 10.0109 7.83048 10.0759 7.72522C10.1409 7.61997 10.1753 7.49871 10.1753 7.37501C10.1753 7.25131 10.1409 7.13005 10.0759 7.02479C10.0109 6.91953 9.91796 6.83443 9.80737 6.77901Z" stroke="#EEF4FA" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13.375C10.3137 13.375 13 10.6887 13 7.375C13 4.06129 10.3137 1.375 7 1.375C3.68629 1.375 1 4.06129 1 7.375C1 10.6887 3.68629 13.375 7 13.375Z" stroke="#EEF4FA"/></svg></div>
-                            <h5>${course.credits} محاضرة</h5>
-                        </div>
-                        <div class="exams">
-                            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none"><path d="M5 4.875H7M5 8.375H11M5 10.375H11M5 12.375H7M4 14.875H12C12.2652 14.875 12.5196 14.7696 12.7071 14.5821C12.8946 14.3946 13 14.1402 13 13.875V2.875C13 2.60978 12.8946 2.35543 12.7071 2.16789C12.5196 1.98036 12.2652 1.875 12 1.875H4C3.73478 1.875 3.48043 1.98036 3.29289 2.16789C3.10536 2.35543 3 2.60978 3 2.875V13.875C3 14.1402 3.10536 14.3946 3.29289 14.5821C3.48043 14.7696 3.73478 14.875 4 14.875Z" stroke="#3B4459" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 5.125C11.1381 5.125 11.25 5.01307 11.25 4.875C11.25 4.73693 11.1381 4.625 11 4.625C10.8619 4.625 10.75 4.73693 10.75 4.875C10.75 5.01307 10.8619 5.125 11 5.125Z" fill="#3B4459" stroke="#3B4459"/></svg></div>
-                            <h5>3 أمتحانات</h5>
-                        </div>
-                    </div>
-                    <div class="course-info">
-                        <h3>${course.course_name}</h3>
-                        <p>${course.description}</p>
-                    </div>
-                    <div class="course-price">
-                        <a href="#">أكمل التعلم الان</a>
-                        <span>${course.price} جنيه</span>
-                    </div>
-                `;
-                coursesContainer.appendChild(card);
-            });
-        })
-        .catch(() => {
-            const coursesContainer = document.querySelector('.courses');
-            if (coursesContainer) coursesContainer.innerHTML = '<p>حدث خطأ أثناء تحميل الكورسات</p>';
-        });
-
+function updateHeaderUserInfo() {
     const token = localStorage.getItem('student_token');
-    if (!token) return;
+    const nameElem = document.querySelector('.username .name');
+    const welcomeElem = document.querySelector('.username .welcome');
+    // Set greeting based on time
+    if (welcomeElem) {
+        const hour = new Date().getHours();
+        let greeting = 'صباح الخير';
+        if (hour >= 12 && hour < 17) greeting = 'مساء الخير';
+        else if (hour >= 17) greeting = 'مساء الخير';
+        welcomeElem.textContent = greeting;
+    }
+    if (!nameElem) return;
+    if (!token) {
+        nameElem.textContent = 'زائر';
+        return;
+    }
     fetch('http://localhost:3000/api/student/profile/me', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
     .then(res => res.json())
     .then(data => {
-        if (data && data.username) {
-            const welcome = document.querySelector('.username .welcome');
-            const name = document.querySelector('.username .name');
-            if (welcome) welcome.textContent = 'Welcome';
-            if (name) name.textContent = data.username;
-        }
-        if (data && data.email) {
-            const emailElem = document.querySelector('.dashboard-info .info p');
-            if (emailElem) emailElem.textContent = data.email;
-        }
+        nameElem.textContent = data.username || data.name || data.student_id || 'اسم غير معروف';
     })
-    .catch(() => {/* keep default text on error */});
+    .catch(() => {
+        nameElem.textContent = 'زائر';
+    });
+}
+document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
+
+function renderMainCourses() {
+    console.log('renderMainCourses called');
+    const mainCoursesList = document.getElementById('main-courses-list');
+    if (!mainCoursesList) return;
+    mainCoursesList.innerHTML = '<div style="text-align:center;padding:2em;">جاري تحميل الكورسات...</div>';
+    fetch('http://localhost:3000/api/public/courses')
+        .then(response => response.json())
+        .then(courses => {
+            console.log('Courses fetched:', courses);
+            if (!Array.isArray(courses) || courses.length === 0) {
+                mainCoursesList.innerHTML = '<p style="text-align:center;">لا توجد كورسات متاحة حاليا</p>';
+                return;
+            }
+            mainCoursesList.innerHTML = '';
+            const title = document.createElement('h2');
+            title.style.textAlign = 'center';
+            title.style.marginBottom = '24px';
+            title.textContent = 'كل الكورسات';
+            mainCoursesList.appendChild(title);
+            const grid = document.createElement('div');
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(260px, 1fr))';
+            grid.style.gap = '24px';
+            grid.style.padding = '0 16px 32px 16px';
+            courses.forEach(course => {
+                const card = document.createElement('div');
+                card.style.background = '#fff';
+                card.style.borderRadius = '12px';
+                card.style.boxShadow = '0 2px 8px rgba(46,111,244,0.08)';
+                card.style.padding = '24px 18px 18px 18px';
+                card.style.display = 'flex';
+                card.style.flexDirection = 'column';
+                card.style.justifyContent = 'space-between';
+                card.style.minHeight = '180px';
+
+                const h3 = document.createElement('h3');
+                h3.style.margin = '0 0 10px 0';
+                h3.style.fontSize = '1.2em';
+                h3.style.color = '#2E6FF4';
+                h3.textContent = course.course_name;
+
+                const p = document.createElement('p');
+                p.style.margin = '0 0 12px 0';
+                p.style.color = '#58647C';
+                p.style.minHeight = '40px';
+                p.textContent = course.description;
+
+                const metaDiv = document.createElement('div');
+                metaDiv.style.display = 'flex';
+                metaDiv.style.justifyContent = 'space-between';
+                metaDiv.style.alignItems = 'center';
+                metaDiv.style.marginTop = 'auto';
+
+                const creditsSpan = document.createElement('span');
+                creditsSpan.style.color = '#8D98AF';
+                creditsSpan.style.fontSize = '0.95em';
+                creditsSpan.textContent = `عدد الساعات: ${course.credits}`;
+
+                const priceSpan = document.createElement('span');
+                priceSpan.style.color = '#262F44';
+                priceSpan.style.fontWeight = '600';
+                priceSpan.textContent = `${course.price} جنيه`;
+
+                metaDiv.appendChild(creditsSpan);
+                metaDiv.appendChild(priceSpan);
+
+                card.appendChild(h3);
+                card.appendChild(p);
+                card.appendChild(metaDiv);
+                grid.appendChild(card);
+            });
+            mainCoursesList.appendChild(grid);
+        })
+        .catch(() => {
+            mainCoursesList.innerHTML = '<p style="text-align:center;">تعذر تحميل الكورسات.</p>';
+        });
+}
+document.addEventListener('DOMContentLoaded', renderMainCourses);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const coursesList = document.getElementById('courses-list');
+    if (!coursesList) return;
+    fetch('http://localhost:3000/api/public/courses')
+        .then(response => response.json())
+        .then(courses => {
+            coursesList.innerHTML = '';
+            if (!Array.isArray(courses) || courses.length === 0) {
+                coursesList.innerHTML = '<p>لا توجد كورسات متاحة حاليا</p>';
+                return;
+            }
+            courses.forEach(course => {
+                const courseDiv = document.createElement('div');
+                courseDiv.className = 'course';
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'info';
+
+                const courseInfoDiv = document.createElement('div');
+                courseInfoDiv.className = 'course-info';
+                const h3 = document.createElement('h3');
+                h3.textContent = course.course_name;
+                const p = document.createElement('p');
+                p.textContent = course.description;
+                courseInfoDiv.appendChild(h3);
+                courseInfoDiv.appendChild(p);
+
+                const coursePriceDiv = document.createElement('div');
+                coursePriceDiv.className = 'course-price';
+                const priceSpan = document.createElement('span');
+                priceSpan.textContent = `${course.price} جنيه`;
+                coursePriceDiv.appendChild(priceSpan);
+
+                infoDiv.appendChild(courseInfoDiv);
+                infoDiv.appendChild(coursePriceDiv);
+                courseDiv.appendChild(infoDiv);
+                coursesList.appendChild(courseDiv);
+            });
+        })
+        .catch(err => {
+            coursesList.innerHTML = '<p>تعذر تحميل الكورسات.</p>';
+        });
+
+    const usernameElem = document.getElementById('dashboard-username');
+    const emailElem = document.getElementById('dashboard-email');
+    if (!usernameElem || !emailElem) return;
+    const token = localStorage.getItem('student_token');
+    if (!token) {
+        usernameElem.textContent = 'لم يتم تسجيل الدخول';
+        emailElem.textContent = '';
+        return;
+    }
+    fetch('http://localhost:3000/api/student/profile/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+        usernameElem.textContent = data.username || data.name || data.student_id || 'اسم غير معروف';
+        emailElem.textContent = data.email || '';
+    })
+    .catch(() => {
+        usernameElem.textContent = 'خطأ في جلب البيانات';
+        emailElem.textContent = '';
+    });
 
     // Universal logout logic for any sidebar-item with خروج or Logout text
     function handleLogoutClick(e) {
@@ -359,7 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie.split(';').forEach(function(c) {
             document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
         });
-        window.location.href = 'login.html';
+        window.location.href = 'landingNew.html';
     }
     // Attach to #logout-btn if present
     const logoutBtn = document.getElementById('logout-btn');

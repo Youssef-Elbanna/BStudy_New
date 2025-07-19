@@ -22,10 +22,14 @@
                     </div>
                     <div class="username">
                         <h5 class="welcome">مساء الخير</h5>
-                        <h5 class="name">محمد هاني احمد</h5>
+                        <h5 class="name"></h5>
+                        <div class="info">
+                            <h3 id="dashboard-username"></h3>
+                            <p id="dashboard-email"></p>
+                        </div>
                     </div>
                 </div>
-                <div class="user-info">
+                <!-- <div class="user-info">
                     <button class="wallet" onclick="showWallet()">
                         <img src="../asseds/icons/solar_wallet-linear.svg" />
                         <h5>120 جنيه</h5>
@@ -44,7 +48,7 @@
                         <img src="../asseds/icons/ph_bell-bold.svg" />
                         <h5>5</h5>
                     </a>
-                </div>
+                </div> -->
             </div>
         </nav>
         
@@ -72,8 +76,24 @@
                     <img src="../asseds/icons/mingcute_fast-rewind-line.svg" />
                     <h5>المراجعات</h5>
                 </a> -->
+                <a class="sidebar-item" href="#">
+                    <img src="../asseds/icons/bx_support.svg" />
+                    <h5>مساعدة</h5>
+                </a>
+                <a class="sidebar-item" href="privacy-policy.html">
+                    <img src="../asseds/icons/iconoir_privacy-policy.svg" />
+                    <h5>سياسة الخصوصية</h5>
+                </a>
+                <a class="sidebar-item" href="settings.html">
+                    <img src="../asseds/icons/carbon_settings.svg" />
+                    <h5>الاعدادات</h5>
+                </a>
+                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
+                    <img src="../asseds/icons/ci_exit.svg" />
+                    <h5>خروج</h5>
+                </a>
             </div>
-            <div class="bottom">
+            <!-- <div class="bottom">
                 <a class="sidebar-item" href="#">
                     <img src="../asseds/icons/bx_support.svg" />
                     <h5>مساعدة</h5>
@@ -90,7 +110,7 @@
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
-            </div>
+            </div> -->
         </div>
         <!-- <div class="content">
             <div class="header-dashboard">
@@ -103,5 +123,8 @@
         </div> -->
     </main>
     <script src="./javascript/dashboard.js"></script>          
+    <script>
+document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
+</script>
 </body>
 </html>

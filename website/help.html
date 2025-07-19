@@ -22,10 +22,10 @@
                     </div>
                     <div class="username">
                         <h5 class="welcome">مساء الخير</h5>
-                        <h5 class="name">محمد هاني احمد</h5>
+                        <h5 class="name"></h5>
                     </div>
                 </div>
-                <div class="user-info">
+                <!-- <div class="user-info">
                     <button class="wallet" onclick="showWallet()">
                         <img src="../asseds/icons/solar_wallet-linear.svg" />
                         <h5>120 جنيه</h5>
@@ -40,7 +40,7 @@
                         </div>
                         <button class="check">تحقق من الكود</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </nav>
         
@@ -56,13 +56,15 @@
                     <img src="../asseds/icons/lets-icons_video.svg" />
                     <h5>كورساتي</h5>
                 </a>
-            </div>
-            <div class="bottom">
+                <a class="sidebar-item" href="./dashboard-allcourses.html">
+                    <img src="../asseds/icons/carbon_course.svg" />
+                    <h5>كل الكورسات</h5>
+                </a>
                 <a class="sidebar-item" href="help.html">
                     <img src="../asseds/icons/bx_support.svg" />
                     <h5>مساعدة</h5>
                 </a>
-                <a class="sidebar-item" href="#">
+                <a class="sidebar-item" href="privacy-policy.html">
                     <img src="../asseds/icons/iconoir_privacy-policy.svg" />
                     <h5>سياسة الخصوصية</h5>
                 </a>
@@ -70,11 +72,12 @@
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="#" id="logout-btn">
+                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
             </div>
+            <!-- Removed the bottom div -->
         </div>
         <div class="content">
             <div class="header-dashboard">
@@ -102,29 +105,30 @@
                 <div class="q-a-items">
                     <button class="q-a-item" onclick="toggleAnswer(this)">
                         <div class="q">
-                            <h4>ما هي منصتي؟</h4>
+                            <h4>ما هي منصة بي ستودي؟</h4>
                             <img class="arrow" src="/asseds/icons/ep_arrow.svg" alt="">
                         </div>
                         <div class="a">
-                            <p>منصتي هي منصة تعليمية تهدف الي تسهيل عملية التعليم عن بعد وتوفير الوقت والجهد للطلاب والمعلمين</p>
+                            <p>هي منصة تعليمية تهدف إلى تسهيل عملية التعليم عن بعد وتوفير الوقت والجهد للطلاب والمعلمين في مختلف المراحل التعليمية والجامعات.</p>
                         </div>
                     </button>
                     <button class="q-a-item" onclick="toggleAnswer(this)">
                         <div class="q">
-                            <h4>ما هي منصتي؟</h4>
+                            <h4>كيف يمكنني التسجيل في المنصة؟</h4>
                             <img class="arrow" src="/asseds/icons/ep_arrow.svg" alt="">
                         </div>
                         <div class="a">
-                            <p>منصتي هي منصة تعليمية تهدف الي تسهيل عملية التعليم عن بعد وتوفير الوقت والجهد للطلاب والمعلمين</p>
+                            <p>يمكنك الذهاب الى مساعدة والتواصل معنا على الواتس اب</p>
                         </div>
                     </button>
                     <button class="q-a-item" onclick="toggleAnswer(this)">
                         <div class="q">
-                            <h4>ما هي منصتي؟</h4>
+                           
+                            <h4> كيف يمكنني شراء الكورس</h4>
                             <img src="/asseds/icons/ep_arrow.svg" alt="">
                         </div>
                         <div class="a">
-                            <p>منصتي هي منصة تعليمية تهدف الي تسهيل عملية التعليم عن بعد وتوفير الوقت والجهد للطلاب والمعلمين</p>
+                            <p>من خلالنا على الواتس اب حاليا</p>
                         </div>
                     </button>
                 </div>
@@ -134,34 +138,6 @@
     <script src="./javascript/dashboard.js"></script>
     <script src="./javascript/settings.js"></script>
     <script>
-// Dynamic greeting and username based on token
-function updateHeaderUserInfo() {
-    const token = localStorage.getItem('student_token');
-    const welcomeElem = document.querySelector('.username .welcome');
-    const nameElem = document.querySelector('.username .name');
-    // Set greeting based on time
-    const hour = new Date().getHours();
-    let greeting = 'صباح الخير';
-    if (hour >= 12 && hour < 17) greeting = 'مساء الخير';
-    else if (hour >= 17) greeting = 'مساء الخير';
-    if (welcomeElem) welcomeElem.textContent = greeting;
-    if (!token) {
-        if (nameElem) nameElem.textContent = 'زائر';
-        return;
-    }
-    fetch('http://localhost:3000/api/student/profile/me', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data && data.username) {
-            if (nameElem) nameElem.textContent = data.username;
-        }
-    })
-    .catch(() => {
-        if (nameElem) nameElem.textContent = 'زائر';
-    });
-}
 document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
 
 function handleLogoutClick(e) {

@@ -213,4 +213,104 @@ class AdminDashboard {
 let adminDashboard;
 document.addEventListener('DOMContentLoaded', () => {
     adminDashboard = new AdminDashboard();
+
+    // Enroll Student Modal logic
+    const enrollModal = document.getElementById('enrollStudentModal');
+    const studentSelect = document.getElementById('studentSelect');
+    const enrollCourseIdInput = document.getElementById('enrollCourseId');
+    const confirmEnrollBtn = document.getElementById('confirmEnrollBtn');
+    let currentCourseId = null;
+    let allStudents = [];
+    const studentSearch = document.getElementById('studentSearch');
+
+    // Open modal and fetch students when Enroll Student button is clicked
+    document.body.addEventListener('click', async function(e) {
+        if (e.target.classList.contains('enroll-student-btn')) {
+            currentCourseId = e.target.getAttribute('data-course-id');
+            enrollCourseIdInput.value = currentCourseId;
+            // Fetch students
+            studentSelect.innerHTML = '<option value="" disabled selected>جاري التحميل...</option>';
+            try {
+                const token = localStorage.getItem('admin_token');
+                const res = await fetch('http://localhost:3000/api/admin/auth/users', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await res.json();
+                if (data.students && Array.isArray(data.students)) {
+                    allStudents = data.students;
+                    renderStudentOptions(allStudents);
+                } else {
+                    studentSelect.innerHTML = '<option value="" disabled>لا يوجد طلاب</option>';
+                }
+            } catch (err) {
+                studentSelect.innerHTML = '<option value="" disabled>خطأ في جلب الطلاب</option>';
+            }
+            // Show modal
+            var modal = new bootstrap.Modal(enrollModal);
+            modal.show();
+        }
+    });
+
+    // Filter students as you type
+    if (studentSearch) {
+        studentSearch.addEventListener('input', function() {
+            const query = studentSearch.value.trim().toLowerCase();
+            if (!query) {
+                renderStudentOptions(allStudents);
+                return;
+            }
+            const filtered = allStudents.filter(student =>
+                (student.full_name && student.full_name.toLowerCase().includes(query)) ||
+                (student.email && student.email.toLowerCase().includes(query))
+            );
+            renderStudentOptions(filtered);
+        });
+    }
+
+    function renderStudentOptions(students) {
+        studentSelect.innerHTML = '<option value="" disabled selected>اختر الطالب</option>';
+        students.forEach(student => {
+            const opt = document.createElement('option');
+            opt.value = student.id || student._id || student.student_id;
+            opt.textContent = student.full_name + (student.email ? ' - ' + student.email : '');
+            studentSelect.appendChild(opt);
+        });
+        if (students.length === 0) {
+            studentSelect.innerHTML = '<option value="" disabled>لا يوجد نتائج</option>';
+        }
+    }
+
+    // Handle confirm enroll
+    confirmEnrollBtn.addEventListener('click', async function() {
+        const courseId = enrollCourseIdInput.value;
+        const studentId = studentSelect.value;
+        if (!courseId || !studentId) {
+            adminDashboard.showNotification('يرجى اختيار الطالب والكورس', 'error');
+            return;
+        }
+        try {
+            const token = localStorage.getItem('admin_token');
+            const res = await fetch(`http://localhost:3000/api/admin/courses/${courseId}/students/${studentId}/enroll`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ isPaid: true })
+            });
+            if (res.ok) {
+                adminDashboard.showNotification('تم تسجيل الطالب في الكورس بنجاح', 'success');
+                var modal = bootstrap.Modal.getInstance(enrollModal);
+                modal.hide();
+            } else {
+                const data = await res.json();
+                adminDashboard.showNotification(data.message || 'فشل في تسجيل الطالب', 'error');
+            }
+        } catch (err) {
+            adminDashboard.showNotification('حدث خطأ أثناء تسجيل الطالب', 'error');
+        }
+    });
 }); 
