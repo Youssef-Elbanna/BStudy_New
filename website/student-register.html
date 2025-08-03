@@ -66,6 +66,7 @@
             </div>
         </div>
     </div>
+    <script src="config.js"></script>
     <script>
     document.getElementById('studentRegisterForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -85,7 +86,7 @@
         const msgDiv = document.getElementById('registerMsg');
         msgDiv.innerHTML = '';
         try {
-            const res = await fetch('http://localhost:3000/api/student/register', {
+            const res = await fetch(getApiUrl(API_CONFIG.STUDENT_REGISTER_ENDPOINT), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

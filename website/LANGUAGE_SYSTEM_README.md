@@ -34,7 +34,7 @@ website/
 │   ├── language-switcher.css # Language switcher styles
 │   ├── main.css             # Updated with RTL/LTR support
 │   └── dashboard-layout.css # Updated with RTL/LTR support
-├── landingNew.html          # Updated with language support
+├── index.html               # Updated with language support
 ├── dashboard.html           # Updated with language support
 └── LANGUAGE_SYSTEM_README.md # This file
 ```

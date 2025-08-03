@@ -4,161 +4,437 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Dashboard - Brand</title>
+    <title>لوحة التحكم - B-Study</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
-    <!-- <link rel="stylesheet" href="./styles/bootstrap-icons.min.css"> -->
     <link rel="stylesheet" href="assets/css/admin-bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <style>
+        /* Enhanced Admin Dashboard Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 10px 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-brand {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-link {
+            border-radius: 10px;
+            margin: 5px 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2) !important;
+            transform: translateX(5px);
+        }
+        
+        .card {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 25px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .stats-icon.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .stats-icon.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .stats-icon.info {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .stats-icon.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .stats-icon i {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #262F44;
+            margin: 0;
+        }
+        
+        .stats-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .table {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+            color: var(--bs-primary);
+        }
+        
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+        
+        .pagination .page-link {
+            border-radius: 8px;
+            margin: 0 2px;
+            border: none;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        
+        .pagination .page-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #262F44;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: #667eea;
+        }
+    </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-                <nav class="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
+                <!-- Enhanced Navbar -->
+                <nav class="navbar navbar-expand shadow mb-4 topbar static-top navbar-light">
                     <div class="container-fluid">
                         <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..."><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                            <div class="input-group">
+                                <input class="bg-light form-control border-0 small" type="text" placeholder="البحث في لوحة التحكم...">
+                                <button class="btn btn-primary py-0" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </form>
                         <ul class="navbar-nav flex-nowrap ms-auto">
-                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                            <li class="nav-item dropdown d-sm-none no-arrow">
+                                <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                    <i class="fas fa-search"></i>
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
                                     <form class="me-auto navbar-search w-100">
-                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
-                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                        <div class="input-group">
+                                            <input class="bg-light form-control border-0 small" type="text" placeholder="البحث في لوحة التحكم...">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary py-0" type="button">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown no-arrow mx-1"></li>
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
-                            </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Valerie Luna</span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-logout><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-white small">مدير النظام</span>
+                                        <i class="fas fa-user-circle fa-lg"></i>
+                                    </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;الملف الشخصي
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;الإعدادات
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;سجل النشاط
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#" data-logout>
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;تسجيل الخروج
+                                        </a>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </nav>
+                
                 <div class="container-fluid">
-                    <div class="d-sm-flex justify-content-between align-items-center mb-4" style="flex-direction: row-reverse;">
-                        <h3 class="text-dark mb-0" style="font-weight: bold;">لوحة التحكم</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a>
+                    <!-- Enhanced Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0" style="font-weight: bold; font-size: 1.8rem;">
+                            <i class="fas fa-tachometer-alt me-2"></i>لوحة التحكم
+                        </h3>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download me-2"></i>توليد التقرير
+                        </button>
                     </div>
-                    <div class="row ar-dir">
+                    
+                    <!-- Enhanced Stats Cards -->
+                    <div class="row mb-4">
                         <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-primary py-2">
-                                <div class="card-body">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Earnings (monthly)</span></div>
-                                            <div class="text-dark fw-bold h5 mb-0"><span data-stat="monthlyRevenue">$40,000</span></div>
-                                        </div>
-                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="stats-icon primary">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number" data-stat="monthlyRevenue">$40,000</h4>
+                                        <p class="stats-label">الأرباح الشهرية</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-success py-2">
-                                <div class="card-body">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Earnings (annual)</span></div>
-                                            <div class="text-dark fw-bold h5 mb-0"><span data-stat="totalRevenue">$215,000</span></div>
-                                        </div>
-                                        <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="stats-icon success">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number" data-stat="totalRevenue">$215,000</h4>
+                                        <p class="stats-label">الأرباح السنوية</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-info py-2">
-                                <div class="card-body">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Tasks</span></div>
-                                            <div class="row g-0 align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="text-dark fw-bold h5 mb-0 me-3"><span data-stat="activeUsers">50%</span></div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm">
-                                                        <div class="progress-bar bg-info" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="visually-hidden">50%</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="stats-icon info">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number" data-stat="activeUsers">1,234</h4>
+                                        <p class="stats-label">المستخدمين النشطين</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-xl-3 mb-4">
-                            <div class="card shadow border-start-warning py-2">
-                                <div class="card-body">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col me-2">
-                                            <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span>Pending Requests</span></div>
-                                            <div class="text-dark fw-bold h5 mb-0"><span data-stat="totalCourses">18</span></div>
-                                        </div>
-                                        <div class="col-auto"><button type="button" class="btn btn-primary">Primary</button></div>
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="stats-icon warning">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number" data-stat="totalCourses">18</h4>
+                                        <p class="stats-label">إجمالي الكورسات</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    
+                    <!-- Enhanced Charts Section -->
+                    <div class="row mb-4">
                         <div class="col-lg-7 col-xl-8">
-                            <div class="card shadow mb-4">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h6 class="text-primary fw-bold m-0">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="chart-container">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="text-primary fw-bold m-0">
+                                        <i class="fas fa-chart-line me-2"></i>نظرة عامة على الأرباح
+                                    </h6>
+                                    <div class="dropdown no-arrow">
+                                        <button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">
+                                            <i class="fas fa-ellipsis-v text-gray-400"></i>
+                                        </button>
                                         <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                            <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" href="#">&nbsp;Action</a><a class="dropdown-item" href="#">&nbsp;Another action</a>
-                                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Something else here</a>
+                                            <p class="text-center dropdown-header">خيارات:</p>
+                                            <a class="dropdown-item" href="#">&nbsp;تصدير البيانات</a>
+                                            <a class="dropdown-item" href="#">&nbsp;طباعة التقرير</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">&nbsp;إعدادات الرسم البياني</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="chart-area"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;10000&quot;,&quot;5000&quot;,&quot;15000&quot;,&quot;10000&quot;,&quot;20000&quot;,&quot;15000&quot;,&quot;25000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}]}}}"></canvas></div>
+                                <div class="chart-area">
+                                    <canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;يناير&quot;,&quot;فبراير&quot;,&quot;مارس&quot;,&quot;أبريل&quot;,&quot;مايو&quot;,&quot;يونيو&quot;,&quot;يوليو&quot;,&quot;أغسطس&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;الأرباح&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;10000&quot;,&quot;5000&quot;,&quot;15000&quot;,&quot;10000&quot;,&quot;20000&quot;,&quot;15000&quot;,&quot;25000&quot;],&quot;backgroundColor&quot;:&quot;rgba(102, 126, 234, 0.1)&quot;,&quot;borderColor&quot;:&quot;rgba(102, 126, 234, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}]}}}"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-5 col-xl-4">
-                            <div class="card shadow mb-4">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h6 class="text-primary fw-bold m-0">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="chart-container">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="text-primary fw-bold m-0">
+                                        <i class="fas fa-chart-pie me-2"></i>مصادر الإيرادات
+                                    </h6>
+                                    <div class="dropdown no-arrow">
+                                        <button class="btn btn-link btn-sm dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">
+                                            <i class="fas fa-ellipsis-v text-gray-400"></i>
+                                        </button>
                                         <div class="dropdown-menu shadow dropdown-menu-end animated--fade-in">
-                                            <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" href="#">&nbsp;Action</a><a class="dropdown-item" href="#">&nbsp;Another action</a>
-                                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Something else here</a>
+                                            <p class="text-center dropdown-header">خيارات:</p>
+                                            <a class="dropdown-item" href="#">&nbsp;تصدير البيانات</a>
+                                            <a class="dropdown-item" href="#">&nbsp;طباعة التقرير</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">&nbsp;إعدادات الرسم البياني</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="chart-area"><canvas data-bss-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Direct&quot;,&quot;Social&quot;,&quot;Referral&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#1cc88a&quot;,&quot;#36b9cc&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;50&quot;,&quot;30&quot;,&quot;15&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}}"></canvas></div>
-                                    <div class="text-center small mt-4"><span class="me-2"><i class="fas fa-circle text-primary"></i>&nbsp;Direct</span><span class="me-2"><i class="fas fa-circle text-success"></i>&nbsp;Social</span><span class="me-2"><i class="fas fa-circle text-info"></i>&nbsp;Refferal</span></div>
+                                <div class="chart-area">
+                                    <canvas data-bss-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;مباشر&quot;,&quot;اجتماعي&quot;,&quot;إحالة&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#667eea&quot;,&quot;#10b981&quot;,&quot;#3b82f6&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;50&quot;,&quot;30&quot;,&quot;15&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}}"></canvas>
+                                </div>
+                                <div class="text-center small mt-4">
+                                    <span class="me-2"><i class="fas fa-circle text-primary"></i>&nbsp;مباشر</span>
+                                    <span class="me-2"><i class="fas fa-circle text-success"></i>&nbsp;اجتماعي</span>
+                                    <span class="me-2"><i class="fas fa-circle text-info"></i>&nbsp;إحالة</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin: 20px 0;direction: rtl;">
-                        <h3 class="text-dark mb-0" style="font-weight: bold;">احدث الكورسات</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#">&nbsp; مشاهدة الكل&nbsp;</a>
+                    
+                    <!-- Latest Courses Section -->
+                    <div class="section-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="section-title">
+                                <i class="fas fa-graduation-cap"></i>أحدث الكورسات
+                            </h3>
+                            <a class="btn btn-primary btn-sm" role="button" href="#">
+                                <i class="fas fa-eye me-2"></i>مشاهدة الكل
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="container-fluid" style="direction: rtl; margin-top: 40px;">
-                    <h3 class="text-dark mb-4" style="font-weight: bold;">أكواد الخصم (Promo Codes)</h3>
+                    
+                    <!-- Promo Codes Section -->
+                    <div class="section-header">
+                        <h3 class="section-title">
+                            <i class="fas fa-barcode"></i>أكواد الخصم (Promo Codes)
+                        </h3>
+                    </div>
+                    
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">إضافة كود خصم جديد</p>
+                            <h6 class="text-white m-0 fw-bold">
+                                <i class="fas fa-plus me-2"></i>إضافة كود خصم جديد
+                            </h6>
                         </div>
                         <div class="card-body">
                             <form id="promoForm" class="row g-3">
@@ -182,14 +458,68 @@
                                     <input type="datetime-local" class="form-control" id="expiresAt" required>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-success">إضافة كود</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>إضافة الكود
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
+                    
+                    <!-- Video Views Management Section -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">أكواد الخصم الحالية</p>
+                            <h6 class="text-white m-0 fw-bold">
+                                <i class="fas fa-video me-2"></i>إدارة مشاهدات الفيديو
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="videoViewsFilter" class="form-label">تصفية حسب:</label>
+                                    <select class="form-select" id="videoViewsFilter">
+                                        <option value="all">جميع المشاهدات</option>
+                                        <option value="student">حسب الطالب</option>
+                                        <option value="video">حسب الفيديو</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="videoViewsSearch" class="form-label">بحث:</label>
+                                    <input type="text" class="form-control" id="videoViewsSearch" placeholder="ابحث...">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button class="btn btn-secondary d-block" onclick="refreshVideoViews()">
+                                        <i class="fas fa-sync-alt me-2"></i>تحديث البيانات
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="videoViewsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>الطالب</th>
+                                            <th>الفيديو</th>
+                                            <th>عدد المشاهدات</th>
+                                            <th>آخر مشاهدة</th>
+                                            <th>الحالة</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="videoViewsTableBody">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Current Promo Codes -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="text-white m-0 fw-bold">
+                                <i class="fas fa-list me-2"></i>أكواد الخصم الحالية
+                            </h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -200,6 +530,7 @@
                                             <th>نوع الخصم</th>
                                             <th>قيمة الخصم</th>
                                             <th>تاريخ الانتهاء</th>
+                                            <th>الإجراءات</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -209,118 +540,191 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="container-fluid" style="direction: rtl;">
-                    <div class="card shadow">
+                    
+                    <!-- Courses Table -->
+                    <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Employee Info</p>
+                            <h6 class="text-white m-0 fw-bold">
+                                <i class="fas fa-graduation-cap me-2"></i>إدارة الكورسات
+                            </h6>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 text-nowrap">
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
-                                                <option value="10" selected="">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>&nbsp;</label></div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm">
+                                            <option value="10" selected="">10 صفوف</option>
+                                            <option value="25">25 صف</option>
+                                            <option value="50">50 صف</option>
+                                            <option value="100">100 صف</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+                                    <div class="text-md-end">
+                                        <input type="search" class="form-control form-control-sm d-inline-block w-auto" placeholder="البحث في الكورسات...">
+                                    </div>
                                 </div>
                             </div>
                             <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th >أسم الكورس</th>
-                                            <th >عدد الحصص</th>
-                                            <th >عدد الطلاب</th>
-                                            <th >السنة</th>
+                                            <th>اسم الكورس</th>
+                                            <th>عدد الحصص</th>
+                                            <th>عدد الطلاب</th>
+                                            <th>السنة</th>
                                             <th>التاريخ</th>
                                             <th>السعر</th>
-                                            <th>تعديل</th>
+                                            <th>الإجراءات</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Airi Satou</td>
+                                            <td>كورس الرياضيات</td>
                                             <td>1</td>
                                             <td>400</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
+                                            <td>2024</td>
+                                            <td>2024/11/28</td>
                                             <td>$162,700</td>
-                                            <td><a href="#"><button type="button" class="btn btn-primary">تعديل</button></a></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit me-1"></i>تعديل
+                                                </button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Angelica Ramos</td>
+                                            <td>كورس الفيزياء</td>
                                             <td>2</td>
                                             <td>400</td>
-                                            <td>47</td>
-                                            <td>2009/10/09<br></td>
+                                            <td>2024</td>
+                                            <td>2024/10/09</td>
                                             <td>$1,200,000</td>
-                                            <td><a href="#"><button type="button" class="btn btn-primary">تعديل</button></a></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit me-1"></i>تعديل
+                                                </button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Ashton Cox</td>
+                                            <td>كورس الكيمياء</td>
                                             <td>3</td>
                                             <td>400</td>
-                                            <td>66</td>
-                                            <td>2009/01/12<br></td>
+                                            <td>2024</td>
+                                            <td>2024/01/12</td>
                                             <td>$86,000</td>
-                                            <td><a href="#"><button type="button" class="btn btn-primary">تعديل</button></a></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit me-1"></i>تعديل
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
-                                    <tfoot>
-                                        <tr></tr>
-                                    </tfoot>
                                 </table>
                             </div>
-                            <div class="row">
+                            <div class="row mt-3">
                                 <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">
+                                        عرض 1 إلى 10 من 27 كورس
+                                    </p>
                                 </div>
                                 <div class="col-md-6">
                                     <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                         <ul class="pagination">
-                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" aria-label="Previous" href="#">
+                                                    <span aria-hidden="true">«</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" aria-label="Next" href="#">
+                                                    <span aria-hidden="true">»</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Enhanced Footer -->
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © E3lanoTopia 2024</span></div>
+                    <div class="text-center my-auto copyright">
+                        <span>© 2024 B-Study. جميع الحقوق محفوظة</span>
+                    </div>
                 </div>
             </footer>
         </div>
-        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark" style="background: var(--bs-primary);">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon"><img src="/asseds/images/logo.png" alt="" style="width: 40px; height: 40px"></div>
-                    <div class="sidebar-brand-text mx-3"><span>منصتي</span></div>
+        
+        <!-- Enhanced Sidebar -->
+        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon">
+                        <img src="/asseds/images/logo.png" alt="" style="width: 40px; height: 40px">
+                    </div>
+                    <div class="sidebar-brand-text mx-3">
+                        <span>B-Study</span>
+                    </div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="index.html"><span>الرئيسية</span><i class="fas fa-tachometer-alt"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="users.html" ><span>المستخدمين</span><i class="fas fa-user"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="dashboard-admin-courses.html" ><span >الكورسات</span><i class="far fa-user-circle"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="register.html" ><span>المعاملات</span><i class="fa-solid fa-coins"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="register.html" ><span >الاكواد</span><i class="fa-solid fa-barcode"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="register.html" ><span >الامتحانات</span><i class="fa-solid fa-clipboard-question"></i></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard-admin.html">
+                            <span>الرئيسية</span>
+                            <i class="fas fa-tachometer-alt"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin-users.html">
+                            <span>المستخدمين</span>
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin-courses.html">
+                            <span>الكورسات</span>
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exams.html">
+                            <span>الامتحانات</span>
+                            <i class="fa-solid fa-clipboard-question"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="users.html">
+                            <span>المعاملات</span>
+                            <i class="fa-solid fa-coins"></i>
+                        </a>
+                    </li>
+
                 </ul>
-                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+                <div class="text-center d-none d-md-inline">
+                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+                </div>
             </div>
-        </nav><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </nav>
+        
+        <a class="border rounded d-inline scroll-to-top" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
     </div>
+    
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/chart.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

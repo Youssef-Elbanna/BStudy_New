@@ -104,7 +104,7 @@
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
+                <a class="sidebar-item" href="index.html" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
@@ -117,6 +117,16 @@
             <div class="main-info">
                 <h1>{{courseName}}</h1>
                 <p>{{courseDescription}}</p>
+            </div>
+            
+            <!-- Promo Code Section -->
+            <div class="promo-section">
+                <h3>كود الخصم</h3>
+                <div class="promo-input-group">
+                    <input type="text" id="promoCode" class="promo-input" placeholder="أدخل كود الخصم">
+                    <button id="applyPromoBtn" class="apply-promo-btn">تطبيق الكود</button>
+                </div>
+                <div id="promoMessage" class="promo-message" style="display: none;"></div>
             </div>
             
             <div class="buy-course">

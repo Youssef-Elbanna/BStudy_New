@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchAllCodes() {
         try {
-            const response = await fetch('http://localhost:3000/api/admin/courses/promo', {
+            const response = await fetch(getApiUrl(API_CONFIG.ADMIN_PROMO_CODES_ENDPOINT), {
                 headers: token ? { 'Authorization': 'Bearer ' + token } : {}
             });
             if (!response.ok) throw new Error('فشل في جلب الأكواد');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const payload = { code, discount_type, discount_value, expires_at };
 
         try {
-            const response = await fetch('http://localhost:3000/admin/courses/promo', {
+            const response = await fetch(getApiUrl(API_CONFIG.ADMIN_PROMO_CODES_ENDPOINT), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

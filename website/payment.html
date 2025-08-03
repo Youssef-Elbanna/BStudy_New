@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الدفع - B-Study</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/dashboard-layout.css">
+    <link rel="stylesheet" href="./styles/dashboard-main.css">
+    <style>
+        /* Payment Page Specific Styles */
+        .payment-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .payment-header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .payment-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .payment-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .payment-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .payment-methods {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .payment-method {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #2E6FF4;
+            box-shadow: 0 2px 8px rgba(46, 111, 244, 0.2);
+        }
+
+        .payment-method.selected {
+            border-color: #2E6FF4;
+            background: #f8f9ff;
+        }
+
+        .payment-method-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .payment-method-icon {
+            width: 40px;
+            height: 40px;
+            background: #2E6FF4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .payment-method-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .payment-method-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .wallet-balance {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .wallet-balance h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .wallet-balance p {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .promo-code-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .promo-code-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .promo-code-icon {
+            width: 30px;
+            height: 30px;
+            background: #ffc107;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 16px;
+        }
+
+        .promo-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .promo-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .promo-input:focus {
+            outline: none;
+            border-color: #2E6FF4;
+        }
+
+        .apply-promo-btn {
+            padding: 12px 20px;
+            background: #2E6FF4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .apply-promo-btn:hover {
+            background: #1e5fd4;
+        }
+
+        .apply-promo-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .promo-message {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .promo-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .promo-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .payment-summary {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .summary-header h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .summary-items {
+            margin-bottom: 25px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item.course-item {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .summary-item.discount {
+            color: #28a745;
+        }
+
+        .summary-total {
+            border-top: 2px solid #e9ecef;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .summary-total .summary-item {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2E6FF4;
+        }
+
+        .payment-actions {
+            margin-top: 30px;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #2E6FF4 0%, #1e5fd4 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 111, 244, 0.3);
+        }
+
+        .pay-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .back-to-cart {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: #6c757d;
+            border: 2px solid #6c757d;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-cart:hover {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Toast Notification System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px 20px;
+            min-width: 300px;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-right: 4px solid;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: #28a745;
+        }
+
+        .toast.error {
+            border-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-color: #ffc107;
+        }
+
+        .toast.info {
+            border-color: #17a2b8;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        .toast.error .toast-icon {
+            background: #dc3545;
+            color: white;
+        }
+
+        .toast.warning .toast-icon {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .toast.info .toast-icon {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .toast-message {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-message {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.confirm {
+            background: #28a745;
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #218838;
+        }
+
+        .modal-btn.cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            .payment-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-header h1 {
+                font-size: 2rem;
+            }
+            
+            .toast-container {
+                right: 10px;
+                left: 10px;
+            }
+
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-content">
+                    <img style="width: 45px; height: 45px" src="../asseds/images/logo.png" alt="B-Study Logo" />
+                    <div class="logo-text">
+                        <h3>B-Study</h3>
+                        <span class="logo-subtitle">B-STUDY</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-info">
+                <div class="account">
+                    <div class="photo">
+                        <img src="../asseds/images/avatar.jpg" alt="User Avatar" />
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="username">
+                        <h5 class="welcome">مساء الخير</h5>
+                        <h5 class="name"></h5>
+                        <div class="info">
+                            <h3 id="dashboard-username">مرحباً بك في B-Study</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="sidebar">
+            <div class="top">
+                <a class="sidebar-item" href="dashboard.html">
+                    <img src="../asseds/icons/iconamoon_home.svg" alt="الرئيسية" />
+                    <h5>الرئيسية</h5>
+                </a>
+                <a class="sidebar-item" href="dashboard-mycourses.html">
+                    <img src="../asseds/icons/lets-icons_video.svg" alt="كورساتي" />
+                    <h5>كورساتي</h5>
+                </a>
+                <a class="sidebar-item" href="cart.html">
+                    <img src="../asseds/icons/solar_wallet-linear.svg" alt="سلة المشتريات" />
+                    <h5>سلة المشتريات</h5>
+                </a>
+                <a class="sidebar-item" href="help.html">
+                    <img src="../asseds/icons/bx_support.svg" alt="مساعدة" />
+                    <h5>مساعدة</h5>
+                </a>
+                <a class="sidebar-item" href="privacy-policy.html">
+                    <img src="../asseds/icons/iconoir_privacy-policy.svg" alt="سياسة الخصوصية" />
+                    <h5>سياسة الخصوصية</h5>
+                </a>
+                <a class="sidebar-item" href="settings.html">
+                    <img src="../asseds/icons/carbon_settings.svg" alt="الاعدادات" />
+                    <h5>الاعدادات</h5>
+                </a>
+                <a class="sidebar-item" href="index.html" id="logout-btn">
+                    <img src="../asseds/icons/ci_exit.svg" alt="خروج" />
+                    <h5>خروج</h5>
+                </a>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="payment-container">
+                <div class="payment-header">
+                    <h1>إتمام عملية الدفع</h1>
+                    <p>اختر طريقة الدفع المناسبة لك</p>
+                </div>
+                
+                <div class="payment-content">
+                    <div class="payment-methods">
+                        <h2>طرق الدفع المتاحة</h2>
+                        
+                        <!-- Wallet Payment Method -->
+                        <div class="payment-method" data-method="wallet">
+                            <div class="payment-method-header">
+                                <div class="payment-method-icon">💰</div>
+                                <div>
+                                    <div class="payment-method-title">الدفع من المحفظة</div>
+                                    <div class="payment-method-description">استخدم رصيدك المتاح في المحفظة</div>
+                                </div>
+                            </div>
+                            <div class="wallet-balance">
+                                <h4>الرصيد المتاح</h4>
+                                <p id="wallet-balance">0 جنيه</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Direct Payment Method -->
+                        <div class="payment-method" data-method="direct">
+                            <div class="payment-method-header">
+                                <div class="payment-method-icon">💳</div>
+                                <div>
+                                    <div class="payment-method-title">الدفع المباشر</div>
+                                    <div class="payment-method-description">ادفع مباشرة عبر البطاقة الائتمانية</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Code Section -->
+                        <div class="promo-code-section">
+                            <div class="promo-code-header">
+                                <div class="promo-code-icon">🎫</div>
+                                <h3>كود الخصم</h3>
+                            </div>
+                            <div class="promo-input-group">
+                                <input type="text" id="promoCode" class="promo-input" placeholder="أدخل كود الخصم">
+                                <button id="applyPromoBtn" class="apply-promo-btn">تطبيق الكود</button>
+                            </div>
+                            <div id="promoMessage" class="promo-message" style="display: none;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-summary">
+                        <div class="summary-header">
+                            <h2>ملخص الطلب</h2>
+                        </div>
+                        
+                        <div class="summary-items" id="summary-items">
+                            <!-- Items will be loaded dynamically -->
+                        </div>
+                        
+                        <div class="summary-total">
+                            <div class="summary-item">
+                                <span>المجموع الفرعي:</span>
+                                <span id="subtotal">0 جنيه</span>
+                            </div>
+                            <div class="summary-item discount" id="discount-row" style="display: none;">
+                                <span>الخصم:</span>
+                                <span id="discount-amount">0 جنيه</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>المجموع النهائي:</span>
+                                <span id="total">0 جنيه</span>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-actions">
+                            <button id="payButton" class="pay-button" disabled>
+                                إتمام الدفع
+                            </button>
+                            <button class="back-to-cart" onclick="window.location.href='cart.html'">
+                                العودة إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmation-modal">
+        <div class="modal">
+            <div class="modal-title" id="modal-title">تأكيد الدفع</div>
+            <div class="modal-message" id="modal-message">هل أنت متأكد من إتمام عملية الدفع؟</div>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="modal-confirm">تأكيد</button>
+                <button class="modal-btn cancel" id="modal-cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_CONFIG = {
+            development: {
+                API_BASE_URL: "http://localhost:3000/api",
+                STUDENT_CART_ENDPOINT: "/student/courses/cart",
+                STUDENT_PAYMENT_PROCESS_ENDPOINT: "/student/courses/payment/process",
+                STUDENT_VALIDATE_PROMO_ENDPOINT: "/student/validate-promo",
+                STUDENT_WALLET_BALANCE_ENDPOINT: "/student/wallet/balance"
+            }
+        };
+
+        const config = API_CONFIG.development;
+
+        function getApiUrl(endpoint) {
+            return config.API_BASE_URL + endpoint;
+        }
+
+        // Toast Notification System
+        function showToast(type, title, message, duration = 5000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Auto remove after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        // Modal functions
+        function showModal(title, message, onConfirm) {
+            const modal = document.getElementById('confirmation-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const confirmBtn = document.getElementById('modal-confirm');
+            const cancelBtn = document.getElementById('modal-cancel');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            // Show modal
+            modal.classList.add('show');
+
+            // Handle confirm
+            const handleConfirm = () => {
+                modal.classList.remove('show');
+                confirmBtn.removeEventListener('click', handleConfirm);
+                cancelBtn.removeEventListener('click', handleCancel);
+                if (onConfirm) onConfirm();
+            };
+
+            // Handle cancel
+            const handleCancel = () => {
+                modal.classList.remove('show');
+                confirmBtn.removeEventListener('click', handleConfirm);
+                cancelBtn.removeEventListener('click', handleCancel);
+            };
+
+            confirmBtn.addEventListener('click', handleConfirm);
+            cancelBtn.addEventListener('click', handleCancel);
+        }
+
+        // Global variables
+        let cartItems = [];
+        let selectedPaymentMethod = null;
+        let appliedPromo = null;
+        let walletBalance = 0;
+
+        // Load cart items and initialize page
+        async function loadPaymentData() {
+            try {
+                const token = localStorage.getItem('student_token');
+                if (!token) {
+                    showToast('error', 'خطأ', 'يجب تسجيل الدخول أولاً');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                    return;
+                }
+
+                // Load cart items
+                const cartResponse = await fetch(getApiUrl(config.STUDENT_CART_ENDPOINT), {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (cartResponse.ok) {
+                    const cartData = await cartResponse.json();
+                    cartItems = cartData.items || [];
+                    updatePaymentSummary();
+                } else {
+                    showToast('error', 'خطأ', 'فشل في تحميل بيانات السلة');
+                }
+
+                // Load wallet balance
+                await loadWalletBalance();
+
+            } catch (error) {
+                console.error('Error loading payment data:', error);
+                showToast('error', 'خطأ', 'حدث خطأ أثناء تحميل البيانات');
+            }
+        }
+
+        // Load wallet balance
+        async function loadWalletBalance() {
+            try {
+                const token = localStorage.getItem('student_token');
+                const response = await fetch(getApiUrl(config.STUDENT_WALLET_BALANCE_ENDPOINT), {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    walletBalance = data.balance || 0;
+                    document.getElementById('wallet-balance').textContent = `${walletBalance} جنيه`;
+                }
+            } catch (error) {
+                console.error('Error loading wallet balance:', error);
+            }
+        }
+
+        // Update payment summary
+        function updatePaymentSummary() {
+            const summaryContainer = document.getElementById('summary-items');
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total');
+            const discountRow = document.getElementById('discount-row');
+            const discountAmount = document.getElementById('discount-amount');
+
+            // Clear existing items
+            summaryContainer.innerHTML = '';
+
+            // Add cart items
+            cartItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'summary-item course-item';
+                itemElement.innerHTML = `
+                    <span>${item.course_name}</span>
+                    <span>${item.price} جنيه</span>
+                `;
+                summaryContainer.appendChild(itemElement);
+            });
+
+            // Calculate totals
+            const subtotal = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+            const discount = appliedPromo ? (appliedPromo.discount_amount || 0) : 0;
+            const total = Math.max(0, subtotal - discount);
+
+            // Update display
+            subtotalElement.textContent = `${subtotal.toFixed(2)} جنيه`;
+            totalElement.textContent = `${total.toFixed(2)} جنيه`;
+
+            // Show/hide discount
+            if (appliedPromo && discount > 0) {
+                discountRow.style.display = 'flex';
+                discountAmount.textContent = `-${discount.toFixed(2)} جنيه`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            // Enable/disable pay button based on payment method
+            updatePayButton();
+        }
+
+        // Update pay button state
+        function updatePayButton() {
+            const payButton = document.getElementById('payButton');
+            const total = parseFloat(document.getElementById('total').textContent);
+            
+            if (!selectedPaymentMethod) {
+                payButton.disabled = true;
+                payButton.textContent = 'اختر طريقة الدفع';
+                return;
+            }
+
+            if (selectedPaymentMethod === 'wallet' && walletBalance < total) {
+                payButton.disabled = true;
+                payButton.textContent = 'رصيد المحفظة غير كافي';
+                return;
+            }
+
+            payButton.disabled = false;
+            payButton.textContent = 'إتمام الدفع';
+        }
+
+        // Handle payment method selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Remove selected class from all methods
+                    paymentMethods.forEach(m => m.classList.remove('selected'));
+                    
+                    // Add selected class to clicked method
+                    this.classList.add('selected');
+                    
+                    // Set selected payment method
+                    selectedPaymentMethod = this.dataset.method;
+                    
+                    // Update pay button
+                    updatePayButton();
+                });
+            });
+
+            // Handle promo code application
+            const applyPromoBtn = document.getElementById('applyPromoBtn');
+            const promoInput = document.getElementById('promoCode');
+            const promoMessage = document.getElementById('promoMessage');
+
+            applyPromoBtn.addEventListener('click', async function() {
+                const promoCode = promoInput.value.trim();
+                
+                if (!promoCode) {
+                    showToast('warning', 'تنبيه', 'يرجى إدخال كود الخصم');
+                    return;
+                }
+
+                try {
+                    const token = localStorage.getItem('student_token');
+                    const subtotal = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+
+                    const response = await fetch(getApiUrl(config.STUDENT_VALIDATE_PROMO_ENDPOINT), {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            promo_code: promoCode,
+                            course_price: subtotal
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        appliedPromo = data.promo;
+                        
+                        promoMessage.className = 'promo-message success';
+                        promoMessage.textContent = `تم تطبيق الخصم: ${appliedPromo.discount_amount} جنيه`;
+                        promoMessage.style.display = 'block';
+                        
+                        updatePaymentSummary();
+                        showToast('success', 'تم التطبيق', 'تم تطبيق كود الخصم بنجاح');
+                    } else {
+                        const errorData = await response.json();
+                        promoMessage.className = 'promo-message error';
+                        promoMessage.textContent = errorData.message || 'كود الخصم غير صحيح';
+                        promoMessage.style.display = 'block';
+                        
+                        showToast('error', 'خطأ في الكود', errorData.message || 'كود الخصم غير صحيح');
+                    }
+                } catch (error) {
+                    console.error('Error applying promo:', error);
+                    showToast('error', 'خطأ', 'حدث خطأ أثناء تطبيق كود الخصم');
+                }
+            });
+
+            // Handle payment
+            const payButton = document.getElementById('payButton');
+            
+            payButton.addEventListener('click', function() {
+                if (!selectedPaymentMethod) {
+                    showToast('warning', 'تنبيه', 'يرجى اختيار طريقة الدفع');
+                    return;
+                }
+
+                const total = parseFloat(document.getElementById('total').textContent);
+                
+                if (selectedPaymentMethod === 'wallet' && walletBalance < total) {
+                    showToast('error', 'خطأ', 'رصيد المحفظة غير كافي');
+                    return;
+                }
+
+                // Show confirmation modal
+                showModal(
+                    'تأكيد الدفع',
+                    `هل أنت متأكد من إتمام عملية الدفع بمبلغ ${total.toFixed(2)} جنيه؟`,
+                    async () => {
+                        await processPayment();
+                    }
+                );
+            });
+
+            // Initialize page
+            loadPaymentData();
+        });
+
+        // Process payment
+        async function processPayment() {
+            try {
+                const token = localStorage.getItem('student_token');
+                const total = parseFloat(document.getElementById('total').textContent);
+
+                const response = await fetch(getApiUrl(config.STUDENT_PAYMENT_PROCESS_ENDPOINT), {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        payment_method: selectedPaymentMethod,
+                        promo_code: appliedPromo ? appliedPromo.code : null,
+                        amount: total
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showToast('success', 'تم الدفع', `تم إتمام عملية الدفع بنجاح! تم تسجيلك في ${data.courses_enrolled} كورس`);
+                    
+                    // Redirect to my courses after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard-mycourses.html';
+                    }, 2000);
+                } else {
+                    const errorData = await response.json();
+                    showToast('error', 'خطأ في الدفع', errorData.message || 'فشل في إتمام عملية الدفع');
+                }
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                showToast('error', 'خطأ', 'حدث خطأ أثناء إتمام عملية الدفع');
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشاهدة الفيديو - B-Study</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/dashboard-layout.css">
+    <link rel="stylesheet" href="./styles/video-player.css">
+</head>
+<body dir="rtl">
+    <header>
+        <nav>
+            <div class="back-button">
+                <a href="./course-enrolling.html" id="backToCourse">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M5.29295 1.63605C5.10548 1.82358 5.00017 2.07788 5.00017 2.34305C5.00017 2.60821 5.10548 2.86252 5.29295 3.05005L10.243 8.00005L5.29295 12.95C5.1108 13.1387 5.01 13.3913 5.01228 13.6534C5.01456 13.9156 5.11973 14.1665 5.30514 14.3519C5.49054 14.5373 5.74136 14.6424 6.00355 14.6447C6.26575 14.647 6.51835 14.5462 6.70695 14.364L12.364 8.70705C12.5514 8.51952 12.6567 8.26521 12.6567 8.00005C12.6567 7.73488 12.5514 7.48058 12.364 7.29305L6.70695 1.63605C6.51943 1.44858 6.26512 1.34326 5.99995 1.34326C5.73479 1.34326 5.48048 1.44858 5.29295 1.63605Z" fill="#2E6FF4"/>
+                    </svg>
+                    <h5>العودة للكورس</h5>
+                </a>
+            </div>
+            <div class="logo">
+                <h3>B-Study</h3>
+                <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="content">
+            <div class="video-container">
+                <!-- Video Player Container -->
+                <div id="video-player" class="video-player">
+                    <div id="video-loading" class="video-loading">
+                        <div class="loading-spinner"></div>
+                        <p>جاري تحميل الفيديو...</p>
+                    </div>
+                </div>
+                
+                <!-- Video Info -->
+                <div class="video-info">
+                    <h1 id="video-title">عنوان الفيديو</h1>
+                    <div class="video-meta">
+                        <span class="views-left" id="views-left">المشاهدات المتبقية: <span id="views-count">0</span></span>
+                        <span class="video-duration" id="video-duration">المدة: <span id="duration-text">00:00</span></span>
+                    </div>
+                    <p id="video-description">وصف الفيديو</p>
+                </div>
+                
+                <!-- Video Controls -->
+                <div class="video-controls">
+                    <button id="prev-video" class="control-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
+                            <path d="M5.29295 1.63605C5.10548 1.82358 5.00017 2.07788 5.00017 2.34305C5.00017 2.60821 5.10548 2.86252 5.29295 3.05005L10.243 8.00005L5.29295 12.95C5.1108 13.1387 5.01 13.3913 5.01228 13.6534C5.01456 13.9156 5.11973 14.1665 5.30514 14.3519C5.49054 14.5373 5.74136 14.6424 6.00355 14.6447C6.26575 14.647 6.51835 14.5462 6.70695 14.364L12.364 8.70705C12.5514 8.51952 12.6567 8.26521 12.6567 8.00005C12.6567 7.73488 12.5514 7.48058 12.364 7.29305L6.70695 1.63605C6.51943 1.44858 6.26512 1.34326 5.99995 1.34326C5.73479 1.34326 5.48048 1.44858 5.29295 1.63605Z" fill="#F6F8FC"/>
+                        </svg>
+                        <span>الفيديو السابق</span>
+                    </button>
+                    
+                    <button id="next-video" class="control-btn">
+                        <span>الفيديو التالي</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="none">
+                            <path d="M5.29295 1.63605C5.10548 1.82358 5.00017 2.07788 5.00017 2.34305C5.00017 2.60821 5.10548 2.86252 5.29295 3.05005L10.243 8.00005L5.29295 12.95C5.1108 13.1387 5.01 13.3913 5.01228 13.6534C5.01456 13.9156 5.11973 14.1665 5.30514 14.3519C5.49054 14.5373 5.74136 14.6424 6.00355 14.6447C6.26575 14.647 6.51835 14.5462 6.70695 14.364L12.364 8.70705C12.5514 8.51952 12.6567 8.26521 12.6567 8.00005C12.6567 7.73488 12.5514 7.48058 12.364 7.29305L6.70695 1.63605C6.51943 1.44858 6.26512 1.34326 5.99995 1.34326C5.73479 1.34326 5.48048 1.44858 5.29295 1.63605Z" fill="#F6F8FC"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Views Limit Warning -->
+                <div id="views-warning" class="views-warning" style="display: none;">
+                    <div class="warning-content">
+                        <h3>⚠️ انتبه!</h3>
+                        <p>لقد استنفذت جميع المشاهدات المتاحة لهذا الفيديو.</p>
+                        <p>للمشاهدة مرة أخرى، يرجى شراء الكورس أو التواصل مع الدعم.</p>
+                        <button id="upgrade-btn" class="upgrade-btn">ترقية الحساب</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./javascript/dashboard.js"></script>
+    <script src="./javascript/video-player.js"></script>
+</body>
+</html> 

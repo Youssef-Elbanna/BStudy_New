@@ -1,164 +1,214 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المساعدة</title>
+    <title>المساعدة - B-Study</title>
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/dashboard-layout.css">
+    <link rel="stylesheet" href="./styles/dashboard-main.css">
     <link rel="stylesheet" href="./styles/help.css">
 </head>
 <body dir="rtl">
     <header>
         <nav>
             <div class="logo">
-                <h3>B-Study</h3>
-                <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
+                <div class="logo-content">
+                    <img style="width: 45px; height: 45px" src="../asseds/images/logo.png" alt="B-Study Logo" />
+                    <div class="logo-text">
+                        <h3>B-Study</h3>
+                        <span class="logo-subtitle">B-STUDY</span>
+                    </div>
+                </div>
             </div>
             <div class="header-info">
                 <div class="account">
                     <div class="photo">
-                        <img src="../asseds/images/avatar.jpg" />
+                        <img src="../asseds/images/avatar.jpg" alt="User Avatar" />
+                        <div class="status-indicator"></div>
                     </div>
                     <div class="username">
                         <h5 class="welcome">مساء الخير</h5>
                         <h5 class="name"></h5>
+                        <div class="info">
+                            <h3 id="dashboard-username">مرحباً بك في B-Study</h3>
+                        </div>
                     </div>
                 </div>
-                <!-- <div class="user-info">
-                    <button class="wallet" onclick="showWallet()">
-                        <img src="../asseds/icons/solar_wallet-linear.svg" />
-                        <h5>120 جنيه</h5>
-                    </button>
-                    <div class="wallet-info" id="wallet-info-id">
-                        <h3>إضافة كود جديد</h3>
-                        <div class="add-code">
-                            <input type="text" name="add-code" placeholder="أكتب كود الشراء هنا" />
-                            <button class="icon">
-                                <img src="/asseds/icons/gala_add.svg" alt="">
-                            </button>
-                        </div>
-                        <button class="check">تحقق من الكود</button>
-                    </div>
-                </div> -->
             </div>
         </nav>
-        
     </header>
+    
     <main>
         <div class="sidebar">
             <div class="top">
-                <a class="sidebar-item selected" href="./dashboard.html">
-                    <img src="../asseds/icons/iconamoon_home.svg" />
+                <a class="sidebar-item" href="./dashboard.html">
+                    <img src="../asseds/icons/iconamoon_home.svg" alt="الرئيسية" />
                     <h5>الرئيسية</h5>
                 </a>
                 <a class="sidebar-item" href="./dashboard-mycourses.html">
-                    <img src="../asseds/icons/lets-icons_video.svg" />
+                    <img src="../asseds/icons/lets-icons_video.svg" alt="كورساتي" />
                     <h5>كورساتي</h5>
                 </a>
-                <a class="sidebar-item" href="./dashboard-allcourses.html">
-                    <img src="../asseds/icons/carbon_course.svg" />
-                    <h5>كل الكورسات</h5>
-                </a>
-                <a class="sidebar-item" href="help.html">
-                    <img src="../asseds/icons/bx_support.svg" />
+                <a class="sidebar-item selected" href="help.html">
+                    <img src="../asseds/icons/bx_support.svg" alt="مساعدة" />
                     <h5>مساعدة</h5>
                 </a>
                 <a class="sidebar-item" href="privacy-policy.html">
-                    <img src="../asseds/icons/iconoir_privacy-policy.svg" />
+                    <img src="../asseds/icons/iconoir_privacy-policy.svg" alt="سياسة الخصوصية" />
                     <h5>سياسة الخصوصية</h5>
                 </a>
-                <a class="sidebar-item" href="#">
-                    <img src="../asseds/icons/carbon_settings.svg" />
+                <a class="sidebar-item" href="settings.html">
+                    <img src="../asseds/icons/carbon_settings.svg" alt="الاعدادات" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
-                    <img src="../asseds/icons/ci_exit.svg" />
+                <a class="sidebar-item" href="index.html" id="logout-btn">
+                    <img src="../asseds/icons/ci_exit.svg" alt="خروج" />
                     <h5>خروج</h5>
                 </a>
             </div>
-            <!-- Removed the bottom div -->
         </div>
+        
         <div class="content">
-            <div class="header-dashboard">
-                <h1>المساعدة</h1>
-            </div>
-            <section class="help">
-                
-                <h1>ممكن تتواصل معانا من خلال</h1>
-                <div class="help-items">
-
-                    <a href="https://wa.me/201055926965" aria-label="Contact us on WhatsApp" target="_blank" rel="noopener">
-						<img src="../asseds/icons/WhatsappWNumber.png" alt="WhatsApp" />
-					</a>
-
-                    <a href="https://wa.me/201280666046" aria-label="Contact us on WhatsApp" target="_blank" rel="noopener">
-						<img src="../asseds/icons/WhatsappWNumber2.png" alt="WhatsApp" />
-					</a>
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <div class="welcome-header">
+                    <div class="welcome-info">
+                        <h1>مركز المساعدة</h1>
+                        <p>نحن هنا لمساعدتك في رحلتك التعليمية</p>
+                    </div>
+                    <div class="welcome-avatar">
+                        <img src="../asseds/images/avatar2.png" alt="User Avatar" />
+                    </div>
                 </div>
-            </section>
-            <section class="q-a">
-                <div class="main-lable">
-                    <div class="circle"></div>
-                    <h3>الاسئلة الشائعة</h3>
-               </div>
-                <div class="q-a-items">
-                    <button class="q-a-item" onclick="toggleAnswer(this)">
-                        <div class="q">
-                            <h4>ما هي منصة بي ستودي؟</h4>
-                            <img class="arrow" src="/asseds/icons/ep_arrow.svg" alt="">
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <div class="section-header">
+                    <h2>تواصل معنا</h2>
+                    <p>نحن متاحون لمساعدتك على مدار الساعة</p>
+                </div>
+                
+                <div class="contact-cards">
+                    <a href="https://wa.me/201055926965" class="contact-card whatsapp" target="_blank" rel="noopener">
+                        <div class="contact-info">
+                            <h3>واتساب الدعم الفني</h3>
+                            <p>تواصل معنا مباشرة</p>
+                            <span class="contact-number">+20 105 592 6965</span>
                         </div>
-                        <div class="a">
+                        <div class="contact-arrow">
+                            <img src="../asseds/icons/ep_arrow.svg" alt="اتصل الآن" />
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/201280666046" class="contact-card whatsapp-secondary" target="_blank" rel="noopener">
+                        <div class="contact-info">
+                            <h3>واتساب المبيعات</h3>
+                            <p>للاستفسار عن الكورسات</p>
+                            <span class="contact-number">+20 128 066 6046</span>
+                        </div>
+                        <div class="contact-arrow">
+                            <img src="../asseds/icons/ep_arrow.svg" alt="اتصل الآن" />
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <div class="section-header">
+                    <div class="header-icon">
+                        <img src="../asseds/icons/mingcute_question-line.svg" alt="الأسئلة الشائعة" />
+                    </div>
+                    <div class="header-content">
+                        <h2>الأسئلة الشائعة</h2>
+                        <p>إجابات على أكثر الأسئلة شيوعاً</p>
+                    </div>
+                </div>
+                
+                <div class="faq-container">
+                    <div class="faq-item" onclick="toggleAnswer(this)">
+                        <div class="faq-question">
+                            <div class="question-content">
+                                <h3>ما هي منصة بي ستودي؟</h3>
+                                <p>تعرف على منصتنا التعليمية</p>
+                            </div>
+                            <div class="question-arrow">
+                                <img src="../asseds/icons/ep_arrow.svg" alt="عرض الإجابة" />
+                            </div>
+                        </div>
+                        <div class="faq-answer">
                             <p>هي منصة تعليمية تهدف إلى تسهيل عملية التعليم عن بعد وتوفير الوقت والجهد للطلاب والمعلمين في مختلف المراحل التعليمية والجامعات.</p>
                         </div>
-                    </button>
-                    <button class="q-a-item" onclick="toggleAnswer(this)">
-                        <div class="q">
-                            <h4>كيف يمكنني التسجيل في المنصة؟</h4>
-                            <img class="arrow" src="/asseds/icons/ep_arrow.svg" alt="">
+                    </div>
+
+                    <div class="faq-item" onclick="toggleAnswer(this)">
+                        <div class="faq-question">
+                            <div class="question-content">
+                                <h3>كيف يمكنني التسجيل في المنصة؟</h3>
+                                <p>خطوات التسجيل البسيطة</p>
+                            </div>
+                            <div class="question-arrow">
+                                <img src="../asseds/icons/ep_arrow.svg" alt="عرض الإجابة" />
+                            </div>
                         </div>
-                        <div class="a">
-                            <p>يمكنك الذهاب الى مساعدة والتواصل معنا على الواتس اب</p>
+                        <div class="faq-answer">
+                            <p>يمكنك الذهاب الى مساعدة والتواصل معنا على الواتس اب للحصول على مساعدة في التسجيل.</p>
                         </div>
-                    </button>
-                    <button class="q-a-item" onclick="toggleAnswer(this)">
-                        <div class="q">
-                           
-                            <h4> كيف يمكنني شراء الكورس</h4>
-                            <img src="/asseds/icons/ep_arrow.svg" alt="">
+                    </div>
+
+                    <div class="faq-item" onclick="toggleAnswer(this)">
+                        <div class="faq-question">
+                            <div class="question-content">
+                                <h3>كيف يمكنني شراء الكورس؟</h3>
+                                <p>طرق الدفع المتاحة</p>
+                            </div>
+                            <div class="question-arrow">
+                                <img src="../asseds/icons/ep_arrow.svg" alt="عرض الإجابة" />
+                            </div>
                         </div>
-                        <div class="a">
-                            <p>من خلالنا على الواتس اب حاليا</p>
+                        <div class="faq-answer">
+                            <p>يمكنك التواصل معنا على الواتس اب لشراء الكورسات والدفع بطرق متعددة.</p>
                         </div>
-                    </button>
+                    </div>
                 </div>
-            </section>
+            </div>
         </div>
     </main>
+    
     <script src="./javascript/dashboard.js"></script>
     <script src="./javascript/settings.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
+        document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
 
-function handleLogoutClick(e) {
-    e.preventDefault();
-    fetch('http://localhost:3000/api/student/logout', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }).finally(() => {
-        localStorage.removeItem('student_token');
-        window.location.href = 'login.html';
-    });
-}
-document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
-    const text = item.textContent.replace(/\s+/g, '').toLowerCase();
-    if (text.includes('خروج') || text.includes('logout')) {
-        item.addEventListener('click', handleLogoutClick);
-    }
-});
-</script>
+        function handleLogoutClick(e) {
+            e.preventDefault();
+            localStorage.removeItem('student_token');
+            window.location.href = 'index.html';
+        }
+        
+        document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
+            const text = item.textContent.replace(/\s+/g, '').toLowerCase();
+            if (text.includes('خروج') || text.includes('logout')) {
+                item.addEventListener('click', handleLogoutClick);
+            }
+        });
+
+        function toggleAnswer(element) {
+            const answer = element.querySelector('.faq-answer');
+            const arrow = element.querySelector('.question-arrow img');
+            
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+                arrow.style.transform = 'rotate(0deg)';
+                element.classList.remove('active');
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                arrow.style.transform = 'rotate(180deg)';
+                element.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>

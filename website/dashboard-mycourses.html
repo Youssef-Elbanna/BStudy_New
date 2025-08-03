@@ -1,230 +1,298 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الرئيسية</title>
+    <title>كورساتي - B-Study</title>
     <link rel="shortcut icon" href="/asseds/icons/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/dashboard-layout.css">
     <link rel="stylesheet" href="./styles/dashboard-allcourses.css">
+    <link rel="stylesheet" href="./styles/dashboard-main.css">
+
 </head>
 <body dir="rtl">
     <header>
         <nav>
             <div class="logo">
-                <h3>B-Study</h3>
-                <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
+                <div class="logo-content">
+                    <img style="width: 45px; height: 45px" src="../asseds/images/logo.png" alt="B-Study Logo" />
+                    <div class="logo-text">
+                        <h3>B-Study</h3>
+                        <span class="logo-subtitle">B-STUDY</span>
+                    </div>
+                </div>
             </div>
             <div class="header-info">
                 <div class="account">
                     <div class="photo">
-                        <img src="../asseds/images/avatar.jpg" />
+                        <img src="../asseds/images/avatar.jpg" alt="User Avatar" />
+                        <div class="status-indicator"></div>
                     </div>
                     <div class="username">
                         <h5 class="welcome">مساء الخير</h5>
                         <h5 class="name"></h5>
                         <div class="info">
-                            <h3 id="dashboard-username"></h3>
-                            <p id="dashboard-email"></p>
+                            <h3 id="dashboard-username">مرحباً بك في B-Study</h3>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="user-info">
-                    <button class="wallet" onclick="showWallet()">
-                        <img src="../asseds/icons/solar_wallet-linear.svg" />
-                        <h5>120 جنيه</h5>
-                    </button>
-                    <div class="wallet-info" id="wallet-info-id">
-                        <h3>إضافة كود جديد</h3>
-                        <div class="add-code">
-                            <input type="text" name="add-code" placeholder="أكتب كود الشراء هنا" />
-                            <button class="icon">
-                                <img src="/asseds/icons/gala_add.svg" alt="">
-                            </button>
-                        </div>
-                        <button class="check">تحقق من الكود</button>
-                    </div>
-                    <a class="notification" href="notification.html">
-                        <img src="../asseds/icons/ph_bell-bold.svg" />
-                        <h5>5</h5>
-                    </a>
-                </div> -->
-                <!-- Removed notification.html integration -->
+
             </div>
         </nav>
-        
     </header>
+    
     <main>
         <div class="sidebar">
             <div class="top">
                 <a class="sidebar-item" href="./dashboard.html">
-                    <img src="../asseds/icons/iconamoon_home.svg" />
+                    <img src="../asseds/icons/iconamoon_home.svg" alt="الرئيسية" />
                     <h5>الرئيسية</h5>
                 </a>
                 <a class="sidebar-item selected" href="./dashboard-mycourses.html">
-                    <img src="../asseds/icons/lets-icons_video.svg" />
+                    <img src="../asseds/icons/lets-icons_video.svg" alt="كورساتي" />
                     <h5>كورساتي</h5>
                 </a>
-                <a class="sidebar-item" href="./dashboard-allcourses.html">
-                    <img src="../asseds/icons/carbon_course.svg" />
-                    <h5>كل الكورسات</h5>
-                </a>
                 <a class="sidebar-item" href="help.html">
-                    <img src="../asseds/icons/bx_support.svg" />
+                    <img src="../asseds/icons/bx_support.svg" alt="مساعدة" />
                     <h5>مساعدة</h5>
                 </a>
                 <a class="sidebar-item" href="privacy-policy.html">
-                    <img src="../asseds/icons/iconoir_privacy-policy.svg" />
+                    <img src="../asseds/icons/iconoir_privacy-policy.svg" alt="سياسة الخصوصية" />
                     <h5>سياسة الخصوصية</h5>
                 </a>
                 <a class="sidebar-item" href="settings.html">
-                    <img src="../asseds/icons/carbon_settings.svg" />
+                    <img src="../asseds/icons/carbon_settings.svg" alt="الاعدادات" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
-                    <img src="../asseds/icons/ci_exit.svg" />
+                <a class="sidebar-item" href="index.html" id="logout-btn">
+                    <img src="../asseds/icons/ci_exit.svg" alt="خروج" />
                     <h5>خروج</h5>
                 </a>
             </div>
-            <!-- Removed the bottom div -->
         </div>
+        
         <div class="content">
-            <div class="header-dashboard">
-                <h1>كورساتي</h1>
-           </div>
-           <div class="month-courses">
-                <div class="courses" id="my-courses-container">
-                    <!-- My course cards will be loaded dynamically via JavaScript -->
+            <!-- Welcome Section with Course Stats -->
+            <div class="welcome-section">
+                <div class="welcome-header">
+                    <div class="welcome-info">
+                        <h1>كورساتي</h1>
+                        <p>استكشف الكورسات المسجلة</p>
+                    </div>
+                    <div class="welcome-avatar">
+                        <img src="../asseds/images/avatar2.png" alt="User Avatar" />
+                    </div>
                 </div>
-           </div>
-           <!-- Removed: <div class="month-courses">
-            <div class="header-courses">
-                <div class="main-lable">
-                     <div class="circle"></div>
-                     <h3>الشهر الثاني</h3>
+                
+                <!-- Course Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <img src="../asseds/icons/carbon_course.svg" alt="Courses" />
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="enrolled-courses-count">0</h3>
+                            <p>كورس مسجل</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Commented out other stats
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <img src="../asseds/icons/lets-icons_video.svg" alt="Videos" />
+                        </div>
+                        <div class="stat-content">
+                            <h3>24</h3>
+                            <p>درس مكتمل</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <img src="../asseds/icons/quill_paper.svg" alt="Exams" />
+                        </div>
+                        <div class="stat-content">
+                            <h3>6</h3>
+                            <p>امتحان مكتمل</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <img src="../asseds/icons/tabler_video.svg" alt="Watch Time" />
+                        </div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>ساعة مشاهدة</p>
+                        </div>
+                    </div>
+                    -->
                 </div>
             </div>
-            <div class="courses">
-                <!-- Course cards will be dynamically added here -->
-            </div>
-        </div> -->
-       </div>
 
+            <!-- Course Progress Overview - Commented out
+            <div class="progress-overview">
+                <h2>نظرة عامة على التقدم</h2>
+                <div class="progress-grid">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <h4>معدل الإكمال</h4>
+                            <span class="progress-percentage">75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <h4>الوقت المستغرق</h4>
+                            <span class="progress-percentage">12 ساعة</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <h4>متوسط الدرجات</h4>
+                            <span class="progress-percentage">85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <!-- My Courses Section -->
+            <div class="my-courses-section">
+                <div class="section-header">
+                    <h2>كورساتي</h2>
+                    <div class="course-filters">
+                        <select id="courseFilter" class="filter-select">
+                            <option value="all">جميع الكورسات</option>
+                            <option value="in-progress">قيد التقدم</option>
+                            <option value="completed">مكتمل</option>
+                            <option value="not-started">لم يبدأ</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="courses-container">
+                    <div class="courses" id="my-courses-container">
+                        <!-- My course cards will be loaded dynamically via JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video View History Section - Commented out
+            <div class="view-history-section">
+                <div class="section-header">
+                    <h2>سجل مشاهدات الفيديو</h2>
+                    <div class="view-history-filters">
+                        <select id="viewHistoryFilter" class="filter-select">
+                            <option value="all">جميع الفيديوهات</option>
+                            <option value="recent">الأحدث</option>
+                            <option value="limit-reached">وصل للحد الأقصى</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="view-history-container">
+                    <div class="view-history-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>اسم الفيديو</th>
+                                    <th>الكورس</th>
+                                    <th>عدد المشاهدات</th>
+                                    <th>آخر مشاهدة</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="viewHistoryTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <!-- Recent Activity - Commented out
+            <div class="recent-activity">
+                <h2>النشاط الأخير</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <img src="../asseds/icons/lets-icons_video.svg" alt="درس" />
+                        </div>
+                        <div class="activity-content">
+                            <h4>أكملت درس "الرياضيات الأساسية"</h4>
+                            <p>منذ ساعتين</p>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <img src="../asseds/icons/quill_paper.svg" alt="امتحان" />
+                        </div>
+                        <div class="activity-content">
+                            <h4>حصلت على 85% في امتحان الفيزياء</h4>
+                            <p>منذ يوم واحد</p>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <img src="../asseds/icons/carbon_course.svg" alt="كورس" />
+                        </div>
+                        <div class="activity-content">
+                            <h4>انضممت لكورس "الكيمياء العضوية"</h4>
+                            <p>منذ 3 أيام</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
         </div>
     </main>
-    <script src="./javascript/dashboard.js"></script>         
+    
+    <script src="./javascript/dashboard.js"></script>
+    <script src="./javascript/dashboard-mycourses.js"></script>
+    <script src="config.js"></script>
+
     <script>
-// Dynamic greeting and username based on token
-function updateHeaderUserInfo() {
-    const token = localStorage.getItem('student_token');
-    const welcomeElem = document.querySelector('.username .welcome');
-    const nameElem = document.querySelector('.username .name');
-    // Set greeting based on time
-    const hour = new Date().getHours();
-    let greeting = 'صباح الخير';
-    if (hour >= 12 && hour < 17) greeting = 'مساء الخير';
-    else if (hour >= 17) greeting = 'مساء الخير';
-    if (welcomeElem) welcomeElem.textContent = greeting;
-    if (!token) {
-        if (nameElem) nameElem.textContent = 'زائر';
-        return;
-    }
-    fetch('http://localhost:3000/api/student/profile/me', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data && data.username) {
-            if (nameElem) nameElem.textContent = data.username;
+        // Dynamic greeting and username for public access
+        function updateHeaderUserInfo() {
+            const welcomeElem = document.querySelector('.username .welcome');
+            const nameElem = document.querySelector('.username .name');
+            // Set greeting based on time
+            const hour = new Date().getHours();
+            let greeting = 'صباح الخير';
+            if (hour >= 12 && hour < 17) greeting = 'مساء الخير';
+            else if (hour >= 17) greeting = 'مساء الخير';
+            if (welcomeElem) welcomeElem.textContent = greeting;
+            if (nameElem) nameElem.textContent = 'مرحباً بك في B-Study';
         }
-    })
-    .catch(() => {
-        if (nameElem) nameElem.textContent = 'زائر';
-    });
-}
-document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
+        document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
 
-function handleLogoutClick(e) {
-    e.preventDefault();
-    fetch('http://localhost:3000/api/student/logout', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }).finally(() => {
-        localStorage.removeItem('student_token');
-        window.location.href = 'login.html';
-    });
-}
-document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
-    const text = item.textContent.replace(/\s+/g, '').toLowerCase();
-    if (text.includes('خروج') || text.includes('logout')) {
-        item.addEventListener('click', handleLogoutClick);
-    }
-});
-</script>
-<script src="./javascript/dashboard-allcourses.js"></script>         
-<script>
-// Fetch and render only the student's courses
-async function fetchAndRenderMyCourses() {
-    const container = document.getElementById('my-courses-container');
-    if (!container) return;
-    const token = localStorage.getItem('student_token');
-    if (!token) {
-        container.innerHTML = '<p>يجب تسجيل الدخول لعرض كورساتك.</p>';
-        return;
-    }
-    container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>جاري تحميل كورساتي...</p></div>';
-    try {
-        const response = await fetch('http://localhost:3000/api/student/courses/mycourses', {
-            headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+        function handleLogoutClick(e) {
+            e.preventDefault();
+            localStorage.removeItem('student_token');
+            window.location.href = 'index.html';
+        }
+        document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
+            const text = item.textContent.replace(/\s+/g, '').toLowerCase();
+            if (text.includes('خروج') || text.includes('logout')) {
+                item.addEventListener('click', handleLogoutClick);
+            }
         });
-        if (!response.ok) throw new Error('Network response was not ok');
-        let data = await response.json();
-        let courses = Array.isArray(data) ? data : data.courses;
-        if (!Array.isArray(courses)) {
-            courses = [];
-        }
-        if (courses.length === 0) {
-            container.innerHTML = `<p>${data.message || 'لا توجد كورسات لديك حاليا.'}</p>`;
-            return;
-        }
-        container.innerHTML = courses.map(course => `
-            <div class="course" onclick="window.location.href='course-enrolling.html?courseId=${course.course_id}'" style="cursor: pointer;">
-                <div class="course-info">
-                    <h3>${course.course_name}</h3>
-                    <p>${course.description}</p>
-                </div>
-                <div class="course-meta" style="display: flex; gap: 12px; margin-top: 10px;">
-                    <span style="background: #EEF4FA; border-radius: 8px; padding: 4px 12px; color: #2E6FF4; font-weight: 600;">عدد الساعات: ${course.credits}</span>
-                    <span style="background: #F4CB3C; border-radius: 8px; padding: 4px 12px; color: #fff; font-weight: 600;">السعر: ${course.price} جنيه</span>
-                </div>
-                <div style="margin-top: 8px;">
-                    <a href="course-enrolling.html?courseId=${course.course_id}" onclick="console.log('Buy button clicked for course:', '${course.course_id}'); event.stopPropagation();" style="background: linear-gradient(282deg, #1031D0 0%, #2E6FF4 50%, #89BAF8 100%); color: #fff; padding: 8px 24px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 1rem;">اشتري الآن</a>
-                </div>
-            </div>
-        `).join('');
-    } catch (error) {
-        container.innerHTML = '<p>حدث خطأ أثناء تحميل كورساتك.</p>';
-    }
-}
-
-// Function to redirect to course enrolling page with course ID
-function redirectToCourse(courseId) {
-    console.log('redirectToCourse called with ID:', courseId);
-    if (courseId) {
-        const url = `course-enrolling.html?courseId=${courseId}`;
-        console.log('Redirecting to:', url);
-        window.location.href = url;
-    } else {
-        console.log('No course ID, redirecting to course-enrolling.html');
-        window.location.href = 'course-enrolling.html';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', fetchAndRenderMyCourses);
-</script>
+    </script>
+    <!-- Removed conflicting script that was overriding the dashboard-mycourses.js functionality -->
 </body>
 </html>

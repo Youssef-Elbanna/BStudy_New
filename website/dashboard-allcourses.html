@@ -82,7 +82,7 @@
                     <img src="../asseds/icons/carbon_settings.svg" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
+                <a class="sidebar-item" href="index.html" id="logout-btn">
                     <img src="../asseds/icons/ci_exit.svg" />
                     <h5>خروج</h5>
                 </a>
@@ -98,20 +98,13 @@
             </div>
         </div>
     </main>
-    <script src="./javascript/dashboard.js"></script>         
+    <script src="./javascript/dashboard.js"></script>
+    <script src="config.js"></script>         
     <script>
     function handleLogoutClick(e) {
         e.preventDefault();
-        fetch('http://localhost:3000/api/student/logout', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).finally(() => {
-            localStorage.removeItem('student_token');
-            window.location.href = 'login.html';
-        });
+        localStorage.removeItem('student_token');
+        window.location.href = 'index.html';
     }
     document.querySelectorAll('.sidebar-item, #logout-btn').forEach(function(item) {
         const text = item.textContent.replace(/\s+/g, '').toLowerCase();
@@ -125,7 +118,7 @@
         if (!container) return;
         container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>جاري تحميل الكورسات...</p></div>';
         try {
-            const response = await fetch('http://localhost:3000/api/public/courses');
+            const response = await fetch(getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT));
             if (!response.ok) throw new Error('Network response was not ok');
             let courses = await response.json();
             if (!Array.isArray(courses)) {

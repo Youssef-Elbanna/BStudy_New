@@ -184,7 +184,7 @@ function submitRegistration() {
         password: password1
     };
 
-    fetch('http://localhost:3000/api/student/register', {
+    fetch(getApiUrl(API_CONFIG.STUDENT_REGISTER_ENDPOINT), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -194,7 +194,7 @@ function submitRegistration() {
         if (data.student) {
             message('تم تسجيل الطالب بنجاح!');
             setTimeout(function() {
-                window.location.href = 'login.html';
+                window.location.href = 'dashboard.html';
             }, 1500);
         } else {
             message(data.message || 'حدث خطأ أثناء التسجيل');
@@ -204,3 +204,114 @@ function submitRegistration() {
         message('حدث خطأ في الاتصال بالخادم');
     });
 }
+
+// Promo Code Validation Function
+async function validatePromoCode(promoCode, coursePrice = null) {
+    try {
+        const token = localStorage.getItem('student_token');
+        const response = await fetch(getApiUrl(API_CONFIG.STUDENT_VALIDATE_PROMO_ENDPOINT), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                promo_code: promoCode,
+                course_price: coursePrice
+            })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+            return {
+                success: true,
+                discount: data.discount_amount,
+                discount_type: data.discount_type,
+                final_price: data.final_price
+            };
+        } else {
+            return {
+                success: false,
+                message: data.message || 'كود الخصم غير صحيح'
+            };
+        }
+    } catch (error) {
+        console.error('Error validating promo code:', error);
+        return {
+            success: false,
+            message: 'حدث خطأ في التحقق من كود الخصم'
+        };
+    }
+}
+
+// Apply Promo Code Function
+function applyPromoCode() {
+    const promoInput = document.getElementById('promoCode');
+    const applyBtn = document.getElementById('applyPromoBtn');
+    const messageDiv = document.getElementById('promoMessage');
+    
+    if (!promoInput || !applyBtn || !messageDiv) return;
+    
+    const promoCode = promoInput.value.trim();
+    if (!promoCode) {
+        showPromoMessage('يرجى إدخال كود الخصم', 'error');
+        return;
+    }
+    
+    applyBtn.disabled = true;
+    applyBtn.textContent = 'جاري التحقق...';
+    
+    validatePromoCode(promoCode).then(result => {
+        if (result.success) {
+            showPromoMessage(`تم تطبيق الخصم بنجاح! الخصم: ${result.discount} ${result.discount_type === 'percentage' ? '%' : 'جنيه'}`, 'success');
+            // Update price display if needed
+            updatePriceDisplay(result.final_price);
+        } else {
+            showPromoMessage(result.message, 'error');
+        }
+    }).finally(() => {
+        applyBtn.disabled = false;
+        applyBtn.textContent = 'تطبيق الكود';
+    });
+}
+
+function showPromoMessage(message, type) {
+    const messageDiv = document.getElementById('promoMessage');
+    if (!messageDiv) return;
+    
+    messageDiv.textContent = message;
+    messageDiv.className = `promo-message promo-${type}`;
+    messageDiv.style.display = 'block';
+    
+    setTimeout(() => {
+        messageDiv.style.display = 'none';
+    }, 5000);
+}
+
+function updatePriceDisplay(finalPrice) {
+    // Update price display elements if they exist
+    const priceElements = document.querySelectorAll('.course-price, .final-price');
+    priceElements.forEach(element => {
+        if (finalPrice) {
+            element.textContent = `${finalPrice} جنيه`;
+        }
+    });
+}
+
+// Add event listeners for promo code functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const applyPromoBtn = document.getElementById('applyPromoBtn');
+    if (applyPromoBtn) {
+        applyPromoBtn.addEventListener('click', applyPromoCode);
+    }
+    
+    const promoInput = document.getElementById('promoCode');
+    if (promoInput) {
+        promoInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyPromoCode();
+            }
+        });
+    }
+});

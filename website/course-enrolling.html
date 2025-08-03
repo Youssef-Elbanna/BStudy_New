@@ -37,14 +37,14 @@
                 <li class="link">
                     <div class="dropdown">
                         <h3>س: كيف يمكنني التسجيل في منصتكم؟</h3>
-                        <img src="/asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
+                        <img src="../asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
                     </div>
                     <ul class="submenuItems">
 
                         <li>
                             <a href="#" data-video-url="https://player.vdocipher.com/iframe/28d29bdee49446e6af16b44471aee603">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
                                 </div>
                                 <div class="round">
@@ -56,7 +56,7 @@
                         <li>
                             <a href="#" data-video-url="https://player.vdocipher.com/iframe/28d29bdee49446e6af16b44471aee603" class="watch-now">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
                                 </div>
                                 <div class="round">
@@ -68,7 +68,7 @@
                         <li>
                             <a href="#" data-video-url="https://player.vdocipher.com/iframe/28d29bdee49446e6af16b44471aee603">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
                                 </div>
                                 <div class="round">
@@ -86,14 +86,14 @@
                 <li class="link">
                     <div class="dropdown">
                         <h3>س: كيف يمكنني التسجيل في منصتكم؟</h3>
-                        <img src="/asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
+                        <img src="../asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
                     </div>
                     <ul class="submenuItems">
 
                         <li>
                             <a href="#" data-video-url="https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
                                 </div>
                                 <div class="round">
@@ -105,7 +105,7 @@
                         <li>
                             <a href="#" data-video-url="https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
                                 </div>
                                 <div class="round">
@@ -117,7 +117,7 @@
                         <li>
                             <a href="#" data-video-url="https://player.videocipher.in/iframe/1d53932d878c4a77bae29118a452a688">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>يحتوي علي شرح الشهر الاول في الصف الاول الثانوي</h5>
                                 </div>
                                 <div class="round">
@@ -162,6 +162,7 @@
     
 
     
+    <script src="config.js"></script>
     <script src="./javascript/dashboard.js"></script>  
     <script>
 
@@ -183,7 +184,7 @@ function getCourseIdFromUrl() {
 async function fetchCourseData(courseId) {
     console.log('Fetching course data for ID:', courseId);
     try {
-        const url = `http://127.0.0.1:3000/api/public/courses/${courseId}`;
+        const url = getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT + `/${courseId}`);
         console.log('API URL:', url);
         
         const response = await fetch(url);
@@ -256,16 +257,16 @@ function updateCourseLessons(videos) {
         const sectionLi = document.createElement('li');
         sectionLi.className = 'link';
         
-        sectionLi.innerHTML = `
+                        sectionLi.innerHTML = `
             <div class="dropdown">
                 <h3>${section.title}</h3>
-                <img src="/asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
+                <img src="../asseds/icons/ep_arrow-up-bold.svg" class="arrow" alt="">
             </div>
             <ul class="submenuItems">
                 ${section.videos.map((video, videoIndex) => {
                     // Use the correct video ID field
                     const videoId = video.id || video.video_id || video._id;
-                    const videoUrl = video.url || video.video_url || `/api/public/videos/${videoId}/player`;
+                    const videoUrl = video.url || video.video_url || `/api/student/videos/${videoId}/player`;
                     
                     console.log('Creating lesson for video:', video);
                     console.log('Video ID:', videoId);
@@ -275,7 +276,7 @@ function updateCourseLessons(videos) {
                         <li>
                             <a href="#" data-video-url="${videoUrl}" data-video-id="${videoId}" data-video-title="${video.title}" data-video-description="${video.description || ''}">
                                 <div class="info">
-                                    <img src="/asseds/icons/tabler_video.svg" alt="">
+                                    <img src="../asseds/icons/tabler_video.svg" alt="">
                                     <h5>${video.title}</h5>
                                 </div>
                                 <div class="round">
@@ -406,13 +407,47 @@ async function loadVideoById(videoId) {
     try {
         console.log('=== LOADING VIDEO BY ID ===');
         console.log('Video ID:', videoId);
-        console.log('API URL:', `http://127.0.0.1:3000/api/public/videos/${videoId}/player`);
+        
+        // Get the student token for authentication
+        const studentToken = localStorage.getItem('student_token');
+        if (!studentToken) {
+            console.error('No student token found. User must be logged in to view videos.');
+            showVideoError('يجب تسجيل الدخول لمشاهدة الفيديوهات');
+            return;
+        }
+        
+        // Use the config system to get the correct endpoint
+        const endpoint = replaceUrlParams(API_CONFIG.STUDENT_VIDEO_PLAYER_ENDPOINT, { video_id: videoId });
+        const apiUrl = getApiUrl(endpoint);
+        console.log('API URL:', apiUrl);
 
-        // Fetch video player data from your API
-        const response = await fetch(`http://127.0.0.1:3000/api/public/videos/${videoId}/player`);
+        // Fetch video player data from your API with authentication
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${studentToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorData = await response.json();
+            console.error('Video player error:', errorData);
+            
+            if (response.status === 401) {
+                throw new Error('يجب تسجيل الدخول لمشاهدة الفيديوهات');
+            } else if (response.status === 403) {
+                if (errorData.message && errorData.message.includes('not enrolled')) {
+                    throw new Error('يجب التسجيل في الكورس أولاً لمشاهدة الفيديوهات');
+                } else if (errorData.message && errorData.message.includes('pay')) {
+                    throw new Error('يجب دفع ثمن الكورس أولاً لمشاهدة الفيديوهات');
+                } else {
+                    throw new Error(errorData.message || 'لا يمكن الوصول لهذا الفيديو');
+                }
+            } else if (response.status === 404) {
+                throw new Error(errorData.message || 'الفيديو غير موجود');
+            } else {
+                throw new Error(errorData.message || 'خطأ في تحميل الفيديو');
+            }
         }
 
         const data = await response.json();
@@ -581,9 +616,9 @@ function handleLessonClick(videoUrl, videoTitle, videoDescription) {
             videoId = urlMatch[1];
             console.log('✅ Extracted from VideoCipher URL:', videoId);
         }
-    } else if (videoUrl.includes('api/public/videos/')) {
+    } else if (videoUrl.includes('api/student/videos/')) {
         // Extract from your API URL
-        const apiMatch = videoUrl.match(/\/api\/public\/videos\/([a-zA-Z0-9-]+)/);
+        const apiMatch = videoUrl.match(/\/api\/student\/videos\/([a-zA-Z0-9-]+)/);
         if (apiMatch) {
             videoId = apiMatch[1];
             console.log('✅ Extracted from API URL:', videoId);
@@ -654,6 +689,29 @@ function loadRegularVideo(videoUrl) {
 
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', async function() {
+    
+    // Check if user is logged in
+    const studentToken = localStorage.getItem('student_token');
+    if (!studentToken) {
+        console.log('User not logged in, redirecting to login page');
+        // Show login required message
+        const playerContainer = document.getElementById('vc-player');
+        if (playerContainer) {
+            playerContainer.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 360px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;">
+                    <div style="text-align: center; color: #6c757d;">
+                        <h4>يجب تسجيل الدخول</h4>
+                        <p>يجب تسجيل الدخول لمشاهدة الفيديوهات</p>
+                        <a href="login.html" style="color: #2E6FF4; text-decoration: none; margin-top: 10px; display: inline-block;">تسجيل الدخول</a>
+                    </div>
+                </div>
+            `;
+        }
+        return;
+    }
+    
+    // Add enrollment status check
+    console.log('User is logged in, checking enrollment status...');
     
     // Get course ID from URL
     const courseId = getCourseIdFromUrl();

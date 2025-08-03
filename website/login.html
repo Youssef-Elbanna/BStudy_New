@@ -32,6 +32,7 @@
             <div id="loginMsg"></div>
         </div>
     </section>
+    <script src="config.js"></script>
     <script>
     document.querySelector('.form-login').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -40,7 +41,7 @@
         const msg = document.getElementById('loginMsg');
         msg.innerHTML = '';
         try {
-            const res = await fetch('http://localhost:3000/api/student/login', {
+            const res = await fetch(getApiUrl(API_CONFIG.STUDENT_LOGIN_ENDPOINT), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: username, password })

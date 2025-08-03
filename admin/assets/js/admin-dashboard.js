@@ -4,7 +4,7 @@
 
 class AdminDashboard {
     constructor() {
-        this.apiBase = 'http://localhost:3000/api';
+        this.apiBase = API_CONFIG.API_BASE_URL;
         this.tokenKey = 'admin_token';
         this.userKey = 'admin_user';
         this.init();
@@ -50,10 +50,7 @@ class AdminDashboard {
 
     async loadDashboardData() {
         try {
-            // Load statistics
-            await this.loadStats();
-            
-            // Load recent courses
+            // Load recent courses only (stats endpoint removed to prevent fallback issues)
             await this.loadRecentCourses();
             
         } catch (error) {
@@ -62,54 +59,55 @@ class AdminDashboard {
         }
     }
 
-    async loadStats() {
-        try {
-            const response = await fetch(`${this.apiBase}/admin/stats`, {
-                headers: {
-                    'Authorization': `Bearer ${this.getToken()}`
-                }
-            });
+    // Stats functionality removed to prevent API fallback issues
+    // async loadStats() {
+    //     try {
+    //         const response = await fetch(`${this.apiBase}/admin/stats`, {
+    //             headers: {
+    //                 'Authorization': `Bearer ${this.getToken()}`
+    //             }
+    //         });
 
-            const data = await response.json();
+    //         const data = await response.json();
 
-            if (data.success) {
-                this.updateStats(data.data);
-            }
-        } catch (error) {
-            console.error('Error loading stats:', error);
-        }
-    }
+    //         if (data.success) {
+    //             this.updateStats(data.data);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error loading stats:', error);
+    //     }
+    // }
 
-    updateStats(stats) {
-        // Update statistics cards
-        const elements = {
-            totalUsers: document.querySelector('[data-stat="totalUsers"]'),
-            totalCourses: document.querySelector('[data-stat="totalCourses"]'),
-            totalRevenue: document.querySelector('[data-stat="totalRevenue"]'),
-            monthlyRevenue: document.querySelector('[data-stat="monthlyRevenue"]'),
-            activeUsers: document.querySelector('[data-stat="activeUsers"]'),
-            newUsersThisMonth: document.querySelector('[data-stat="newUsersThisMonth"]'),
-            totalEnrollments: document.querySelector('[data-stat="totalEnrollments"]'),
-            averageRating: document.querySelector('[data-stat="averageRating"]')
-        };
+    // updateStats(stats) {
+    //     // Update statistics cards
+    //     const elements = {
+    //         totalUsers: document.querySelector('[data-stat="totalUsers"]'),
+    //         totalCourses: document.querySelector('[data-stat="totalCourses"]'),
+    //         totalRevenue: document.querySelector('[data-stat="totalRevenue"]'),
+    //         monthlyRevenue: document.querySelector('[data-stat="monthlyRevenue"]'),
+    //         activeUsers: document.querySelector('[data-stat="activeUsers"]'),
+    //         newUsersThisMonth: document.querySelector('[data-stat="newUsersThisMonth"]'),
+    //         totalEnrollments: document.querySelector('[data-stat="totalEnrollments"]'),
+    //         averageRating: document.querySelector('[data-stat="averageRating"]')
+    //     };
 
-        // Update each stat if element exists
-        Object.keys(elements).forEach(key => {
-            if (elements[key] && stats[key] !== undefined) {
-                if (key.includes('Revenue')) {
-                    elements[key].textContent = `$${stats[key].toLocaleString()}`;
-                } else if (key === 'averageRating') {
-                    elements[key].textContent = stats[key].toFixed(1);
-                } else {
-                    elements[key].textContent = stats[key].toLocaleString();
-                }
-            }
-        });
-    }
+    //     // Update each stat if element exists
+    //     Object.keys(elements).forEach(key => {
+    //         if (elements[key] && stats[key] !== undefined) {
+    //         if (key.includes('Revenue')) {
+    //             elements[key].textContent = `$${stats[key].toLocaleString()}`;
+    //         } else if (key === 'averageRating') {
+    //             elements[key].textContent = stats[key].toFixed(1);
+    //         } else {
+    //             elements[key].textContent = stats[key].toLocaleString();
+    //         }
+    //     }
+    // });
+    // }
 
     async loadRecentCourses() {
         try {
-            const response = await fetch('http://localhost:3000/api/public/courses');
+            const response = await fetch(getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT));
             const data = await response.json();
             if (Array.isArray(data)) {
                 this.updateCoursesTable(data);
@@ -177,10 +175,41 @@ class AdminDashboard {
         return !!this.getToken();
     }
 
-    logout() {
-        localStorage.removeItem(this.tokenKey);
-        localStorage.removeItem(this.userKey);
-        window.location.href = 'login.html';
+    async logout() {
+        try {
+            // Call backend logout endpoint for additional security
+            const adminToken = localStorage.getItem('admin_token');
+            if (adminToken) {
+                await fetch(getApiUrl(API_CONFIG.ADMIN_LOGOUT_ENDPOINT), {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+        } catch (error) {
+            // Continue with logout even if backend call fails
+            console.log('Backend logout call failed, continuing with client-side logout');
+        }
+        
+        // Clear all authentication tokens
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('student_token');
+        sessionStorage.removeItem('admin_token');
+        sessionStorage.removeItem('student_token');
+        
+        // Clear any other stored data
+        localStorage.removeItem('user_data');
+        sessionStorage.removeItem('user_data');
+        
+        // Show logout message
+        this.showNotification('تم تسجيل الخروج بنجاح', 'success');
+        
+        // Redirect to login page after a short delay
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1000);
     }
 
     redirectToLogin() {
@@ -232,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
             studentSelect.innerHTML = '<option value="" disabled selected>جاري التحميل...</option>';
             try {
                 const token = localStorage.getItem('admin_token');
-                const res = await fetch('http://localhost:3000/api/admin/auth/users', {
+                const res = await fetch(getApiUrl(API_CONFIG.ADMIN_USERS_ENDPOINT), {
                     headers: {
                         'Authorization': 'Bearer ' + token,
                         'Content-Type': 'application/json'
@@ -293,14 +322,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         try {
             const token = localStorage.getItem('admin_token');
-            const res = await fetch(`http://localhost:3000/api/admin/courses/${courseId}/students/${studentId}/enroll`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ isPaid: true })
-            });
+                            const res = await fetch(getApiUrl(replaceUrlParams(API_CONFIG.ADMIN_COURSE_ENROLL_STUDENT_ENDPOINT, { course_id: courseId, student_id: studentId })), {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ isPaid: true })
+                });
             if (res.ok) {
                 adminDashboard.showNotification('تم تسجيل الطالب في الكورس بنجاح', 'success');
                 var modal = bootstrap.Modal.getInstance(enrollModal);
@@ -314,3 +343,183 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 }); 
+
+// Video Views Management
+let videoViewsData = [];
+
+async function fetchVideoViews() {
+    try {
+        const token = localStorage.getItem('admin_token');
+        const response = await fetch(getApiUrl(API_CONFIG.ADMIN_VIDEO_VIEWS_ENDPOINT), {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            videoViewsData = data.views || [];
+            renderVideoViews(videoViewsData);
+        } else {
+            console.error('Failed to fetch video views');
+        }
+    } catch (error) {
+        console.error('Error fetching video views:', error);
+    }
+}
+
+function renderVideoViews(views) {
+    const tbody = document.getElementById('videoViewsTableBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    if (views.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">لا توجد مشاهدات</td></tr>';
+        return;
+    }
+    
+    views.forEach(view => {
+        const row = document.createElement('tr');
+        const statusBadge = view.is_limit_reached ? 
+            '<span class="badge bg-danger">تم الوصول للحد</span>' : 
+            '<span class="badge bg-success">متاح</span>';
+        
+        row.innerHTML = `
+            <td>${view.student_name || 'غير محدد'}</td>
+            <td>${view.video_title || 'غير محدد'}</td>
+            <td>${view.view_count}/3</td>
+            <td>${new Date(view.last_viewed_at).toLocaleString('ar-EG')}</td>
+            <td>${statusBadge}</td>
+            <td>
+                <button class="btn btn-warning btn-sm me-1" onclick="resetVideoView('${view.id}')">
+                    إعادة تعيين
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteVideoView('${view.id}')">
+                    حذف
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+window.resetVideoView = async function(viewId) {
+    const confirmed = confirm('هل أنت متأكد من إعادة تعيين مشاهدات هذا الفيديو؟');
+    if (!confirmed) return;
+    
+    try {
+        const token = localStorage.getItem('admin_token');
+        const response = await fetch(getApiUrl(replaceUrlParams(API_CONFIG.ADMIN_VIDEO_VIEW_RESET_ENDPOINT, { view_id: viewId })), {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            adminDashboard.showNotification('تم إعادة تعيين المشاهدات بنجاح', 'success');
+            fetchVideoViews();
+        } else {
+            const data = await response.json();
+            adminDashboard.showNotification(data.message || 'حدث خطأ', 'error');
+        }
+    } catch (error) {
+        console.error('Error resetting video view:', error);
+        adminDashboard.showNotification('حدث خطأ أثناء إعادة التعيين', 'error');
+    }
+};
+
+window.deleteVideoView = async function(viewId) {
+    const confirmed = confirm('هل أنت متأكد من حذف سجل المشاهدة هذا؟');
+    if (!confirmed) return;
+    
+    try {
+        const token = localStorage.getItem('admin_token');
+        const response = await fetch(getApiUrl(replaceUrlParams(API_CONFIG.ADMIN_VIDEO_VIEW_DELETE_ENDPOINT, { view_id: viewId })), {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            adminDashboard.showNotification('تم حذف سجل المشاهدة بنجاح', 'success');
+            fetchVideoViews();
+        } else {
+            const data = await response.json();
+            adminDashboard.showNotification(data.message || 'حدث خطأ', 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting video view:', error);
+        adminDashboard.showNotification('حدث خطأ أثناء الحذف', 'error');
+    }
+};
+
+window.refreshVideoViews = function() {
+    fetchVideoViews();
+};
+
+// Filter and search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterSelect = document.getElementById('videoViewsFilter');
+    const searchInput = document.getElementById('videoViewsSearch');
+    
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function() {
+            filterVideoViews();
+        });
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            filterVideoViews();
+        });
+    }
+    
+    // Initial load
+    fetchVideoViews();
+});
+
+function filterVideoViews() {
+    const filterValue = document.getElementById('videoViewsFilter')?.value || 'all';
+    const searchValue = document.getElementById('videoViewsSearch')?.value || '';
+    
+    let filteredViews = [...videoViewsData];
+    
+    // Apply search filter
+    if (searchValue) {
+        filteredViews = filteredViews.filter(view => 
+            view.student_name?.includes(searchValue) ||
+            view.video_title?.includes(searchValue)
+        );
+    }
+    
+    // Apply type filter
+    if (filterValue === 'student') {
+        // Group by student
+        const studentGroups = {};
+        filteredViews.forEach(view => {
+            if (!studentGroups[view.student_id]) {
+                studentGroups[view.student_id] = [];
+            }
+            studentGroups[view.student_id].push(view);
+        });
+        filteredViews = Object.values(studentGroups).flat();
+    } else if (filterValue === 'video') {
+        // Group by video
+        const videoGroups = {};
+        filteredViews.forEach(view => {
+            if (!videoGroups[view.video_id]) {
+                videoGroups[view.video_id] = [];
+            }
+            videoGroups[view.video_id].push(view);
+        });
+        filteredViews = Object.values(videoGroups).flat();
+    }
+    
+    renderVideoViews(filteredViews);
+} 

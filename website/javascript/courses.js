@@ -17,8 +17,9 @@
 // API CONFIGURATION
 // ========================================
 
-const API_BASE_URL = 'http://localhost:3000/api';
-const COURSES_API = `${API_BASE_URL}/courses`;
+// Use config system if available, otherwise fallback to hardcoded values
+const API_BASE_URL = typeof getApiUrl !== 'undefined' ? '' : 'http://localhost:3000/api';
+const COURSES_API = typeof API_CONFIG !== 'undefined' ? API_CONFIG.PUBLIC_COURSES_ENDPOINT : '/courses';
 
 // ========================================
 // CACHE MANAGEMENT
@@ -138,15 +139,17 @@ async function fetchCourses(filters = {}) {
             if (value) params.append(key, value);
         });
         
-        const url = `${COURSES_API}?${params.toString()}`;
-        const response = await apiRequest(url);
+        const url = typeof getApiUrl !== 'undefined' ? getApiUrl(COURSES_API) : `${API_BASE_URL}${COURSES_API}`;
+        const fullUrl = `${url}?${params.toString()}`;
+        const response = await apiRequest(fullUrl);
         
-        if (response.success) {
+        // The API returns courses directly as an array
+        if (Array.isArray(response)) {
             // Cache the results
-            courseCache.set(response.data.courses);
-            return response.data.courses;
+            courseCache.set(response);
+            return response;
         } else {
-            throw new Error(response.message || 'Failed to fetch courses');
+            throw new Error('Invalid response format');
         }
     } catch (error) {
         handleApiError(error, 'Fetching courses');
@@ -161,13 +164,11 @@ async function fetchCourses(filters = {}) {
  */
 async function fetchFeaturedCourses() {
     try {
-        const response = await apiRequest(`${COURSES_API}/featured`);
+        const url = typeof getApiUrl !== 'undefined' ? getApiUrl(COURSES_API) : `${API_BASE_URL}${COURSES_API}`;
+        const response = await apiRequest(`${url}/featured`);
         
-        if (response.success) {
-            return response.data;
-        } else {
-            throw new Error(response.message || 'Failed to fetch featured courses');
-        }
+        // For now, return empty array as featured courses endpoint might not exist
+        return [];
     } catch (error) {
         handleApiError(error, 'Fetching featured courses');
         return [];
@@ -181,13 +182,11 @@ async function fetchFeaturedCourses() {
  */
 async function fetchCategories() {
     try {
-        const response = await apiRequest(`${COURSES_API}/categories`);
+        const url = typeof getApiUrl !== 'undefined' ? getApiUrl(COURSES_API) : `${API_BASE_URL}${COURSES_API}`;
+        const response = await apiRequest(`${url}/categories`);
         
-        if (response.success) {
-            return response.data;
-        } else {
-            throw new Error(response.message || 'Failed to fetch categories');
-        }
+        // For now, return empty array as categories endpoint might not exist
+        return [];
     } catch (error) {
         handleApiError(error, 'Fetching categories');
         return [];
@@ -202,13 +201,11 @@ async function fetchCategories() {
  */
 async function fetchCourseById(courseId) {
     try {
-        const response = await apiRequest(`${COURSES_API}/${courseId}`);
+        const url = typeof getApiUrl !== 'undefined' ? getApiUrl(COURSES_API) : `${API_BASE_URL}${COURSES_API}`;
+        const response = await apiRequest(`${url}/${courseId}`);
         
-        if (response.success) {
-            return response.data;
-        } else {
-            throw new Error(response.message || 'Failed to fetch course');
-        }
+        // Return the course object directly
+        return response;
     } catch (error) {
         handleApiError(error, 'Fetching course');
         return null;

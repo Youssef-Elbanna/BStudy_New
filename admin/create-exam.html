@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ar">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>إنشاء امتحان جديد - B-Study</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
+    <link rel="stylesheet" href="assets/css/admin-bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Enhanced Admin Dashboard Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .card {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 25px;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            padding: 12px 15px;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .answer-option {
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .answer-option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .answer-option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .exam-stats {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <!-- Enhanced Navbar -->
+                <nav class="navbar navbar-expand shadow mb-4 topbar static-top navbar-light">
+                    <div class="container-fluid">
+                        <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input class="bg-light form-control border-0 small" type="text" placeholder="البحث في الامتحانات...">
+                                <button class="btn btn-primary py-0" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-white small">مدير النظام</span>
+                                        <i class="fas fa-user-circle fa-lg"></i>
+                                    </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;الملف الشخصي
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;الإعدادات
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;تسجيل الخروج
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                
+                <div class="container-fluid">
+                    <!-- Enhanced Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-flex align-items-center">
+                            <a href="exams.html" class="btn btn-outline-primary me-3">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <h3 class="text-dark mb-0" style="font-weight: bold; font-size: 1.8rem;">
+                                <i class="fas fa-plus-circle me-2"></i>إنشاء امتحان جديد
+                            </h3>
+                        </div>
+                        <button type="submit" form="examForm" class="btn btn-success">
+                            <i class="fas fa-save me-2"></i>حفظ الامتحان
+                        </button>
+                    </div>
+                    
+                    <!-- Exam Stats -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="exam-stats">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-question-circle fa-2x text-primary me-3"></i>
+                                    <div>
+                                        <h4 class="mb-1" id="questionCount">0</h4>
+                                        <small class="text-muted">الأسئلة</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="exam-stats">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock fa-2x text-success me-3"></i>
+                                    <div>
+                                        <h4 class="mb-1" id="examDuration">0</h4>
+                                        <small class="text-muted">دقيقة</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="exam-stats">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-star fa-2x text-warning me-3"></i>
+                                    <div>
+                                        <h4 class="mb-1" id="totalPoints">0</h4>
+                                        <small class="text-muted">النقاط</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="exam-stats">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-users fa-2x text-info me-3"></i>
+                                    <div>
+                                        <h4 class="mb-1" id="maxStudents">0</h4>
+                                        <small class="text-muted">الطلاب</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exam Form -->
+                    <form id="examForm" dir="rtl">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <!-- Basic Exam Info -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="text-white m-0 fw-bold">
+                                            <i class="fas fa-info-circle me-2"></i>معلومات الامتحان الأساسية
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 mb-3">
+                                                <label for="examTitle" class="form-label">
+                                                    <i class="fas fa-heading me-1"></i>عنوان الامتحان
+                                                </label>
+                                                <input type="text" class="form-control" id="examTitle" required placeholder="امتحان الشهر الاول | كمياء | الصف الثالث الثانوي">
+                                            </div>
+                                            
+                                            <div class="col-md-12 mb-3">
+                                                <label for="examDescription" class="form-label">
+                                                    <i class="fas fa-align-left me-1"></i>وصف الامتحان
+                                                </label>
+                                                <textarea class="form-control" id="examDescription" rows="3" placeholder="وصف مفصل للامتحان"></textarea>
+                                            </div>
+                                            
+                                            <div class="col-md-6 mb-3">
+                                                <label for="examCategory" class="form-label">
+                                                    <i class="fas fa-layer-group me-1"></i>التصنيف
+                                                </label>
+                                                <select class="form-select" id="examCategory" required>
+                                                    <option value="" selected disabled>اختر التصنيف</option>
+                                                    <option value="1">الصف الاول الثانوي</option>
+                                                    <option value="2">الصف الثاني الثانوي</option>
+                                                    <option value="3">الصف الثالث الثانوي</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="col-md-6 mb-3">
+                                                <label for="examBranch" class="form-label">
+                                                    <i class="fas fa-code-branch me-1"></i>الفرع
+                                                </label>
+                                                <select class="form-select" id="examBranch" required>
+                                                    <option value="" selected disabled>اختر الفرع</option>
+                                                    <option value="علمي">علمي</option>
+                                                    <option value="ادبي">ادبي</option>
+                                                    <option value="علمي علوم">علمي علوم</option>
+                                                    <option value="علمي رياضة">علمي رياضة</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="col-md-4 mb-3">
+                                                <label for="examDuration" class="form-label">
+                                                    <i class="fas fa-clock me-1"></i>مدة الامتحان (دقيقة)
+                                                </label>
+                                                <input type="number" class="form-control" id="examDuration" placeholder="60" required>
+                                            </div>
+                                            
+                                            <div class="col-md-4 mb-3">
+                                                <label for="maxStudents" class="form-label">
+                                                    <i class="fas fa-users me-1"></i>الحد الأقصى للطلاب
+                                                </label>
+                                                <input type="number" class="form-control" id="maxStudents" placeholder="100" required>
+                                            </div>
+                                            
+                                            <div class="col-md-4 mb-3">
+                                                <label for="examPrice" class="form-label">
+                                                    <i class="fas fa-dollar-sign me-1"></i>سعر الامتحان
+                                                </label>
+                                                <input type="number" step="0.01" class="form-control" id="examPrice" placeholder="0.00" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Questions Section -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="text-white m-0 fw-bold">
+                                            <i class="fas fa-question-circle me-2"></i>أسئلة الامتحان
+                                        </h6>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+                                            <i class="fas fa-plus me-2"></i>إضافة سؤال
+                                        </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="questionsContainer">
+                                            <!-- Questions will be added here dynamically -->
+                                            <div class="text-center text-muted py-5">
+                                                <i class="fas fa-question-circle fa-3x mb-3"></i>
+                                                <p>لا توجد أسئلة مضافة بعد</p>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+                                                    <i class="fas fa-plus me-2"></i>إضافة أول سؤال
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Sidebar -->
+                            <div class="col-lg-4">
+                                <!-- Exam Settings -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="text-white m-0 fw-bold">
+                                            <i class="fas fa-cogs me-2"></i>إعدادات الامتحان
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-eye me-1"></i>عرض النتائج
+                                            </label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="showResults" checked>
+                                                <label class="form-check-label" for="showResults">
+                                                    عرض النتائج فور الانتهاء
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-shuffle me-1"></i>ترتيب الأسئلة
+                                            </label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="shuffleQuestions">
+                                                <label class="form-check-label" for="shuffleQuestions">
+                                                    ترتيب عشوائي للأسئلة
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <i class="fas fa-lock me-1"></i>حماية الامتحان
+                                            </label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="examProtection">
+                                                <label class="form-check-label" for="examProtection">
+                                                    منع النسخ واللصق
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Exam Preview -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="text-white m-0 fw-bold">
+                                            <i class="fas fa-eye me-2"></i>معاينة الامتحان
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                                            <p class="text-muted">ستظهر معاينة الامتحان هنا</p>
+                                            <button type="button" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-eye me-1"></i>معاينة
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Enhanced Footer -->
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright">
+                        <span>© 2024 B-Study. جميع الحقوق محفوظة</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+        <!-- Enhanced Sidebar -->
+        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon">
+                        <img src="/asseds/images/logo.png" alt="" style="width: 40px; height: 40px">
+                    </div>
+                    <div class="sidebar-brand-text mx-3">
+                        <span>B-Study</span>
+                    </div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin.html">
+                            <span>الرئيسية</span>
+                            <i class="fas fa-tachometer-alt"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin-users.html">
+                            <span>المستخدمين</span>
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin-courses.html">
+                            <span>الكورسات</span>
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="exams.html">
+                            <span>الامتحانات</span>
+                            <i class="fa-solid fa-clipboard-question"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="users.html">
+                            <span>المعاملات</span>
+                            <i class="fa-solid fa-coins"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="text-center d-none d-md-inline">
+                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+                </div>
+            </div>
+        </nav>
+        
+        <a class="border rounded d-inline scroll-to-top" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+    </div>
+    
+    <!-- Add Question Modal -->
+    <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addQuestionModalLabel">
+                        <i class="fas fa-plus-circle me-2"></i>إضافة سؤال جديد
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="questionForm">
+                        <div class="mb-3">
+                            <label for="questionText" class="form-label">
+                                <i class="fas fa-question-circle me-1"></i>نص السؤال
+                            </label>
+                            <textarea class="form-control" id="questionText" rows="4" required placeholder="اكتب السؤال هنا..."></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="questionType" class="form-label">
+                                <i class="fas fa-list me-1"></i>نوع السؤال
+                            </label>
+                            <select class="form-select" id="questionType" required>
+                                <option value="multiple_choice">اختيار من متعدد</option>
+                                <option value="true_false">صح وخطأ</option>
+                                <option value="essay">مقالي</option>
+                                <option value="fill_blank">إكمال الفراغ</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="questionPoints" class="form-label">
+                                <i class="fas fa-star me-1"></i>النقاط
+                            </label>
+                            <input type="number" class="form-control" id="questionPoints" value="1" min="1" required>
+                        </div>
+                        
+                        <div id="answerOptions" class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-check-circle me-1"></i>الخيارات
+                            </label>
+                            <div id="optionsContainer">
+                                <div class="answer-option mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="correctAnswer" value="0" class="me-2">
+                                        <input type="text" class="form-control" placeholder="الخيار الأول" required>
+                                    </div>
+                                </div>
+                                <div class="answer-option mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <input type="radio" name="correctAnswer" value="1" class="me-2">
+                                        <input type="text" class="form-control" placeholder="الخيار الثاني" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addOption()">
+                                <i class="fas fa-plus me-1"></i>إضافة خيار
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" onclick="addQuestion()">إضافة السؤال</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script>
+        let questions = [];
+        let questionCounter = 0;
+        
+        function addQuestion() {
+            const questionText = document.getElementById('questionText').value;
+            const questionType = document.getElementById('questionType').value;
+            const questionPoints = parseInt(document.getElementById('questionPoints').value);
+            
+            if (!questionText.trim()) {
+                alert('يرجى إدخال نص السؤال');
+                return;
+            }
+            
+            const question = {
+                id: ++questionCounter,
+                text: questionText,
+                type: questionType,
+                points: questionPoints,
+                options: getOptions(),
+                correctAnswer: getCorrectAnswer()
+            };
+            
+            questions.push(question);
+            renderQuestions();
+            updateStats();
+            
+            // Reset form
+            document.getElementById('questionForm').reset();
+            document.getElementById('optionsContainer').innerHTML = getDefaultOptions();
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addQuestionModal'));
+            modal.hide();
+        }
+        
+        function getOptions() {
+            const options = [];
+            const optionInputs = document.querySelectorAll('#optionsContainer input[type="text"]');
+            optionInputs.forEach(input => {
+                if (input.value.trim()) {
+                    options.push(input.value.trim());
+                }
+            });
+            return options;
+        }
+        
+        function getCorrectAnswer() {
+            const correctRadio = document.querySelector('input[name="correctAnswer"]:checked');
+            return correctRadio ? parseInt(correctRadio.value) : 0;
+        }
+        
+        function getDefaultOptions() {
+            return `
+                <div class="answer-option mb-2">
+                    <div class="d-flex align-items-center">
+                        <input type="radio" name="correctAnswer" value="0" class="me-2">
+                        <input type="text" class="form-control" placeholder="الخيار الأول" required>
+                    </div>
+                </div>
+                <div class="answer-option mb-2">
+                    <div class="d-flex align-items-center">
+                        <input type="radio" name="correctAnswer" value="1" class="me-2">
+                        <input type="text" class="form-control" placeholder="الخيار الثاني" required>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function addOption() {
+            const container = document.getElementById('optionsContainer');
+            const optionCount = container.children.length;
+            
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'answer-option mb-2';
+            optionDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <input type="radio" name="correctAnswer" value="${optionCount}" class="me-2">
+                    <input type="text" class="form-control" placeholder="الخيار ${optionCount + 1}" required>
+                    <button type="button" class="btn btn-outline-danger btn-sm ms-2" onclick="removeOption(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(optionDiv);
+        }
+        
+        function removeOption(button) {
+            button.closest('.answer-option').remove();
+        }
+        
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            
+            if (questions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="fas fa-question-circle fa-3x mb-3"></i>
+                        <p>لا توجد أسئلة مضافة بعد</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+                            <i class="fas fa-plus me-2"></i>إضافة أول سؤال
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            questions.forEach((question, index) => {
+                html += `
+                    <div class="question-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="mb-0">
+                                <i class="fas fa-question-circle text-primary me-2"></i>
+                                السؤال ${index + 1}
+                            </h6>
+                            <div>
+                                <span class="badge bg-primary me-2">${question.points} نقطة</span>
+                                <span class="badge bg-info me-2">${getQuestionTypeText(question.type)}</span>
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeQuestion(${index})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="mb-3">${question.text}</p>
+                        ${renderQuestionOptions(question)}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function getQuestionTypeText(type) {
+            const types = {
+                'multiple_choice': 'اختيار من متعدد',
+                'true_false': 'صح وخطأ',
+                'essay': 'مقالي',
+                'fill_blank': 'إكمال الفراغ'
+            };
+            return types[type] || type;
+        }
+        
+        function renderQuestionOptions(question) {
+            if (question.type === 'essay') {
+                return '<div class="text-muted"><i class="fas fa-align-left me-1"></i>سؤال مقالي</div>';
+            }
+            
+            let html = '<div class="options-list">';
+            question.options.forEach((option, index) => {
+                const isCorrect = index === question.correctAnswer;
+                html += `
+                    <div class="answer-option ${isCorrect ? 'selected' : ''}">
+                        <i class="fas ${isCorrect ? 'fa-check-circle text-success' : 'fa-circle text-muted'} me-2"></i>
+                        ${option}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+        
+        function removeQuestion(index) {
+            if (confirm('هل أنت متأكد من حذف هذا السؤال؟')) {
+                questions.splice(index, 1);
+                renderQuestions();
+                updateStats();
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('questionCount').textContent = questions.length;
+            document.getElementById('totalPoints').textContent = questions.reduce((sum, q) => sum + q.points, 0);
+            
+            const duration = document.getElementById('examDuration').value || 0;
+            document.getElementById('examDuration').textContent = duration;
+            
+            const maxStudents = document.getElementById('maxStudents').value || 0;
+            document.getElementById('maxStudents').textContent = maxStudents;
+        }
+        
+        // Form submission
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const examData = {
+                title: document.getElementById('examTitle').value,
+                description: document.getElementById('examDescription').value,
+                category: document.getElementById('examCategory').value,
+                branch: document.getElementById('examBranch').value,
+                duration: parseInt(document.getElementById('examDuration').value),
+                maxStudents: parseInt(document.getElementById('maxStudents').value),
+                price: parseFloat(document.getElementById('examPrice').value),
+                questions: questions,
+                settings: {
+                    showResults: document.getElementById('showResults').checked,
+                    shuffleQuestions: document.getElementById('shuffleQuestions').checked,
+                    examProtection: document.getElementById('examProtection').checked
+                }
+            };
+            
+            console.log('Exam Data:', examData);
+            alert('تم حفظ الامتحان بنجاح!');
+            window.location.href = 'exams.html';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestions();
+            updateStats();
+        });
+    </script>
+</body>
+
+</html> 

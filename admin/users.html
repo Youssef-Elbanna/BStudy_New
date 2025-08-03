@@ -4,234 +4,735 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Profile - Brand</title>
+    <title>إدارة المعاملات - B-Study</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
-    <!-- <link rel="stylesheet" href="./styles/bootstrap-icons.min.css"> -->
-    <link rel="stylesheet" href="./styles/admin-bootstrap.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <link rel="stylesheet" href="assets/css/admin-bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Enhanced Admin Dashboard Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 10px 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-brand {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-link {
+            border-radius: 10px;
+            margin: 5px 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2) !important;
+            transform: translateX(5px);
+        }
+        
+        .card {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 25px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .stats-icon.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .stats-icon.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .stats-icon.info {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .stats-icon.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .stats-icon i {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #262F44;
+            margin: 0;
+        }
+        
+        .stats-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .table {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+            color: var(--bs-primary);
+        }
+        
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+        
+        .pagination .page-link {
+            border-radius: 8px;
+            margin: 0 2px;
+            border: none;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        
+        .pagination .page-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .transaction-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .transaction-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .transaction-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #262F44;
+            margin-bottom: 10px;
+        }
+        
+        .transaction-info {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .transaction-amount {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .status-pending {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .status-failed {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: none;
+            margin: 0 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #262F44;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: #667eea;
+        }
+    </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-                <nav class="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
-                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                <!-- Enhanced Navbar -->
+                <nav class="navbar navbar-expand shadow mb-4 topbar static-top navbar-light">
+                    <div class="container-fluid">
+                        <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        
+                        <!-- Enhanced Search Form -->
                         <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..."><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                            <div class="input-group">
+                                <input class="bg-light form-control border-0 small" type="text" placeholder="البحث في المعاملات...">
+                                <button class="btn btn-primary py-0" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </form>
+                        
+                        <!-- Enhanced User Menu -->
                         <ul class="navbar-nav flex-nowrap ms-auto">
-                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                            <li class="nav-item dropdown d-sm-none no-arrow">
+                                <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                    <i class="fas fa-search"></i>
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
                                     <form class="me-auto navbar-search w-100">
-                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
-                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                        <div class="input-group">
+                                            <input class="bg-light form-control border-0 small" type="text" placeholder="البحث في المعاملات...">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary py-0" type="button">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown no-arrow mx-1"></li>
-                            <li class="nav-item dropdown no-arrow mx-1">
-                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
-                            </li>
+                            
                             <div class="d-none d-sm-block topbar-divider"></div>
+                            
                             <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Valerie Luna</span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="#"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-white small">مدير النظام</span>
+                                        <i class="fas fa-user-circle fa-lg"></i>
+                                    </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;الملف الشخصي
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;الإعدادات
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;سجل النشاط
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;تسجيل الخروج
+                                        </a>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </nav>
+                
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4" style="text-align: right;font-weight: bold;">المستخدمين</h3>
-                    <div class="card shadow" style="direction: rtl;">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Employee Info</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 text-nowrap">
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label d-flex flex-row justify-content-between gap-2"><select class="d-inline-block form-select form-select-sm">
-                                                <option value="10" selected="">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select><select class="d-inline-block form-select form-select-sm">
-                                                <option value="10" selected="">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select><select class="d-inline-block form-select form-select-sm">
-                                                <option value="10" selected="">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>&nbsp;</label></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+                    <!-- Enhanced Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0" style="font-weight: bold; font-size: 1.8rem;">
+                            <i class="fas fa-coins me-2"></i>إدارة المعاملات
+                        </h3>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download me-2"></i>تصدير التقرير
+                        </button>
+                    </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-coins fa-2x text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number">1,245</h4>
+                                        <p class="stats-label">إجمالي المعاملات</p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-dollar-sign fa-2x text-success"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number">$45,200</h4>
+                                        <p class="stats-label">إجمالي الإيرادات</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-check-circle fa-2x text-info"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number">1,089</h4>
+                                        <p class="stats-label">المعاملات المكتملة</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="stats-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-clock fa-2x text-warning"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h4 class="stats-number">156</h4>
+                                        <p class="stats-label">المعاملات المعلقة</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Transactions Table -->
+                    <div class="card shadow" style="direction: rtl;">
+                        <div class="card-header py-3">
+                            <h6 class="text-white m-0 fw-bold">
+                                <i class="fas fa-table me-2"></i>جدول المعاملات
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <!-- Enhanced Filters -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm">
+                                            <option value="10" selected="">10 صفوف</option>
+                                            <option value="25">25 صف</option>
+                                            <option value="50">50 صف</option>
+                                            <option value="100">100 صف</option>
+                                        </select>
+                                        <select class="form-select form-select-sm">
+                                            <option value="all" selected="">جميع المعاملات</option>
+                                            <option value="completed">مكتملة</option>
+                                            <option value="pending">معلقة</option>
+                                            <option value="failed">فاشلة</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-md-end">
+                                        <input type="search" class="form-control form-control-sm d-inline-block w-auto" placeholder="البحث في المعاملات...">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Enhanced Table -->
                             <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif;font-size: 14px;">الاسم</th>
-                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif;font-size: 14px;">السنة</th>
-                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif;font-size: 14px;">التليفون</th>
-                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif;font-size: 14px;">الايميل</th>
-                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif;font-size: 14px;">الكورسات</th>
-                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif;font-size: 14px;">تعديل</th>
+                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif; font-size: 14px;">
+                                                <i class="fas fa-user me-1"></i>اسم المستخدم
+                                            </th>
+                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif; font-size: 14px;">
+                                                <i class="fas fa-calendar me-1"></i>السنة
+                                            </th>
+                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif; font-size: 14px;">
+                                                <i class="fas fa-phone me-1"></i>التليفون
+                                            </th>
+                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif; font-size: 14px;">
+                                                <i class="fas fa-envelope me-1"></i>الايميل
+                                            </th>
+                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif; font-size: 14px;">
+                                                <i class="fas fa-graduation-cap me-1"></i>الكورسات
+                                            </th>
+                                            <th style="font-family: 'Noto Kufi Arabic', sans-serif; font-size: 14px;">
+                                                <i class="fas fa-cogs me-1"></i>الإجراءات
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar1.jpeg" style="margin: 0px 8px 0px;">Airi Satou</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>33</td>
-                                            <td>2008/11/28</td>
-                                            <td>$162,700</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-user-circle fa-lg text-primary me-2"></i>
+                                                    <span class="fw-bold">أحمد محمد علي</span>
+                                                </div>
+                                            </td>
+                                            <td>2024</td>
+                                            <td>+20 123 456 789</td>
+                                            <td>ahmed@example.com</td>
+                                            <td><span class="badge bg-primary">3 كورسات</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm me-1" title="تعديل">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm me-1" title="عرض التفاصيل">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="حذف">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar2.jpeg" style="margin: 0px 8px 0px;">Angelica Ramos</td>
-                                            <td>Chief Executive Officer(CEO)</td>
-                                            <td>London</td>
-                                            <td>47</td>
-                                            <td>2009/10/09<br></td>
-                                            <td>$1,200,000</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-user-circle fa-lg text-success me-2"></i>
+                                                    <span class="fw-bold">فاطمة أحمد حسن</span>
+                                                </div>
+                                            </td>
+                                            <td>2024</td>
+                                            <td>+20 987 654 321</td>
+                                            <td>fatima@example.com</td>
+                                            <td><span class="badge bg-success">5 كورسات</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm me-1" title="تعديل">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm me-1" title="عرض التفاصيل">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="حذف">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar3.jpeg" style="margin: 0px 8px 0px;">Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>66</td>
-                                            <td>2009/01/12<br></td>
-                                            <td>$86,000</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-user-circle fa-lg text-info me-2"></i>
+                                                    <span class="fw-bold">محمد أحمد سعيد</span>
+                                                </div>
+                                            </td>
+                                            <td>2023</td>
+                                            <td>+20 555 123 456</td>
+                                            <td>mohamed@example.com</td>
+                                            <td><span class="badge bg-info">2 كورسات</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm me-1" title="تعديل">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm me-1" title="عرض التفاصيل">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="حذف">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar4.jpeg" style="margin: 0px 8px 0px;">Bradley Greer</td>
-                                            <td>Software Engineer</td>
-                                            <td>London</td>
-                                            <td>41</td>
-                                            <td>2012/10/13<br></td>
-                                            <td>$132,000</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-user-circle fa-lg text-warning me-2"></i>
+                                                    <span class="fw-bold">سارة محمود عبدالله</span>
+                                                </div>
+                                            </td>
+                                            <td>2024</td>
+                                            <td>+20 777 888 999</td>
+                                            <td>sara@example.com</td>
+                                            <td><span class="badge bg-warning">1 كورس</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm me-1" title="تعديل">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm me-1" title="عرض التفاصيل">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="حذف">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar5.jpeg" style="margin: 0px 8px 0px;">Brenden Wagner</td>
-                                            <td>Software Engineer</td>
-                                            <td>San Francisco</td>
-                                            <td>28</td>
-                                            <td>2011/06/07<br></td>
-                                            <td>$206,850</td>
-                                        </tr>
-                                        <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar1.jpeg" style="margin: 0px 8px 0px;">Brielle Williamson</td>
-                                            <td>Integration Specialist</td>
-                                            <td>New York</td>
-                                            <td>61</td>
-                                            <td>2012/12/02<br></td>
-                                            <td>$372,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar2.jpeg" style="margin: 0px 8px 0px;">Bruno Nash<br></td>
-                                            <td>Software Engineer</td>
-                                            <td>London</td>
-                                            <td>38</td>
-                                            <td>2011/05/03<br></td>
-                                            <td>$163,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar3.jpeg" style="margin: 0px 8px 0px;">Caesar Vance</td>
-                                            <td>Pre-Sales Support</td>
-                                            <td>New York</td>
-                                            <td>21</td>
-                                            <td>2011/12/12<br></td>
-                                            <td>$106,450</td>
-                                        </tr>
-                                        <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar4.jpeg" style="margin: 0px 8px 0px;">Cara Stevens</td>
-                                            <td>Sales Assistant</td>
-                                            <td>New York</td>
-                                            <td>46</td>
-                                            <td>2011/12/06<br></td>
-                                            <td>$145,600</td>
-                                        </tr>
-                                        <tr>
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar5.jpeg" style="margin: 0px 8px 0px;">Cedric Kelly</td>
-                                            <td>Senior JavaScript Developer</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2012/03/29<br></td>
-                                            <td>$433,060</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-user-circle fa-lg text-danger me-2"></i>
+                                                    <span class="fw-bold">علي حسن محمد</span>
+                                                </div>
+                                            </td>
+                                            <td>2023</td>
+                                            <td>+20 111 222 333</td>
+                                            <td>ali@example.com</td>
+                                            <td><span class="badge bg-primary">4 كورسات</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm me-1" title="تعديل">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm me-1" title="عرض التفاصيل">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" title="حذف">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td><strong>الاسم</strong></td>
-                                            <td><strong>السنة</strong></td>
-                                            <td><strong>التليفون</strong></td>
-                                            <td><strong>الايميل</strong></td>
-                                            <td><strong>Start date</strong></td>
-                                            <td><strong>Salary</strong></td>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
-                            <div class="row">
+                            
+                            <!-- Enhanced Pagination -->
+                            <div class="row mt-3">
                                 <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">
+                                        عرض 1 إلى 10 من 27 معاملة
+                                    </p>
                                 </div>
                                 <div class="col-md-6">
                                     <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
                                         <ul class="pagination">
-                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                            <li class="page-item disabled">
+                                                <a class="page-link" aria-label="Previous" href="#">
+                                                    <span aria-hidden="true">«</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" aria-label="Next" href="#">
+                                                    <span aria-hidden="true">»</span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card shadow mb-5" style="margin: 50px;"></div>
                 </div>
             </div>
+            
+            <!-- Enhanced Footer -->
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
+                    <div class="text-center my-auto copyright">
+                        <span>© 2024 B-Study. جميع الحقوق محفوظة</span>
+                    </div>
                 </div>
             </footer>
         </div>
-        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark" style="background: var(--bs-primary);">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon"><img src="/asseds/images/logo.png" alt="" style="width: 40px; height: 40px"></div>
-                    <div class="sidebar-brand-text mx-3"><span>منصتي</span></div>
+        
+        <!-- Enhanced Sidebar -->
+        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon">
+                        <img src="/asseds/images/logo.png" alt="" style="width: 40px; height: 40px">
+                    </div>
+                    <div class="sidebar-brand-text mx-3">
+                        <span>B-Study</span>
+                    </div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="index.html"><span>الرئيسية</span><i class="fas fa-tachometer-alt"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="users.html" ><span>المستخدمين</span><i class="fas fa-user"></i></a></li>
-                    <li class="nav-item"  ><a class="nav-link" href="table.html"  ><span  >Table</span><i class="fas fa-table"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="login.html" ><span >الكورسات</span><i class="far fa-user-circle"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="register.html" ><span>المعاملات</span><i class="fas fa-user-circle"></i></a></li>
-                    <li class="nav-item" ><a class="nav-link" href="register.html" ><span >أنشاء اكواد</span><i class="fas fa-user-circle"></i></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin.html">
+                            <span>الرئيسية</span>
+                            <i class="fas fa-tachometer-alt"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin-users.html">
+                            <span>المستخدمين</span>
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard-admin-courses.html">
+                            <span>الكورسات</span>
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exams.html">
+                            <span>الامتحانات</span>
+                            <i class="fa-solid fa-clipboard-question"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="users.html">
+                            <span>المعاملات</span>
+                            <i class="fa-solid fa-coins"></i>
+                        </a>
+                    </li>
+
                 </ul>
-                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+                <div class="text-center d-none d-md-inline">
+                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+                </div>
             </div>
-        </nav><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        </nav>
+        
+        <a class="border rounded d-inline scroll-to-top" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
     </div>
+    
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
-    <script src="assets/js/admin-users.js"></script>
+    <script src="assets/js/admin-dashboard.js"></script>
 </body>
 
 </html>

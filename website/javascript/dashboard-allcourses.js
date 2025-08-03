@@ -9,7 +9,7 @@ function selectCategory(button) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('http://localhost:3000/api/public/courses')
+    fetch(getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT))
         .then(res => res.json())
         .then(courses => {
             const coursesContainer = document.querySelector('.courses');

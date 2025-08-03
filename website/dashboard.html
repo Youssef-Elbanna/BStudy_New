@@ -1,172 +1,641 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الرئيسية</title>
+    <title>الرئيسية - B-Study</title>
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/dashboard-layout.css">
     <link rel="stylesheet" href="./styles/dashboard-main.css">
+    <style>
+        /* Button state styles */
+        .add-to-cart-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .add-to-cart-btn:disabled {
+            background-color: #28a745 !important;
+            color: white !important;
+            cursor: not-allowed !important;
+            opacity: 0.9;
+            border: 2px solid #28a745 !important;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3) !important;
+        }
+        
+        .add-to-cart-btn.in-cart {
+            background: linear-gradient(135deg, #ffc107 0%, #ffca2c 100%) !important;
+            color: #000 !important;
+            border: 2px solid #ffc107 !important;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3) !important;
+            font-weight: 600;
+        }
+        
+        .add-to-cart-btn.in-cart::before {
+            content: '🛒';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+        
+        .add-to-cart-btn.paid {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+            color: white !important;
+            cursor: not-allowed !important;
+            border: 2px solid #28a745 !important;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4) !important;
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .add-to-cart-btn.paid::before {
+            content: '✓';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .add-to-cart-btn.paid:hover {
+            transform: none !important;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4) !important;
+        }
+        
+        /* Improve button states with better visual feedback */
+        .add-to-cart-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .add-to-cart-btn:not(:disabled):active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Default state for available courses */
+        .add-to-cart-btn:not(.paid):not(.in-cart) {
+            background: linear-gradient(135deg, #2E6FF4 0%, #1e5fd4 100%) !important;
+            color: white !important;
+            border: 2px solid #2E6FF4 !important;
+            box-shadow: 0 2px 8px rgba(46, 111, 244, 0.3) !important;
+        }
+        
+        .add-to-cart-btn:not(.paid):not(.in-cart):hover {
+            background: linear-gradient(135deg, #1e5fd4 0%, #1557c7 100%) !important;
+            box-shadow: 0 4px 12px rgba(46, 111, 244, 0.4) !important;
+        }
+        
+        .add-to-cart-btn:not(.paid):not(.in-cart)::before {
+            content: '+';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Toast Notification System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px 20px;
+            min-width: 300px;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-right: 4px solid;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: #28a745;
+        }
+
+        .toast.error {
+            border-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-color: #ffc107;
+        }
+
+        .toast.info {
+            border-color: #17a2b8;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        .toast.error .toast-icon {
+            background: #dc3545;
+            color: white;
+        }
+
+        .toast.warning .toast-icon {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .toast.info .toast-icon {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .toast-message {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .toast-container {
+                right: 10px;
+                left: 10px;
+            }
+
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
+        }
+    </style>
+
 </head>
 <body dir="rtl">
     <header>
         <nav>
             <div class="logo">
-                <h3>B-Study</h3>
-                <img style="width: 40px; height: 40px" src="../asseds/images/logo.png" />
+                <div class="logo-content">
+                    <img style="width: 45px; height: 45px" src="../asseds/images/logo.png" alt="B-Study Logo" />
+                    <div class="logo-text">
+                        <h3>B-Study</h3>
+                        <span class="logo-subtitle">B-STUDY</span>
+                    </div>
+                </div>
             </div>
             <div class="header-info">
                 <div class="account">
                     <div class="photo">
-                        <img src="../asseds/images/avatar.jpg" />
+                        <img src="../asseds/images/avatar.jpg" alt="User Avatar" />
+                        <div class="status-indicator"></div>
                     </div>
                     <div class="username">
                         <h5 class="welcome">مساء الخير</h5>
                         <h5 class="name"></h5>
                         <div class="info">
-                            <h3 id="dashboard-username"></h3>
-                            <!-- <p id="dashboard-email"></p> -->
+                            <h3 id="dashboard-username">مرحباً بك في B-Study</h3>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="user-info"> -->
-                    <!-- <button class="wallet" onclick="showWallet()">
-                        <img src="../asseds/icons/solar_wallet-linear.svg" />
-                        <h5>120 جنيه</h5>
-                    </button>
-                    <div class="wallet-info" id="wallet-info-id">
-                        <h3>إضافة كود جديد</h3>
-                        <div class="add-code">
-                            <div class="codes">
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(1, event)" onpaste="handlePaste(1, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(2, event)" onpaste="handlePaste(2, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(3, event)" onpaste="handlePaste(3, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(4, event)" onpaste="handlePaste(4, event)" />
-                                <div class="dash"></div>
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(5, event)" onpaste="handlePaste(5, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(6, event)" onpaste="handlePaste(6, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(7, event)" onpaste="handlePaste(7, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(8, event)" onpaste="handlePaste(8, event)" />
-                                <div class="dash"></div>
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(9, event)" onpaste="handlePaste(9, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(10, event)" onpaste="handlePaste(10, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(11, event)" onpaste="handlePaste(11, event)" />
-                                <input type="text" class="otp-input" maxlength="1" oninput="handleInput(12, event)" onpaste="handlePaste(12, event)" />
-                            </div>
-                            <button class="paste-code" onclick="pasteText()">
-                                <img src="/asseds/icons/iconoir_paste-clipboard.svg" alt="">
-                                <span>
-                                    لصق الكود
-                                </span>
-                            </button>
-                        </div>
-                        <button class="check">تحقق من الكود</button>
-                    </div>
-                    <a class="notification" href="notification.html">
-                        <img src="../asseds/icons/ph_bell-bold.svg" />
-                        <h5>5</h5>
-                    </a>
-                </div> -->
+
             </div>
         </nav>
-        
     </header>
+    
     <main>
         <div class="sidebar">
             <div class="top">
                 <a class="sidebar-item selected" href="#">
-                    <img src="../asseds/icons/iconamoon_home.svg" />
+                    <img src="../asseds/icons/iconamoon_home.svg" alt="الرئيسية" />
                     <h5>الرئيسية</h5>
                 </a>
                 <a class="sidebar-item" href="./dashboard-mycourses.html">
-                    <img src="../asseds/icons/lets-icons_video.svg" />
+                    <img src="../asseds/icons/lets-icons_video.svg" alt="كورساتي" />
                     <h5>كورساتي</h5>
                 </a>
-                <a class="sidebar-item" href="./dashboard-allcourses.html">
-                    <img src="../asseds/icons/carbon_course.svg" />
-                    <h5>كل الكورسات</h5>
+                <a class="sidebar-item" href="cart.html">
+                    <img src="../asseds/icons/solar_wallet-linear.svg" alt="سلة المشتريات" />
+                    <h5>سلة المشتريات</h5>
                 </a>
-                <a class="sidebar-item" href="#">
-                    <img src="../asseds/icons/bx_support.svg" />
+                <a class="sidebar-item" href="help.html">
+                    <img src="../asseds/icons/bx_support.svg" alt="مساعدة" />
                     <h5>مساعدة</h5>
                 </a>
                 <a class="sidebar-item" href="privacy-policy.html">
-                    <img src="../asseds/icons/iconoir_privacy-policy.svg" />
+                    <img src="../asseds/icons/iconoir_privacy-policy.svg" alt="سياسة الخصوصية" />
                     <h5>سياسة الخصوصية</h5>
                 </a>
                 <a class="sidebar-item" href="settings.html">
-                    <img src="../asseds/icons/carbon_settings.svg" />
+                    <img src="../asseds/icons/carbon_settings.svg" alt="الاعدادات" />
                     <h5>الاعدادات</h5>
                 </a>
-                <a class="sidebar-item" href="landingNew.html" id="logout-btn">
-                    <img src="../asseds/icons/ci_exit.svg" />
+                <a class="sidebar-item" href="index.html" id="logout-btn">
+                    <img src="../asseds/icons/ci_exit.svg" alt="خروج" />
                     <h5>خروج</h5>
                 </a>
             </div>
-            <!-- Removed the bottom div -->
         </div>
+        
         <div class="content">
-            <div id="main-courses-list" style="max-width: 900px; margin: 40px auto 0 auto; z-index: 2;"></div>
-            <div class="dashboard-bg">
-                <div class="dashboard-info">
-                    <img src="/asseds/images/avatar2.png" alt="">
-                    <div class="info">
-                        <h3 id="dashboard-username"></h3>
-                        <p id="dashboard-email"></p>
+            <!-- Welcome Section with Stats -->
+            <div class="welcome-section">
+                <div class="welcome-header">
+                    <div class="welcome-info">
+                        <h1>مرحباً بك في B-Study</h1>
+                        <p>استكشف الكورسات المتاحة وابدأ رحلتك التعليمية</p>
+                    </div>
+                    <div class="welcome-avatar">
+                        <img src="../asseds/images/avatar2.png" alt="User Avatar" />
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <img src="../asseds/icons/carbon_course.svg" alt="Courses" />
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-courses-count">0</h3>
+                            <p>كورس متاح</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="header-dashboard">
-                <h1>الرئيسية</h1>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>إجراءات سريعة</h2>
+                <div class="actions-grid">
+                    <a href="./dashboard-mycourses.html" class="action-card">
+                        <div class="action-icon">
+                            <img src="../asseds/icons/lets-icons_video.svg" alt="كورساتي" />
+                        </div>
+                        <h4>كورساتي</h4>
+                        <p>تابع تقدمك</p>
+                    </a>
+                    
+                    <a href="help.html" class="action-card">
+                        <div class="action-icon">
+                            <img src="../asseds/icons/bx_support.svg" alt="مساعدة" />
+                        </div>
+                        <h4>مساعدة</h4>
+                        <p>احصل على الدعم</p>
+                    </a>
+                </div>
             </div>
-            <section class="section-trees">
-                <div class="main-lable">
-                    <!-- Removed <div class="circle"></div> -->
+
+            <!-- All Available Courses Section -->
+            <div class="all-courses-section">
+                <div class="section-header">
+                    <h2>جميع الكورسات المتاحة</h2>
+                    <div class="course-filters">
+                        <select id="courseFilter" class="filter-select">
+                            <option value="all">جميع الكورسات</option>
+                            <option value="math">الرياضيات</option>
+                            <option value="science">العلوم</option>
+                            <option value="arabic">اللغة العربية</option>
+                            <option value="english">اللغة الإنجليزية</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="trees">
-                    <!-- still empty -->
+                
+                <div class="courses-grid" id="all-courses-container">
+                    <!-- Course cards will be loaded dynamically -->
+                    <div class="loading-courses">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                        <p>جاري تحميل الكورسات...</p>
+                    </div>
                 </div>
-            </section>
-            <section class="complete-your-courses">
-                <div class="main-lable">
-                    <!-- Removed <div class="circle"></div> -->
-                </div>
-                <div class="courses" id="courses-list"></div>
-            </section>
-            <!-- <div class="notification-card" id="notification-card-show">
-                <a href="./notification.html">
-                    <img src="/asseds/icons/iconamoon_notification-fill.svg" alt="">
-                    <p>عندك رسائل جديدة</p>
-                    <audio id="notificationSound" src="/asseds/sounds/notifications-sound.mp3"></audio>
-                </a>
-            </div> -->
+            </div>
         </div>
     </main>
-    <script src="./javascript/dashboard.js"></script>          
+    
+    <script src="config.js"></script>
+    <script src="./javascript/dashboard.js"></script>
+
+    <script src="./javascript/courses.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const usernameElem = document.getElementById('dashboard-username');
-    const emailElem = document.getElementById('dashboard-email');
-    if (!usernameElem || !emailElem) return;
-    const token = localStorage.getItem('student_token');
-    if (!token) {
-        usernameElem.textContent = '';
-        emailElem.textContent = '';
-        return;
-    }
-    fetch('http://localhost:3000/api/student/profile/me', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-        usernameElem.textContent = data.username || '';
-        emailElem.textContent = data.email || '';
-    })
-    .catch(() => {
-        usernameElem.textContent = '';
-        emailElem.textContent = '';
-    });
-});
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameElem = document.getElementById('dashboard-username');
+            if (!usernameElem) return;
+            
+            // Set default user info for public access
+            usernameElem.textContent = 'مرحباً بك في B-Study';
+            
+            // Load all courses and update count
+            loadAllCourses();
+        });
+        
+        async function loadAllCourses() {
+            const container = document.getElementById('all-courses-container');
+            const countElement = document.getElementById('total-courses-count');
+            if (!container) return;
+            
+            try {
+                const response = await fetch(getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT), {
+                    headers: {}
+                });
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                let data = await response.json();
+                let courses = Array.isArray(data) ? data : data.courses;
+                
+                if (!Array.isArray(courses)) {
+                    courses = [];
+                }
+                
+                // Update the total courses count
+                if (countElement) {
+                    countElement.textContent = courses.length;
+                }
+                
+                if (courses.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-courses">
+                            <img src="../asseds/images/no-data-animate.svg" alt="لا توجد كورسات" />
+                            <h3>لا توجد كورسات متاحة حالياً</h3>
+                            <p>جاري العمل على إضافة كورسات جديدة</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = courses.map(course => `
+                    <div class="course-card" onclick="window.location.href='course-enrolling.html?courseId=${course.course_id}'">
+                        <div class="course-image">
+                            <img src="../asseds/images/learning-animate.svg" alt="${course.course_name}" />
+                            <div class="course-overlay">
+                                <div class="course-price">${course.price} جنيه</div>
+                            </div>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">${course.course_name}</h3>
+                            <p class="course-description">${course.description}</p>
+                            <div class="course-meta">
+                                <span class="course-hours">
+                                    <img src="../asseds/icons/lets-icons_video.svg" alt="ساعات" />
+                                    ${course.credits} ساعة
+                                </span>
+                                <span class="course-level">
+                                    <img src="../asseds/icons/carbon_course.svg" alt="مستوى" />
+                                    مبتدئ
+                                </span>
+                            </div>
+                            <div class="course-actions">
+                                <button class="add-to-cart-btn" 
+                                        onclick="addToCart('${course.course_id}', '${course.course_name}'); event.stopPropagation()"
+                                        data-course-id="${course.course_id}">
+                                    أضف للسلة
+                                </button>
+                                <a href="course-enrolling.html?courseId=${course.course_id}" 
+                                   class="enroll-btn" 
+                                   onclick="event.stopPropagation()">
+                                    سجل الآن
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Check enrollment status for each course and update button states
+                await checkEnrollmentStatus();
+                
+            } catch (error) {
+                console.error('Error loading courses:', error);
+                container.innerHTML = `
+                    <div class="error-message">
+                        <img src="../asseds/images/404-error-with-person-looking-for-animate.svg" alt="خطأ" />
+                        <h3>حدث خطأ أثناء تحميل الكورسات</h3>
+                        <p>يرجى المحاولة مرة أخرى لاحقاً</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Toast Notification System
+        function showToast(type, title, message, duration = 5000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Auto remove after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        // Course filter functionality
+        document.getElementById('courseFilter')?.addEventListener('change', function(e) {
+            const filterValue = e.target.value;
+            // Filter functionality can be implemented here
+            console.log('Filter selected:', filterValue);
+        });
+
+        // Add to cart functionality
+        async function addToCart(courseId, courseName) {
+            try {
+                const token = localStorage.getItem('student_token');
+                if (!token) {
+                    showToast('warning', 'تنبيه', 'يجب تسجيل الدخول أولاً');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                    return;
+                }
+
+                const response = await fetch(getApiUrl(API_CONFIG.STUDENT_CART_ADD_ENDPOINT), {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ course_id: courseId })
+                });
+
+                if (response.ok) {
+                    showToast('success', 'تم الإضافة', `تم إضافة "${courseName}" إلى السلة بنجاح`);
+                    // Update cart count if available
+                    updateCartCount();
+                    // Refresh enrollment status to update button states
+                    await checkEnrollmentStatus();
+                } else {
+                    const data = await response.json();
+                    
+                    // Handle different error types
+                    if (data.error_type === 'already_paid') {
+                        showToast('warning', 'تنبيه', `لا يمكن إضافة "${courseName}" إلى السلة - لقد قمت بدفع ثمن هذا الكورس مسبقاً`);
+                    } else if (data.error_type === 'already_in_cart') {
+                        showToast('info', 'معلومات', `"${courseName}" موجود بالفعل في السلة`);
+                    } else {
+                        showToast('error', 'خطأ', data.message || 'فشل في إضافة الكورس إلى السلة');
+                    }
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast('error', 'خطأ', 'حدث خطأ أثناء إضافة الكورس إلى السلة');
+            }
+        }
+
+        // Update cart count function
+        async function updateCartCount() {
+            try {
+                const token = localStorage.getItem('student_token');
+                if (!token) return;
+                
+                const response = await fetch(getApiUrl(API_CONFIG.STUDENT_CART_ENDPOINT), {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const cartCountElement = document.querySelector('.cart-count');
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.item_count || 0;
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+
+        // Check enrollment status and update button states
+        async function checkEnrollmentStatus() {
+            try {
+                const token = localStorage.getItem('student_token');
+                if (!token) return;
+                
+                const response = await fetch(getApiUrl('/student/courses/enrollments'), {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const enrollments = await response.json();
+                    
+                    // Update button states based on enrollment status
+                    enrollments.forEach(enrollment => {
+                        const button = document.querySelector(`[data-course-id="${enrollment.course_id}"]`);
+                        if (button) {
+                            // Remove existing classes
+                            button.classList.remove('in-cart', 'paid');
+                            
+                            if (enrollment.isPaid) {
+                                button.textContent = 'تم الدفع';
+                                button.disabled = true;
+                                button.classList.add('paid');
+                                button.style.paddingLeft = '35px'; // Add padding for checkmark
+                            } else if (!enrollment.isPaid) {
+                                button.textContent = 'في السلة';
+                                button.classList.add('in-cart');
+                                button.style.paddingLeft = '35px'; // Add padding for cart icon
+                            } else {
+                                // Default state - course is available
+                                button.textContent = 'أضف للسلة';
+                                button.disabled = false;
+                                button.style.paddingLeft = '35px'; // Add padding for plus icon
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error checking enrollment status:', error);
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize enrollment status after courses are loaded
+            setTimeout(() => {
+                checkEnrollmentStatus();
+            }, 1000); // Small delay to ensure courses are loaded first
+        });
+    </script>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
 </body>
 </html>

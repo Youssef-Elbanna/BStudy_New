@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات - B-Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .cart-count {
+            background: #2E6FF4;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .cart-item-description {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .cart-item-price {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2E6FF4;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .cart-summary {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #2E6FF4;
+        }
+
+        .promo-section {
+            margin-bottom: 20px;
+        }
+
+        .promo-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .promo-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .promo-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .apply-promo-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .apply-promo-btn:hover {
+            background: #218838;
+        }
+
+        .apply-promo-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(282deg, #1031D0 0%, #2E6FF4 50%, #89BAF8 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.3s;
+        }
+
+        .checkout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .empty-cart img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .back-to-courses {
+            background: #2E6FF4;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-to-courses:hover {
+            background: #1e5fd4;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Toast Notification System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-message {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.confirm {
+            background: #dc3545;
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #c82333;
+        }
+
+        .modal-btn.cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #5a6268;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 16px 20px;
+            min-width: 300px;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-right: 4px solid;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: #28a745;
+        }
+
+        .toast.error {
+            border-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-color: #ffc107;
+        }
+
+        .toast.info {
+            border-color: #17a2b8;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        .toast.error .toast-icon {
+            background: #dc3545;
+            color: white;
+        }
+
+        .toast.warning .toast-icon {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .toast.info .toast-icon {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .toast-message {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .cart-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .toast-container {
+                right: 10px;
+                left: 10px;
+            }
+
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>سلة المشتريات</h1>
+            <span class="cart-count" id="cart-count">0 منتجات</span>
+        </div>
+        
+        <div id="cart-content">
+            <div class="loading">جاري تحميل السلة...</div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmation-modal">
+        <div class="modal">
+            <div class="modal-title" id="modal-title">تأكيد العملية</div>
+            <div class="modal-message" id="modal-message">هل أنت متأكد من إتمام عملية الشراء؟</div>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="modal-confirm">تأكيد</button>
+                <button class="modal-btn cancel" id="modal-cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // API Configuration
+        const API_CONFIG = {
+            development: {
+                API_BASE_URL: "http://localhost:3000/api",
+                STUDENT_CART_ENDPOINT: "/student/courses/cart",
+                STUDENT_CART_ADD_ENDPOINT: "/student/courses/cart/add",
+                STUDENT_CART_REMOVE_ENDPOINT: "/student/courses/cart/remove",
+                STUDENT_PAYMENT_PROCESS_ENDPOINT: "/student/courses/payment/process",
+                STUDENT_VALIDATE_PROMO_ENDPOINT: "/student/validate-promo"
+            }
+        };
+
+        const config = API_CONFIG.development;
+
+        function getApiUrl(endpoint) {
+            return config.API_BASE_URL + endpoint;
+        }
+
+        let cartItems = [];
+        let appliedPromo = null;
+
+        // Toast Notification System
+        function showToast(type, title, message, duration = 5000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ℹ'
+            };
+            
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Auto remove after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 300);
+            }, duration);
+        }
+
+        // Load cart items from server
+        async function loadCart() {
+            try {
+                const token = localStorage.getItem('student_token');
+                if (!token) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                const response = await fetch(getApiUrl(config.STUDENT_CART_ENDPOINT), {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    cartItems = data.items || [];
+                    renderCart();
+                    updateCartCount();
+                } else {
+                    const errorData = await response.json();
+                    console.error('Failed to load cart:', errorData.message);
+                    showEmptyCart();
+                }
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                showEmptyCart();
+            }
+        }
+
+        // Render cart items
+        function renderCart() {
+            const cartContent = document.getElementById('cart-content');
+            const cartCount = document.getElementById('cart-count');
+
+            if (!cartContent) return;
+
+            if (cartItems.length === 0) {
+                showEmptyCart();
+                return;
+            }
+
+            if (cartCount) {
+                cartCount.textContent = `${cartItems.length} منتجات`;
+            }
+
+            const total = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+            const discount = appliedPromo ? (appliedPromo.discount_amount || 0) : 0;
+            const finalTotal = Math.max(0, total - discount);
+
+            cartContent.innerHTML = `
+                <div class="cart-items">
+                    ${cartItems.map(item => `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-title">${item.course_name}</div>
+                                <div class="cart-item-description">${item.description || ''}</div>
+                                <div class="cart-item-meta">
+                                    <span>عدد الساعات: ${item.credits}</span>
+                                    <span>تاريخ الإضافة: ${new Date(item.enrollment_date).toLocaleDateString('ar-EG')}</span>
+                                </div>
+                            </div>
+                            <div class="cart-item-price">${item.price} جنيه</div>
+                            <button class="remove-btn" onclick="removeFromCart('${item.course_id}')">إزالة</button>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="promo-section">
+                        <h3>كود الخصم</h3>
+                        <div class="promo-input">
+                            <input type="text" id="promoCode" placeholder="أدخل كود الخصم" ${appliedPromo ? 'disabled' : ''}>
+                            <button class="apply-promo-btn" onclick="applyPromo()" ${appliedPromo ? 'disabled' : ''}>
+                                ${appliedPromo ? 'تم التطبيق' : 'تطبيق'}
+                            </button>
+                        </div>
+                        ${appliedPromo ? `
+                            <div style="color: #28a745; margin-top: 10px;">
+                                تم تطبيق الخصم: ${appliedPromo.discount_amount} جنيه
+                                <button onclick="removePromo()" style="background: #dc3545; color: white; border: none; padding: 4px 8px; border-radius: 4px; margin-left: 10px; font-size: 12px;">
+                                    إزالة
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>المجموع الفرعي:</span>
+                        <span>${total.toFixed(2)} جنيه</span>
+                    </div>
+                    ${discount > 0 ? `
+                        <div class="summary-row">
+                            <span>الخصم:</span>
+                            <span>-${discount.toFixed(2)} جنيه</span>
+                        </div>
+                    ` : ''}
+                    <div class="summary-row">
+                        <span>المجموع النهائي:</span>
+                        <span>${finalTotal.toFixed(2)} جنيه</span>
+                    </div>
+                    
+                    <button class="checkout-btn" onclick="window.location.href='payment.html'">
+                        إتمام الشراء
+                    </button>
+                </div>
+            `;
+        }
+
+        // Show empty cart state
+        function showEmptyCart() {
+            const cartContent = document.getElementById('cart-content');
+            const cartCount = document.getElementById('cart-count');
+            
+            if (cartCount) {
+                cartCount.textContent = '0 منتجات';
+            }
+            
+            if (cartContent) {
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>سلة المشتريات فارغة</h3>
+                        <p>لم تقم بإضافة أي كورسات إلى السلة بعد</p>
+                        <a href="dashboard.html" class="back-to-courses">تصفح الكورسات</a>
+                    </div>
+                `;
+            }
+        }
+
+        // Remove item from cart
+        async function removeFromCart(courseId) {
+            try {
+                const token = localStorage.getItem('student_token');
+                const response = await fetch(getApiUrl(config.STUDENT_CART_REMOVE_ENDPOINT), {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ course_id: courseId })
+                });
+
+                if (response.ok) {
+                    // Remove from local array
+                    cartItems = cartItems.filter(item => item.course_id !== courseId);
+                    renderCart();
+                    updateCartCount();
+                    showToast('success', 'تم الإزالة', 'تم إزالة الكورس من السلة بنجاح');
+                } else {
+                    const data = await response.json();
+                    showToast('error', 'خطأ في الإزالة', data.message || 'فشل في إزالة الكورس من السلة');
+                }
+            } catch (error) {
+                console.error('Error removing from cart:', error);
+                showToast('error', 'خطأ', 'حدث خطأ أثناء إزالة الكورس من السلة');
+            }
+        }
+
+        // Apply promo code
+        async function applyPromo() {
+            const promoCode = document.getElementById('promoCode').value.trim();
+            if (!promoCode) {
+                showToast('warning', 'تنبيه', 'يرجى إدخال كود الخصم');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('student_token');
+                const total = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+
+                const response = await fetch(getApiUrl(config.STUDENT_VALIDATE_PROMO_ENDPOINT), {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        promo_code: promoCode,
+                        course_price: total
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    appliedPromo = data.promo;
+                    renderCart();
+                    showToast('success', 'تم التطبيق', 'تم تطبيق كود الخصم بنجاح');
+                } else {
+                    const errorData = await response.json();
+                    showToast('error', 'خطأ في الكود', errorData.message || 'كود الخصم غير صحيح');
+                }
+            } catch (error) {
+                console.error('Error applying promo:', error);
+                showToast('error', 'خطأ', 'حدث خطأ أثناء تطبيق كود الخصم');
+            }
+        }
+
+        // Remove applied promo code
+        function removePromo() {
+            appliedPromo = null;
+            renderCart();
+            showToast('info', 'تم الإزالة', 'تم إزالة كود الخصم');
+        }
+
+        // Modal functions
+        function showModal(title, message, onConfirm) {
+            const modal = document.getElementById('confirmation-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const confirmBtn = document.getElementById('modal-confirm');
+            const cancelBtn = document.getElementById('modal-cancel');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            // Show modal
+            modal.classList.add('show');
+
+            // Handle confirm
+            const handleConfirm = () => {
+                modal.classList.remove('show');
+                confirmBtn.removeEventListener('click', handleConfirm);
+                cancelBtn.removeEventListener('click', handleCancel);
+                if (onConfirm) onConfirm();
+            };
+
+            // Handle cancel
+            const handleCancel = () => {
+                modal.classList.remove('show');
+                confirmBtn.removeEventListener('click', handleConfirm);
+                cancelBtn.removeEventListener('click', handleCancel);
+            };
+
+            confirmBtn.addEventListener('click', handleConfirm);
+            cancelBtn.addEventListener('click', handleCancel);
+        }
+
+        // Process payment
+        async function processPayment() {
+            if (cartItems.length === 0) {
+                showToast('warning', 'تنبيه', 'السلة فارغة');
+                return;
+            }
+
+            // Show confirmation modal
+            showModal(
+                'تأكيد الشراء',
+                'هل أنت متأكد من إتمام عملية الشراء؟',
+                async () => {
+                    try {
+                        const token = localStorage.getItem('student_token');
+                        const response = await fetch(getApiUrl(config.STUDENT_PAYMENT_PROCESS_ENDPOINT), {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ 
+                                promo_code: appliedPromo ? appliedPromo.code : null
+                            })
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            showToast('success', 'تم الشراء', `تم إتمام عملية الشراء بنجاح! تم تسجيلك في ${data.courses_enrolled} كورس`);
+                            
+                            // Clear cart and redirect after a short delay
+                            setTimeout(() => {
+                                cartItems = [];
+                                appliedPromo = null;
+                                window.location.href = 'dashboard-mycourses.html';
+                            }, 2000);
+                        } else {
+                            const errorData = await response.json();
+                            showToast('error', 'خطأ في الشراء', errorData.message || 'فشل في إتمام عملية الشراء');
+                        }
+                    } catch (error) {
+                        console.error('Error processing payment:', error);
+                        showToast('error', 'خطأ', 'حدث خطأ أثناء إتمام عملية الشراء');
+                    }
+                }
+            );
+        }
+
+        // Update cart count
+        async function updateCartCount() {
+            const token = localStorage.getItem('student_token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(getApiUrl(config.STUDENT_CART_ENDPOINT), {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const cartCountElement = document.getElementById('cart-count');
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.item_count || 0;
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+
+        // Initialize cart
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+        });
+    </script>
+</body>
+</html> 

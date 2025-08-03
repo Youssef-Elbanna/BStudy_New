@@ -14,7 +14,7 @@
     <!-- Landing page specific styles -->
     <link rel="stylesheet" href="./styles/landingNew.css">
     <!-- Language switcher styles -->
-    <link rel="stylesheet" href="./styles/language-switcher.css">
+
 </head>
 
 <!-- Body with RTL (Right-to-Left) direction for Arabic text -->
@@ -106,40 +106,7 @@
         </div>
     </div>
 
-    <!-- ========================================
-         FEATURED COURSES SECTION
-         ======================================== -->
-    <section class="last-courses">
-        <div class="container">
-            <!-- Section header with decorative elements -->
-            <div class="main-lable">
-                <div class="circle"></div>
-                <h3 data-i18n="latest-courses">أحدث الكورسات</h3>
-            </div>
-            
-            <!-- Course filter tabs (Secondary and College years) -->
-            <div class="elsana">
-                <button data-i18n="filter-1st-secondary">1ث</button>
-                <button data-i18n="filter-2nd-secondary">2ث</button>
-                <button data-i18n="filter-3rd-secondary">3ث</button>
-				<button class="select-elsana" data-i18n="filter-1st-college">1 كلية</button>
-				
-            </div>
-            
-            <!-- Course cards grid -->
-            <div class="courses">
-                <!-- Course cards will be dynamically loaded from database -->
-                <div class="loading-courses">
-                    <div class="loading-spinner"></div>
-                    <p data-i18n="loading-courses">جاري تحميل الكورسات...</p>
-                </div>
-                <div class="no-courses">
-                    <h3 data-i18n="no-courses-title">لا توجد كورسات متاحة</h3>
-                    <p data-i18n="no-courses-desc">جاري العمل على إضافة كورسات جديدة</p>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- ========================================
          ABOUT SECTION
@@ -172,11 +139,11 @@
                     <h2 data-i18n="features-title">مميزات المنصة</h2>
                     <!-- Feature list with emojis for visual appeal -->
                     <ul>
-                        <li data-i18n="feature-1">🎓 محتوى تعليمي متنوع: دورات مصممة بعناية تغطي مجموعة واسعة من المواد.</li>
-                        <li data-i18n="feature-2">🚀 تعلم تفاعلي: اختبر المحتوى من خلال أنشطة تعليمية مشوقة ومحاكاة واقعية.</li>
-                        <li data-i18n="feature-3">🔄 تقييم مستمر: تتبع تقدمك واحصل على تقييمات دورية لتعزيز تجربتك التعليمية.</li>
-                        <li data-i18n="feature-4">🌐 تواصل وشارك: انضم إلى مجتمعنا التعليمي وتفاعل مع متعلمين آخرين ومدرسين متميزين.</li>
-                        <li data-i18n="feature-5">🎉 دورات مجانية: استمتع بفرصة الوصول إلى محتوى مجاني لتجربة ملموسة لما نقدمه.</li>
+                        <li data-i18n="feature-1"> محتوى تعليمي متنوع: دورات مصممة بعناية تغطي مجموعة واسعة من المواد.</li>
+                        <li data-i18n="feature-2"> تعلم تفاعلي: اختبر المحتوى من خلال أنشطة تعليمية مشوقة ومحاكاة واقعية.</li>
+                        <li data-i18n="feature-3"> تقييم مستمر: تتبع تقدمك واحصل على تقييمات دورية لتعزيز تجربتك التعليمية.</li>
+                        <li data-i18n="feature-4"> تواصل وشارك: انضم إلى مجتمعنا التعليمي وتفاعل مع متعلمين آخرين ومدرسين متميزين.</li>
+                        <li data-i18n="feature-5"> دورات مجانية: استمتع بفرصة الوصول إلى محتوى مجاني لتجربة ملموسة لما نقدمه.</li>
                     </ul>
                 </div>
             </div>
@@ -188,10 +155,7 @@
          ======================================== -->
     <section class="section-signup">
         <div class="container">
-            <!-- Decorative illustration -->
-            <div class="image">
-                <img src="/asseds/images/social-ideas-animate.svg" alt="Social Ideas Illustration" />
-            </div>
+
             <!-- Call-to-action text -->
             <p data-i18n="cta-description">اكتشف عالم التعلم الجديد وابدأ رحلتك التعليمية اليوم.
                 سجل الآن للوصول إلى المحتوى الحصري والتفاعل مع مجتمعنا التعليمي المميز.</p>
@@ -263,7 +227,9 @@
          JAVASCRIPT FILES
          ======================================== -->
     <!-- Language management system -->
-    <script src="./javascript/language.js"></script>
+
+    <!-- Configuration system -->
+    <script src="config.js"></script>
     <!-- Main dashboard functionality -->
     <script src="./javascript/dashboard.js"></script>
     <!-- Course data management and API integration -->

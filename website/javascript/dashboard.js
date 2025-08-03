@@ -15,16 +15,17 @@
    6. Modal Management
    ======================================== */
 
-(function enforceLogin() {
-    const publicPages = ['login.html', 'signup.html'];
-    const isPublic = publicPages.some(page => window.location.pathname.endsWith(page));
-    if (!isPublic) {
-        const token = localStorage.getItem('student_token');
-        if (!token) {
-            window.location.href = 'login.html';
-        }
-    }
-})();
+// Login enforcement disabled - all pages are now public
+// (function enforceLogin() {
+//     const publicPages = ['login.html', 'signup.html', 'index.html'];
+//     const isPublic = publicPages.some(page => window.location.pathname.endsWith(page));
+//     if (!isPublic) {
+//         const token = localStorage.getItem('student_token');
+//         if (!token) {
+//             window.location.href = 'login.html';
+//         }
+//     }
+// })();
 
 /* ========================================
    1. WALLET MANAGEMENT FUNCTIONS
@@ -254,29 +255,37 @@ var closeBtn2 = document.getElementsByClassName("close")[1];
 /**
  * Opens the first modal dialog
  */
-openModalBtn.onclick = function() {
-    modal.style.display = "block";
+if (openModalBtn) {
+    openModalBtn.onclick = function() {
+        if (modal) modal.style.display = "block";
+    }
 }
 
 /**
  * Opens the second modal dialog
  */
-openModal2Btn.onclick = function() {
-    modal2.style.display = "block";
+if (openModal2Btn) {
+    openModal2Btn.onclick = function() {
+        if (modal2) modal2.style.display = "block";
+    }
 }
 
 /**
  * Closes the first modal dialog
  */
-closeBtn.onclick = function() {
-    modal.style.display = "none";
+if (closeBtn) {
+    closeBtn.onclick = function() {
+        if (modal) modal.style.display = "none";
+    }
 }
 
 /**
  * Closes the second modal dialog
  */
-closeBtn2.onclick = function() {
-    modal2.style.display = "none";
+if (closeBtn2) {
+    closeBtn2.onclick = function() {
+        if (modal2) modal2.style.display = "none";
+    }
 }
 
 /**
@@ -297,7 +306,6 @@ window.onclick = function(event) {
 }
 
 function updateHeaderUserInfo() {
-    const token = localStorage.getItem('student_token');
     const nameElem = document.querySelector('.username .name');
     const welcomeElem = document.querySelector('.username .welcome');
     // Set greeting based on time
@@ -309,20 +317,9 @@ function updateHeaderUserInfo() {
         welcomeElem.textContent = greeting;
     }
     if (!nameElem) return;
-    if (!token) {
-        nameElem.textContent = 'زائر';
-        return;
-    }
-    fetch('http://localhost:3000/api/student/profile/me', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-        nameElem.textContent = data.username || data.name || data.student_id || 'اسم غير معروف';
-    })
-    .catch(() => {
-        nameElem.textContent = 'زائر';
-    });
+    
+    // Set default user info for public access
+    nameElem.textContent = 'مرحباً بك في B-Study';
 }
 document.addEventListener('DOMContentLoaded', updateHeaderUserInfo);
 
@@ -331,7 +328,7 @@ function renderMainCourses() {
     const mainCoursesList = document.getElementById('main-courses-list');
     if (!mainCoursesList) return;
     mainCoursesList.innerHTML = '<div style="text-align:center;padding:2em;">جاري تحميل الكورسات...</div>';
-    fetch('http://localhost:3000/api/public/courses')
+    fetch(getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT))
         .then(response => response.json())
         .then(courses => {
             console.log('Courses fetched:', courses);
@@ -408,7 +405,7 @@ document.addEventListener('DOMContentLoaded', renderMainCourses);
 document.addEventListener('DOMContentLoaded', function() {
     const coursesList = document.getElementById('courses-list');
     if (!coursesList) return;
-    fetch('http://localhost:3000/api/public/courses')
+    fetch(getApiUrl(API_CONFIG.PUBLIC_COURSES_ENDPOINT))
         .then(response => response.json())
         .then(courses => {
             coursesList.innerHTML = '';
@@ -451,24 +448,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const usernameElem = document.getElementById('dashboard-username');
     const emailElem = document.getElementById('dashboard-email');
     if (!usernameElem || !emailElem) return;
-    const token = localStorage.getItem('student_token');
-    if (!token) {
-        usernameElem.textContent = 'لم يتم تسجيل الدخول';
-        emailElem.textContent = '';
-        return;
-    }
-    fetch('http://localhost:3000/api/student/profile/me', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-    .then(res => res.json())
-    .then(data => {
-        usernameElem.textContent = data.username || data.name || data.student_id || 'اسم غير معروف';
-        emailElem.textContent = data.email || '';
-    })
-    .catch(() => {
-        usernameElem.textContent = 'خطأ في جلب البيانات';
-        emailElem.textContent = '';
-    });
+    
+    // Set default user info for public access
+    usernameElem.textContent = 'مرحباً بك في B-Study';
+    emailElem.textContent = 'استكشف الكورسات المتاحة';
 
     // Universal logout logic for any sidebar-item with خروج or Logout text
     function handleLogoutClick(e) {
@@ -481,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.cookie.split(';').forEach(function(c) {
             document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
         });
-        window.location.href = 'landingNew.html';
+        window.location.href = 'index.html';
     }
     // Attach to #logout-btn if present
     const logoutBtn = document.getElementById('logout-btn');
